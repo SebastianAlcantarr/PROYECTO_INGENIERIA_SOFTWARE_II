@@ -117,6 +117,10 @@
               </div>
             </div>
           </div>
+
+          <router-link to="/tema1" class="btn px-4 py-2 rounded bg-blue-600 text-white">
+            Ir a Tema 1
+          </router-link>
         </main>
       </div>
     </div>
