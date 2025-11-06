@@ -37,6 +37,8 @@
                     Ingresa tu Usuario y Contraseña
                   </p>
                 </div>
+
+
                 <div class="flex flex-col gap-6">
                   <label class="flex flex-col w-full flex-1">
                     <p
@@ -113,10 +115,16 @@
                   </a>
                 </p>
               </div>
+
+
             </div>
           </div>
+          <router-link to="/tema1" class="btn px-4 py-2 rounded bg-blue-600 text-white h-10">
+            Ir a Tema 1
+          </router-link>
         </div>
       </main>
+
     </div>
   </div>
   </body>
