@@ -1,6 +1,7 @@
 <template>
   <body
-    class="bg-[#244a76] dark:bg-[rgb(16,22,34)] font-display text-[#E0E0E0] min-h-screen"
+      class="bg-[#244a76] dark:bg-[#101622] font-display text-[#E0E0E0] min-h-screen"
+
   >
     <div
       class="relative flex min-h-screen w-full flex-col dark overflow-x-hidden group/design-root"
@@ -126,3 +127,7 @@
 </template>
 
 <script></script>
+<style>
+
+</style>
+
