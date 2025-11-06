@@ -1,4 +1,6 @@
 <template>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <body
       class="bg-[#244a76] dark:bg-[#101622] font-display text-[#E0E0E0] min-h-screen"
   >
