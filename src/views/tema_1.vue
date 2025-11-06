@@ -206,14 +206,12 @@
                 <div
                     class="lg:col-span-2 bg-[#161d2b]rounded-lg flex items-center p-4 min-h-[500px]"
                 >
-                  <div class="w-full h-full">
+                  <div class="relative w-full pb-[56.25%]">
                     <iframe
                         src="https://www.geogebra.org/classic/au3jr5af?embed"
-                        width="850"
-                        height="650"
-                        allowfullscreen
-                        style="border: 1px solid #e4e4e4"
-                    ></iframe>
+                        class="absolute top-0 left-0 w-full h-full border-0"
+                        allowfullscreen>
+                    </iframe>
                   </div>
                 </div>
               </div>
