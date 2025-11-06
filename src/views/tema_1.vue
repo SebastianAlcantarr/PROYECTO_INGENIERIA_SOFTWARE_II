@@ -288,7 +288,9 @@
 import { ref } from "vue"
 
 const respuesta = ref("")
+
 const textoMostrado=ref('')
+
 function mostrar() {
   textoMostrado.value = respuesta.value
 }
