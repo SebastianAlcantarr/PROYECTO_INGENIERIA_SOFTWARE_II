@@ -177,11 +177,9 @@
                 >
                   <div class="w-full h-full">
                     <iframe
-                        srcc="https://www.geogebra.org/classic/au3jr5af?embed"
-                      width="850"
-                      height="650"
-                      allowfullscreen
-                      style="border: 1px solid #e4e4e4"
+                        src="https://www.geogebra.org/classic/au3jr5af?embed"
+                        style="border:1px solid #e4e4e4; width:100%; height:80vh;"
+                        allowfullscreen
                     ></iframe>
                   </div>
                 </div>
