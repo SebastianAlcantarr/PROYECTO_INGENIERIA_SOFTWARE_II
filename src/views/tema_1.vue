@@ -206,7 +206,7 @@
                 <div
                     class="lg:col-span-2 bg-[#161d2b]rounded-lg flex items-center p-4 min-h-[500px]"
                 >
-                  <div class="relative w-full pb-[56.25%]">
+                  <div class="relative w-full pb-[100%]">
                     <iframe
                         src="https://www.geogebra.org/classic/au3jr5af?embed"
                         class="absolute top-0 left-0 w-full h-full border-0"
