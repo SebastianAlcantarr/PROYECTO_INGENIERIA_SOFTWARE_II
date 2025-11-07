@@ -1,6 +1,6 @@
 <template>
   <div
-      class="bg-[#244a76] dark:bg-[rgb(16,22,34)] font-display text-[#E0E0E0] min-h-screen"
+      class="bg-blue dark:bg-[rgb(16,22,34)] font-display text-[#E0E0E0] min-h-screen"
   >
     <!--INICIA EL LADO IZQUIERDO DE LA PAGINA  -->
     <div class="relative flex min-h-screen w-full">
