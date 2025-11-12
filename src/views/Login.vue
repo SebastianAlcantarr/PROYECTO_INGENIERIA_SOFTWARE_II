@@ -37,8 +37,6 @@
                     Ingresa tu Usuario y Contraseña
                   </p>
                 </div>
-
-
                 <div class="flex flex-col gap-6">
                   <label class="flex flex-col w-full flex-1">
                     <p
@@ -56,6 +54,7 @@
                           >
                       </div>
                       <input
+                          v-model="usuario"
                           class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-slate-500 pl-12 pr-4 text-base font-normal leading-normal"
                           placeholder="Introducir Usuario"
                           value=""
@@ -78,18 +77,25 @@
                           >
                       </div>
                       <input
+                          :type="mostrarContrasena ? 'text' : 'password'"
                           class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 focus:border-primary h-12 placeholder:text-gray-400 dark:placeholder:text-slate-500 pl-12 pr-12 text-base font-normal leading-normal"
                           placeholder="Introducir una Contraseña"
                           type="password"
                           value=""
                       />
+
                       <button
+                          @click="mostrar"
                           aria-label="Toggle password visibility"
-                          class="text-gray-400 dark:text-slate-400 absolute right-0 flex h-full items-center justify-center pr-4"
+                          class="cursor-pointer text-gray-400 dark:text-slate-400 absolute right-0 flex h-full items-center justify-center pr-4"
                       >
-                          <span class="material-symbols-outlined text-xl"
-                          >visibility</span
-                          >
+                          <span class="material-symbols-outlined text-xl">
+                            {{
+                              mostrarContrasena
+                                  ? "visibility_off"
+                                  : "visibility"
+                            }}
+                          </span>
                       </button>
                     </div>
                   </label>
@@ -99,11 +105,13 @@
                   >Olvidaste Contraseña?</a
                   >
                   <button
+                      @click="login"
                       class="w-full h-12 px-6 rounded-lg bg-blue-400 hover:bg-blue-800 text-gray-900 font-semibold flex items-center justify-center duration-500 focus:ring-2 focus:ring-blue-400/50"
                   >
                     Iniciar Sesión
                   </button>
                 </div>
+
                 <p
                     class="text-center text-sm text-gray-500 dark:text-slate-400 mt-8"
                 >
@@ -114,23 +122,35 @@
                   >Registrate
                   </a>
                 </p>
+                <div v-if="mensaje" class="alerta">{{ mensaje }}</div>
               </div>
-
-
             </div>
           </div>
-          <router-link to="/tema1" class="btn px-4 py-2 rounded bg-blue-600 text-white h-10">
+        </div>
+
+        <div>
+          <router-link
+              to="/tema1"
+              class="btn px-4 py-2 rounded bg-blue-600 text-white h-10"
+          >
             Ir a Tema 1
           </router-link>
         </div>
       </main>
-
     </div>
   </div>
   </body>
 </template>
 
-<script></script>
+<script setup>
+import { ref } from "vue";
+
+const mostrarContrasena = ref(false);
+
+function mostrar() {
+  mostrarContrasena.value = !mostrarContrasena.value;
+}
+</script>
 
 <style>
 html,
