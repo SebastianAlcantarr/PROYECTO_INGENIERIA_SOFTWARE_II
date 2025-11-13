@@ -105,7 +105,7 @@
       <!-- Foro preguntas -->
       <main class="lg:ml-60">
         <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-          <div class="ml-auto max-w-8xl">
+          <div class="ml-auto max-w-7xl">
             <section class="scroll-mt-20" id="introduction">
               <div class="@container">
                 <div class="w-full lg:w-[100%] sm:p-6 bg-[#161d2b] rounded-lg">
