@@ -97,7 +97,10 @@
       <!-- Foro preguntas -->
       <main class="w-full lg:ml-64 flex flex-col">
         <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-          <div class="mx-auto max-w-4xl">
+
+          <!-- aqui se cambia el tamano de la pagina  -->
+          <div class="mx-auto max-w-7xl">
+
             <section class="scroll-mt-20" id="introduction">
               <div class="@container">
                 <div
@@ -157,16 +160,12 @@
                 Graficas Geogebra
               </h2>
 
-              <div class="bg-[#161d2b] rounded-xl p-2">
+              <div class="bg-[#161d2b] rounded-xl p-10">
                 <div
                     class="lg:col-span-2 bg-[#161d2b]rounded-lg flex items-center p-4 min-h-[500px]"
                 >
-                  <div class="relative w-full pb-[50%]">
-                    <iframe
-                        src="https://www.geogebra.org/classic/au3jr5af?embed"
-                        class="absolute top-0 left-0 w-full h-full border-0"
-                        allowfullscreen>
-                    </iframe>
+                  <div class="relative w-full  mb-1">
+                    <div id="geogebra-container" class=" mb-1"></div>
                   </div>
                 </div>
               </div>
@@ -182,8 +181,28 @@
 </template>
 
 <script>
+
+
 export default {
-  name: "App",
+  name: "GeoGebraEmbed",
+  mounted() {
+    const script = document.createElement("script");
+    script.src = "https://www.geogebra.org/apps/deployggb.js";
+    script.onload = () => {
+      const params = {
+        appName: "classic",
+        material_id: "au3jr5af", // 👈 tu ID del link
+        width: 1200,
+        height: 600,
+        showToolBar: true,
+        showAlgebraInput: false,
+        showMenuBar: false,
+      };
+      const applet = new window.GGBApplet(params, true);
+      applet.inject("geogebra-container");
+    };
+    document.head.appendChild(script);
+  },
 };
 </script>
 
@@ -200,4 +219,6 @@ html, body {
     background-color: rgb(16,22,34);
   }
 }
+
+
 </style>

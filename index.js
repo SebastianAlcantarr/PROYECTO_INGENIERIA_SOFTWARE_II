@@ -22,7 +22,7 @@ const routes = [
         name: 'Tema2',
         component: tema2
 
-    }
+    },
 
 ]
 
