@@ -136,6 +136,13 @@
             Ir a Tema 1
           </router-link>
         </div>
+
+        <div></div>
+        <router-link to="/tema2"
+                     class="btn px-4 py-2 rounded bg-blue-600 text-white h-10 m-10 "
+                     >
+          ir al tema 2
+        </router-link>
       </main>
     </div>
   </div>
