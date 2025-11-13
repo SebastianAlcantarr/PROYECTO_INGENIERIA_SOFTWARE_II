@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 //Impotar cada archivo.vue para redireccionar con /
 import tema from '/src/views/tema_1.vue'
 import Login from '/src/views/Login.vue'
-import tema2 from '/src/views/Tema2.vue'
+import tema2 from '/src/views/tema2.vue'
 
 //Definir cada ruta para cada archivo
 const routes = [
