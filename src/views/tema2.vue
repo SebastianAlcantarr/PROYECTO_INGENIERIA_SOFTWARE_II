@@ -83,7 +83,7 @@
             </p>
           </div>
           <div class="rounded bg-[#324467]">
-            <div class="h-2 rounded bg-[#37ffcd]" style="width: 80%"></div>
+            <div class="h-2 rounded bg-[#0cbf42]" style="width: 80%"></div>
           </div>
         </div>
       </aside>
@@ -95,61 +95,104 @@
       <!-- TERMINA LADO IZQUIERDO DE LA PAGINA  -->
 
       <!-- Foro preguntas -->
-      <main class="w-full lg:ml-64 flex flex-col">
+      <main class=" lg:ml-60 ">
         <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
           <div class="mx-auto max-w-4xl">
             <section class="scroll-mt-20" id="introduction">
               <div class="@container">
+
                 <div
-                    class="flex flex-col gap-6 py-10 @[480px]:gap-8 @[864px]:flex-row bg-[#161d2b] rounded-xl p-6"
+                    class="w-full lg:w-[100%]   sm:p-6  bg-[#161d2b] rounded-lg    "
                 >
-                  <div
-                      class="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center"
-                  >
+
                     <div class="flex flex-col gap-2 text-left">
                       <h1
                           class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]"
                       >
-                        Foro 1 :La densidad mineral y osea
+                        Foro 2 : Grafico Comparativo
                       </h1>
                     </div>
-                  </div>
+
+
+
                   <div
-                      class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg @[480px]:h-auto @[480px]:min-w-[300px] @[864px]:w-full"
-                      data-alt="An abstract visualization of a mathematical graph with glowing blue lines on a dark background"
+                      class="bg-center bg-no-repeat aspect-video bg-cover rounded-lg @[480px]:h-auto @[480px]:min-w-[300px] @[864px]:w-full"
                       style="
-                      background-image: url('https://www.clikisalud.net/wp-content/uploads/2022/08/densidad-mineral-osea.jpg');
+                      background-image: url('https://i.ytimg.com/vi/_IBn_gDX6W4/maxresdefault.jpg');
                     "
                   ></div>
                 </div>
+
+
               </div>
             </section>
             <section class="scroll-mt-20" id="rules">
               <h2
-                  class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-10"
+                  class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-10"
               >
-                Investiga y Responde las Siguentes Preguntas
+                El siguente grafico comparativo se elabolo a partir de los datos del articulo de investigacion de Lee y colaboradores
+                (2013, p.184) . El grafico nmuestra los valores de la cadera (Total hip) tanto de hombres como de mujeres
+
               </h2>
-              <div class="space-y-4">
-                <div class="bg-[#161d2b] p-4  rounded-xl">
+                <div class="bg-[#161d2b] p-1 rounded-xl">
 
-                  <h1 class="font-mono text-white/90 mb-6">1.- Explica en que consiste la densidad mineral ósea (DMO) y cómo se mide (qué pruebas se utilizan). ¿Es peligrosa su medición?</h1>
+                    <img class="mt-5 p-3 mb-5"
+                        src="/public/imagenes/Screenshot%202025-11-12%20191955.png"
+                        alt="Grafica"
+                    />
+                </div>
 
-                  <h2 class="font-mono text-white/90 mb-6">2.- ¿Qué factores consideras que influyen en una buena salud ósea?</h2>
+            </section>
+            <!-- Applet de Geogebra -->
 
-                  <h3 class="font-mono text-white/90 mb-6">3.- ¿Consideras que la edad y la DMO pueden estar relacionadas de manera que el valor de una magnitud dependa del valor de la otra? Justifica.</h3>
 
-                  <h4 class="font-mono text-white/90 mb-6">4.- ¿Cómo evoluciona la DMO a lo largo de la vida/edad de las personas?</h4>
-
-                  <h5 class="font-mono text-white/90 mb-6">5.- Considerando lo investigado, ¿crees que, dado un valor normal de la DMO, se puede saber la edad aproximada de una persona? ¿Y viceversa? Explica.</h5>
-
-                  <h6 class="font-mono text-white/90 mb-6">6.- Investiga y responde: ¿La DMO será igual para el esqueleto femenino y el masculino? ¿A qué se debe? ¿A partir de qué edad se pueden obtener diferencias, si las hay? Justifica.</h6>
+            <section class="scroll-mt-20" id="ejercicios">
+              <h2
+                  class="text-white text-3xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-10 mt-20 mb-10"
+              >
+                Ejercicios
+              </h2>
+              <div class="bg-[#161d2b] rounded-xl p-6 space-y-6 ">
+                <div>
+                  <p class="text-white text-2xl mb-5">
+                    En base a la grafica responde:
+                  </p>
+                  <h1 class="text-white text-xl">
+                    1.- Describe las similitudes  y diferencias que observas en las graficas de la DMO de la cadera
+                    entre hombres y mujeres denominando aproximadamente la edad en que se presentan
+                  </h1>
 
 
                 </div>
+                <h2 class="text-white text-xl">
+                  2.- ¿En que etapa de la vida aumenta mas la densidad mineral osea en las mujeres?¿Y de los hombres?
+                  ¿Cual podria ser la causa?. Justifica tu respuesta
+                </h2>
+
+
+                <h3 class="text-white text-xl">
+                  3.- ¿En que etapa de la vida disminuye mas la densidad osea en las mujeres? ¿Y de los hombres?
+                  ¿A que se debe esto? Justifica tu respuesta
+                </h3>
+                <h4 class="text-white text-xl">
+                  4.- ¿Habra una edad donde la densidad mineral osea tenga un valor maximo? Ese valor , ¿se puede
+                  ubicar la grafica ? Justifica tu respuesta
+                </h4>
+                <h5 class="text-white text-xl">
+                  5. Analiza la siguiente afirmación argumentando por qué consideras que el fenómeno se comporta así:
+
+                  En la gráfica anterior se observa que la densidad mineral ósea, aumenta en los primeros años de vida (la gráfica crece) y luego, a partir de cierta edad, se comienza a perder densidad mineral ósea (la gráfica decrece). Entonces, hay una edad donde la densidad mineral ósea alcanza su valor máximo (conocido como pico de densidad mineral ósea) por lo que este fenómeno de variación (cambio) tiene un valor óptimo y es un máximo.
+                </h5>
+
+                <h6 class="text-white text-xl">
+                  6. ¿Cómo podemos verificar o encontrar la edad donde se alcanza el valor óptimo? Lista las ideas o herramientas que nos pueden ayudar a encontrar la edad exacta donde se alcanza ese pico de masa ósea.
+                </h6>
+
               </div>
             </section>
-            <!-- Applet de Geogebra -->
+
+
+
             <section class="scroll-mt-20" id="grafica">
               <h2
                   class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-10 pb-3 pt-10"
@@ -171,6 +214,33 @@
                 </div>
               </div>
             </section>
+
+            <section class="scroll-mt-20" id="resources">
+              <h2
+                  class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-10"
+              >
+                INFORMACION
+              </h2>
+              <div class="bg-[#161d2b] rounded-xl p-6">
+                <ul class="list-disc list-inside space-y-2 text-[#135bec]">
+                  <li>
+                    <a class="text-white/80 hover:text-white underline" href="#"
+                    >INFORMACION</a
+                    >
+                  </li>
+                  <li>
+                    <a class="text-white/80 hover:text-white underline" href="#"
+                    >INFORMACION</a
+                    >
+                  </li>
+                  <li>
+                    <a class="text-white/80 hover:text-white underline" href="#"
+                    >INFORMACION</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </section>
           </div>
         </div>
       </main>
@@ -186,18 +256,3 @@ export default {
   name: "App",
 };
 </script>
-
-<style>
-html {
-  scroll-behavior: smooth;
-}
-html, body {
-  min-height: 100%;
-  background-color: #244a76;
-}
-@media (prefers-color-scheme: dark) {
-  html, body {
-    background-color: rgb(16,22,34);
-  }
-}
-</style>

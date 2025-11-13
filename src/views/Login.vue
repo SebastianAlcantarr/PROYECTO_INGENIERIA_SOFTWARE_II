@@ -11,7 +11,7 @@
           <div class="grid flex-1 grid-cols-1">
             <div class="hidden"></div>
 
-            <div class="flex w-full justify-center">
+            <div class="flex    w-full justify-center">
               <div
                   class="w-full max-w-md rounded-4xl border-8 border-blue-500 p-8 sm:p-10"
               >
