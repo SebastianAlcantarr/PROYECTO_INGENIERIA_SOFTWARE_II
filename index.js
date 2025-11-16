@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-//Impotar cada archivo.vue para redireccionar con /
-import tema from '/src/views/tema_1.vue'
+//importar cada archivo.vue y ponerle nombre
+import Foro1 from '/src/views/foro_1.vue'
 import Login from '/src/views/Login.vue'
-import tema2 from '/src/views/tema2.vue'
-import Sidebar from '/src/views/sidebar.vue'
+import Foro2 from '/src/views/foro_2.vue'
+import examen from '/src/views/examen1.vue'
+import Foro_6 from "@/views/foro_6.vue";
+
 
 //Definir cada ruta para cada archivo
 const routes = [
@@ -14,21 +16,25 @@ const routes = [
         component: Login
     },
     {
-        path: '/tema1',      // /about
+        path: '/foro1',      // /about
         name: 'Tema',
-        component: tema
+        component: Foro1
     },
     {
-        path: '/tema2',
-        name: 'Tema2',
-        component: tema2
+        path: '/foro2',
+        name: 'foro2',
+        component: Foro2
+    },
+    {
+        path: '/foro2/examen1',
+        name: 'examen1',
+        component: examen
 
     },
     {
-        path: '/Sidebar',
-        name: 'prueba',
-        component: Sidebar
-
+        path: '/foro6',
+        name: 'foro6',
+        component: Foro_6
     }
 
 ]
