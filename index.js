@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import tema from '/src/views/tema_1.vue'
 import Login from '/src/views/Login.vue'
 import tema2 from '/src/views/tema2.vue'
+import Sidebar from '/src/views/sidebar.vue'
 
 //Definir cada ruta para cada archivo
 const routes = [
@@ -23,6 +24,12 @@ const routes = [
         component: tema2
 
     },
+    {
+        path: '/Sidebar',
+        name: 'prueba',
+        component: Sidebar
+
+    }
 
 ]
 
