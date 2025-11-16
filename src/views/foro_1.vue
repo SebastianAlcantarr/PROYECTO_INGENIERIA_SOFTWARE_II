@@ -41,8 +41,8 @@
             </h2>
             <div class="space-y-4">
               <div class="bg-[#161d2b] p-4 rounded-xl">
-                <div class="mb-6">
-                  <h1 class="font-mono text-white/90 mb-2">
+                <div class="mb-1">
+                  <h1 class="font-mono text-2xl text-white/90 mb-2">
                     1.- Explica en que consiste la densidad mineral ósea (DMO) y
                     cómo se mide (qué pruebas se utilizan). ¿Es peligrosa su
                     medición?
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="mb-6">
-                  <h2 class="font-mono text-white/90 mb-2">
+                  <h2 class="font-mono  text-2xl text-white/90 mb-2">
                     2.- ¿Qué factores consideras que influyen en una buena salud
                     ósea?
                   </h2>
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="mb-6">
-                  <h3 class="font-mono text-white/90 mb-2">
+                  <h3 class="font-mono  text-2xl text-white/90 mb-2">
                     3.- ¿Consideras que la edad y la DMO pueden estar
                     relacionadas de manera que el valor de una magnitud dependa
                     del valor de la otra? Justifica.
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="mb-6">
-                  <h4 class="font-mono text-white/90 mb-2">
+                  <h4 class="font-mono text-2xl text-white/90 mb-2">
                     4.- ¿Cómo evoluciona la DMO a lo largo de la vida/edad de
                     las personas?
                   </h4>
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="mb-6">
-                  <h5 class="font-mono text-white/90 mb-2">
+                  <h5 class="font-mono text-2xl text-white/90 mb-2">
                     5.- Considerando lo investigado, ¿crees que, dado un valor
                     normal de la DMO, se puede saber la edad aproximada de una
                     persona? ¿Y viceversa? Explica.
@@ -105,7 +105,7 @@
                 </div>
 
                 <div class="mb-0">
-                  <h6 class="font-mono text-white/90 mb-2">
+                  <h6 class="font-mono text-2xl text-white/90 mb-2">
                     6.- Investiga y responde: ¿La DMO será igual para el
                     esqueleto femenino y el masculino? ¿A qué se debe? ¿A partir
                     de qué edad se pueden obtener diferencias, si las hay?

@@ -6,7 +6,7 @@
     <!-- Foro preguntas -->
     <main class="w-full ml-0 md:ml-72 flex flex-col">
       <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-8xl">
+        <div class="mx-auto max-w-7xl">
           <section class="scroll-mt-20" id="introduction">
             <div class="@container">
               <div
@@ -51,7 +51,7 @@
 
             <div class="space-y-4 mt-10">
               <div class="bg-[#161d2b] p-4 rounded-xl">
-                <p class="= text-2xl font-bold text-white/90 mb-6">
+                <p class=" font-mono text-2xl text-white/90 mb-10">
                   1. ¿Qué valores puede tomar la variable x
                   = Edad de una persona? es decir, ¿Cuál es el dominio real de esta variable? Justifica.
 
@@ -60,14 +60,14 @@
                   ) .
                 </p>
 
-                <p class="text-2xl font-bold text-white/90 mb-6">
+                <p class="font-mono text-2xl text-white/90 mb-10">
                   2. Argumenta con ejemplos la siguiente afirmación:
 
                   Cuando los extremos del intervalo en la edad sean iguales, es decir, en el límite cuando ( Δx→0
                   ) la recta secante se convierte en recta tangente y la razón promedio de cambio para dos puntos deriva en razón instantánea de cambio para un punto.
                 </p>
 
-                <p class="text-2xl font-bold text-white/90 mb-6">
+                <p class="font-mono text-2xl text-white/90 mb-10">
                   3. Utiliza el siguiente
                   <a class="text-blue-400 hover:text-blue-100" href="https://docs.google.com/spreadsheets/d/1Rqp6bml35xrT-5UkAyB3Qlx_c5nKijIqD6apvLbN4y4/edit?usp=sharing"> simulador </a>
                   para observar a que valor se aproxima la razón promedio de cambio cuando elegimos dos edades muy próximas ( Δx→0
@@ -81,21 +81,21 @@
                 </p>
 
 
-                <p class="text-2xl font-bold text-white/90 mb-6">
+                <p class="font-mono text-2xl text-white/90 mb-10">
                   4. Manipula el Applet de Geogebra para que observes el valor de la pendiente de la recta tangente sobre el gráfico. Verifica que los resultados obtenidos en el punto anterior coinciden con los que se muestran en el Applet de Geogebra. ¿Cuánto vale la pendiente de la recta tangente en el valor máximo? ¿Ocurrirá lo mismo en el valor mínimo?
                 </p>
 
-                <p class="text-2xl font-bold text-white/90 mb-6">
+                <p class="font-mono text-2xl text-white/90 mb-10">
                   5. Argumenta con ejemplos ¿cómo cambia el valor de la pendiente de la recta tangente cuando el valor óptimo es un máximo? y ¿cómo cambia cuando el óptimo es un mínimo?
                 </p>
 
-                <p class="text-2xl font-bold text-white/90 mb-6">
+                <p class="font-mono text-2xl text-white/90 mb-10">
                   6. La definición formal, en los libros de Cálculo, de función derivada (o razón instantánea de cambio) es:
 
 
                   f´(x)=limΔx→0(ΔyΔx)=limΔx→0(f(x+Δx)−f(x)Δx)
                 </p>
-                <p class="text-2xl font-bold text-white/90 mb-6">
+                <p class="font-mono text-2xl text-white/90 mb-10">
                   7. Dada la función (expresión algebraica) que describe el comportamiento de la DMO en la cadera de las mujeres:
 
                   DMO(x)=−0.0001x2+0.0075x+0.768
@@ -108,7 +108,7 @@
 
                   b) Lista los pasos que se deben realizar como si estuvieras dando una receta.
                 </p>
-                <p class="text-2xl font-bold text-white/90 mb-6" >
+                <p class="font-mono text-2xl text-white/90 mb-10" >
                   8. Siguiendo los pasos descritos anteriormente. Obtén la edad en que se obtiene la DMO óptima para la cadera de los hombres dados los siguiente datos:
 
 

@@ -6,7 +6,7 @@
       class="ml-0 md:ml-72 w-full min-h-screen bg-blue dark:bg-[rgb(16,22,34)] font-display text-[#E0E0E0]"
     >
       <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="max-w-8xl ">
+        <div class="max-w-7xl ">
           <!-- INTRODUCCION -->
           <section class="scroll-mt-20" id="introduction">
             <div class="@container">
@@ -42,7 +42,7 @@
           <div class="space-y-4 mt-10">
             <div class="bg-[#161d2b] p-4 rounded-xl">
               <div class="mb-6">
-                <h1 class="text-white  text-3xl">
+                <h1 class="font-mono text-2xl text-white/90 mb-2">
                   1. Describe las similitudes y diferencias que observas en las gráficas de la DMO de la cadera entre hombres y mujeres, determinando aproximadamente la edad en que se presentan.
                 </h1>
                 <textarea
@@ -53,7 +53,7 @@
               </div>
 
               <div class="mb-6">
-                <h2 class="text-white  text-3xl">
+                <h2 class="font-mono text-2xl text-white/90 mb-2">
                   2. ¿En qué etapa de la vida aumenta más la densidad mineral ósea en las mujeres? ¿Y de los hombres? ¿Cuál podría ser la causa? Justifica tu respuesta.
 
                 </h2>
@@ -65,7 +65,7 @@
               </div>
 
               <div class="mb-6">
-                <h3 class="text-white  text-3xl">
+                <h3 class="font-mono text-2xl text-white/90 mb-2">
                   3. ¿En qué etapa de la vida disminuye más la densidad mineral ósea en las mujeres? ¿Y de los hombres? ¿A qué se debe esto? Justifica tu respuesta.
                 </h3>
                 <textarea
@@ -76,7 +76,7 @@
               </div>
 
               <div class="mb-6">
-                <h4 class="text-white  text-3xl">
+                <h4 class="font-mono text-2xl text-white/90 mb-2">
                   4. ¿Habrá una edad donde la densidad mineral ósea tenga un valor máximo? Ese valor, ¿se puede ubicar en la gráfica? Justifica tu respuesta.
                 </h4>
                 <textarea
@@ -87,7 +87,7 @@
               </div>
 
               <div class="mb-6">
-                <h5 class="text-white  text-3xl">
+                <h5 class="font-mono text-2xl text-white/90 mb-2">
                   5. Analiza la siguiente afirmación argumentando por qué consideras que el fenómeno se comporta así:
                   En la gráfica anterior se observa que la densidad mineral ósea,  aumenta en los primeros años de vida (la gráfica crece) y luego, a partir de cierta edad, se comienza a perder densidad mineral ósea (la gráfica decrece). Entonces, hay una edad donde la densidad mineral ósea alcanza su valor máximo (conocido como pico de densidad mineral ósea) por lo que este fenómeno de variación (cambio) tiene un valor óptimo y es un máximo.
 
