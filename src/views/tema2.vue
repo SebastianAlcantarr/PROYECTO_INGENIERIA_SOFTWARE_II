@@ -30,7 +30,7 @@
               <div class="rounded-xl overflow-hidden">
                 <img
                   class="w-full h-auto object-contain mx-auto"
-                  src="/src/imagenes/Screenshot%202025-11-12%20191955.png"
+                  src="/src/imagenes/Cadera%20H%20vs%20M.png"
                   alt="Grafica"
                 />
               </div>
