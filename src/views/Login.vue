@@ -147,22 +147,22 @@
 
         <div>
           <router-link
-              to="/tema1"
+              to="/foro1"
               class="btn px-4 py-2 rounded bg-blue-600 text-white h-10"
           >
-            Ir a Tema 1
+            Ir a Foro 1
           </router-link>
         </div>
 
         <div></div>
 
-        <router-link to="/tema2"
+        <router-link to="/foro2"
                      class="btn px-4 py-2 rounded bg-blue-600 text-white h-10 m-10 "
         >
-          Ir al tema 2
+          Ir al foro 2
         </router-link>
 
-        <router-link to="/tema3"
+        <router-link to="/foro6"
                      class="btn px-4 py-2 rounded bg-blue-600 text-white h-10 m-10 "
         >
           Ir a Tema 3
