@@ -39,7 +39,7 @@ const seleccionado = ref(null);
 
 <template>
   <aside
-      class="fixed left-0 top-0 h-screen w-72 bg-[#244a76] dark:bg-[#101622] border-r border-white/10 p-4 overflow-y-auto"
+      class="fixed left-0 top-0 h-screen w-72 bg-[#244a76] dark:bg-[#101622] border-r border-white/10 p-4 overflow-y-scroll scrollbar-custom"
   >
     <div class="flex flex-col gap-4">
       <!-- Header -->
@@ -93,3 +93,22 @@ const seleccionado = ref(null);
   </aside>
 
 </template>
+
+
+<style>
+/* colores barra izquierda */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 15px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: rgba(44, 90, 143, 0.21);
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: rgb(44, 90, 143);
+  border-radius: 9999px;
+  border: 2px solid #060619;
+}
+
+</style>
