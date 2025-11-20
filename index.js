@@ -36,7 +36,6 @@ const routes = [
         name: 'foro6',
         component: Foro_6
     }
-
 ]
 
 const router = createRouter({
