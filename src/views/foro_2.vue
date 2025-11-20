@@ -138,11 +138,7 @@
                   class="group flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/20 active:scale-95"
                 >
                   <span>Enviar Respuestas</span>
-                  <span
-                    class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
-                  >
-                    send
-                  </span>
+
                 </button>
               </div>
             </div>

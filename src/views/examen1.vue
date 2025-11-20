@@ -5,7 +5,7 @@
 
     <!-- Foro preguntas -->
     <main class="w-full ml-0 md:ml-72 flex flex-col">
-      <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12 bg-[#0e1421] min-h-screen">
+      <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12  min-h-screen">
         <div class="mx-auto max-w-7xl">
           <section class="scroll-mt-20" id="introduction">
             <div class="@container">
