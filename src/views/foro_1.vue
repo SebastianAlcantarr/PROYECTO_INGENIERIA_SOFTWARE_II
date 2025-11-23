@@ -14,7 +14,7 @@
                 <div
                   class="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center"
                 >
-                  <div class="flex flex-col gap-2 text-left">
+                  <div class="flex flex-col gap-2 text-center w-full">
                     <h1
                       class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]"
                     >
@@ -29,13 +29,13 @@
             <h2
               class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-10"
             >
-              Investiga y Responde las Siguientes Preguntas
+              Investiga y responde las siguientes preguntas:
             </h2>
             <div class="space-y-4">
               <div class="bg-[#161d2b] p-4 rounded-xl">
                 <div class="mb-1">
-                  <h1 class="font-mono text-2xl text-white/90 mb-2">
-                    1.- Explica en que consiste la densidad mineral ósea (DMO) y
+                  <h1 class="pregunta-texto text-2xl text-white/90 mb-2">
+                    Explica en que consiste la densidad mineral ósea (DMO) y
                     cómo se mide (qué pruebas se utilizan). ¿Es peligrosa su
                     medición?
                   </h1>
@@ -47,8 +47,8 @@
                 </div>
 
                 <div class="mb-6">
-                  <h2 class="font-mono text-2xl text-white/90 mb-2">
-                    2.- ¿Qué factores consideras que influyen en una buena salud
+                  <h2 class="pregunta-texto text-2xl text-white/90 mb-2">
+                    ¿Qué factores consideras que influyen en una buena salud
                     ósea?
                   </h2>
                   <textarea
@@ -59,8 +59,8 @@
                 </div>
 
                 <div class="mb-6">
-                  <h3 class="font-mono text-2xl text-white/90 mb-2">
-                    3.- ¿Consideras que la edad y la DMO pueden estar
+                  <h3 class="pregunta-texto text-2xl text-white/90 mb-2">
+                    ¿Consideras que la edad y la DMO pueden estar
                     relacionadas de manera que el valor de una magnitud dependa
                     del valor de la otra? Justifica.
                   </h3>
@@ -72,8 +72,8 @@
                 </div>
 
                 <div class="mb-6">
-                  <h4 class="font-mono text-2xl text-white/90 mb-2">
-                    4.- ¿Cómo evoluciona la DMO a lo largo de la vida/edad de
+                  <h4 class="pregunta-texto text-2xl text-white/90 mb-2">
+                    ¿Cómo evoluciona la DMO a lo largo de la vida/edad de
                     las personas?
                   </h4>
                   <textarea
@@ -84,8 +84,8 @@
                 </div>
 
                 <div class="mb-6">
-                  <h5 class="font-mono text-2xl text-white/90 mb-2">
-                    5.- Considerando lo investigado, ¿crees que, dado un valor
+                  <h5 class="pregunta-texto text-2xl text-white/90 mb-2">
+                    Considerando lo investigado, ¿crees que, dado un valor
                     normal de la DMO, se puede saber la edad aproximada de una
                     persona? ¿Y viceversa? Explica.
                   </h5>
@@ -97,8 +97,8 @@
                 </div>
 
                 <div class="mb-0">
-                  <h6 class="font-mono text-2xl text-white/90 mb-2">
-                    6.- Investiga y responde: ¿La DMO será igual para el
+                  <h6 class="pregunta-texto text-2xl text-white/90 mb-2">
+                    Investiga y responde: ¿La DMO será igual para el
                     esqueleto femenino y el masculino? ¿A qué se debe? ¿A partir
                     de qué edad se pueden obtener diferencias, si las hay?
                     Justifica.

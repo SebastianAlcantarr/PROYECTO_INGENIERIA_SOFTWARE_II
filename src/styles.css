@@ -6,6 +6,8 @@ html,
 body {
     min-height: 100%;
     background-color: #244a76;
+
+    font-family: 'Poppins', sans-serif;
 }
 @media (prefers-color-scheme: dark) {
     html,
@@ -17,4 +19,10 @@ body {
 
 p {
     color:white;
+}
+
+.pregunta-texto {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+    letter-spacing: 0.5px;
 }
