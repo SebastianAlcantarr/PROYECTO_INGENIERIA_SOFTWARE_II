@@ -22,12 +22,14 @@ class UsuarioRegistro(BaseModel):
 def conectar_bd():
     try:
         conn = psycopg2.connect(
-            host="localhost",
-            database="derivadas_db",
-            user="postgres",
-            password="admin123",
-            port="5432"
+            host="dpg-d4f80d7pm1nc73eop5h0-a.oregon-postgres.render.com",
+            database="database_7vyi",
+            user="database_7vyi_user",
+            password="EqKTvvDaJK6Ml5YoVYjnt4rLQmrxYIzo",
+            port=5432,
+            sslmode="require"
         )
+
         return conn
     except Exception as e:
         print(f"Error conectando a la BD: {e}")
