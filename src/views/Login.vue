@@ -133,7 +133,7 @@ async function procesarFormulario() {
   tipoMensaje.value = "";
 
   // URL de tu backend en Python (El puerto 8000 que ya tienes corriendo)
-  const urlBase = "https://proyecto-ingenieria-software-ii.onrender.com";
+  const urlBase = "https://proyecto-ingenieria-software-6ccv.onrender.com";
   const endpoint = esRegistro.value ? "/registrar" : "/login";
 
   try {
