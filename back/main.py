@@ -167,6 +167,24 @@ async def obtener_respuestas():
     finally:
         conexion.close()
 
+@app.get("/verificar_foro1/{email}")
+async def verificar_participacion(email: str):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        # Contamos cuántas respuestas tiene este email en la tabla
+        query = "SELECT COUNT(*) FROM respuestas_foro1 WHERE email = %s"
+        cursor.execute(query, (email,))
+        resultado = cursor.fetchone()
+
+        # Si el conteo es mayor a 0, es que YA respondió
+        ya_respondio = resultado[0] > 0
+
+        return {"participo": ya_respondio}
+    finally:
+        conexion.close()
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)
