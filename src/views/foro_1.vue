@@ -89,7 +89,7 @@
                     class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
-                  {{ enviando ? 'Guardando...' : 'Publicar mi Aporte' }}
+                  {{ enviando ? 'Guardando...' : 'Publicar' }}
                 </button>
               </div>
             </div>
@@ -135,7 +135,7 @@
                       <p class="text-gray-500 text-xs">{{ formatearFecha(item.fecha) }}</p>
                     </div>
                   </div>
-                  <span class="bg-blue-900/50 text-blue-200 text-xs px-2 py-1 rounded">Aporte #{{ listaRespuestas.length - index }}</span>
+                  <span class="bg-blue-900/50 text-blue-200 text-xs px-2 py-1 rounded">Respuesta #{{ listaRespuestas.length - index }}</span>
                 </div>
 
                 <div class="space-y-4 text-gray-300 text-sm pl-2 border-l border-gray-700 ml-4">
@@ -145,7 +145,7 @@
                   <details class="text-gray-400 cursor-pointer group">
                     <summary class="hover:text-white list-none flex items-center gap-2 py-2">
                       <span class="material-symbols-outlined text-sm group-open:rotate-180 transition-transform">expand_more</span>
-                      Ver respuestas completas (3-6)
+                      Ver respuestas completas...
                     </summary>
                     <div class="mt-2 space-y-4 pt-2 border-t border-gray-700/50 animate-fade-in">
                       <p><strong class="text-blue-200">3. Edad vs DMO:</strong> <br>{{ item.r3 }}</p>
