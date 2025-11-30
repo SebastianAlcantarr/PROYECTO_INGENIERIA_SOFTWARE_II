@@ -28,6 +28,41 @@
 
         <div class="mt-8 space-y-6">
           <div class="space-y-5">
+
+            <!-- CAMPOS NUEVOS: NOMBRE Y APELLIDOS (Solo visibles en Registro) -->
+            <div v-if="esRegistro" class="space-y-5 animate-fade-in">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Nombre(s)</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-gray-400 text-xl">badge</span>
+                  </div>
+                  <input
+                      v-model="nombre"
+                      type="text"
+                      class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                      placeholder="Ej. Francisco"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Apellidos</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-gray-400 text-xl">badge</span>
+                  </div>
+                  <input
+                      v-model="apellidos"
+                      type="text"
+                      class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                      placeholder="Ej. Hernández"
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- FIN CAMPOS NUEVOS -->
+
             <!-- Email Input -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Correo Electrónico</label>
@@ -35,7 +70,6 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <span class="material-symbols-outlined text-gray-400 text-xl">person</span>
                 </div>
-                <!-- v-model conectado a variable 'email' -->
                 <input
                     v-model="email"
                     type="email"
@@ -53,7 +87,6 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <span class="material-symbols-outlined text-gray-400 text-xl">lock</span>
                 </div>
-                <!-- v-model conectado a variable 'password' -->
                 <input
                     v-model="password"
                     :type="mostrarContrasena ? 'text' : 'password'"
@@ -115,62 +148,80 @@ const router = useRouter();
 // Variables del formulario
 const email = ref("");
 const password = ref("");
+const nombre = ref("");     // <-- NUEVA VARIABLE
+const apellidos = ref("");  // <-- NUEVA VARIABLE
 const mostrarContrasena = ref(false);
 
 // Estado de la App
-const esRegistro = ref(false); // false = Login, true = Registro
+const esRegistro = ref(false);
 const mensaje = ref("");
-const tipoMensaje = ref(""); // 'error' o 'exito'
+const tipoMensaje = ref("");
 
 function cambiarModo() {
   esRegistro.value = !esRegistro.value;
-  mensaje.value = ""; // Limpiar mensajes al cambiar
+  mensaje.value = "";
+  if (!esRegistro.value) {
+    nombre.value = "";
+    apellidos.value = "";
+  }
 }
 
-// ESTA ES LA FUNCIÓN QUE HABLA CON PYTHON
+
+function capitalizarTexto(texto) {
+  if (!texto) return "";
+  return texto.toLowerCase().replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
+}
+
 async function procesarFormulario() {
   mensaje.value = "Procesando...";
   tipoMensaje.value = "";
 
-  // URL de tu backend en Python (El puerto 8000 que ya tienes corriendo)
-  const urlBase = "https://proyecto-ingenieria-software-6ccv.onrender.com";
+  const urlBase = "http://127.0.0.1:8000";
   const endpoint = esRegistro.value ? "/registrar" : "/login";
+
+
+  const payload = {
+    email: email.value,
+    password: password.value
+  };
+
+  if (esRegistro.value) {
+    payload.nombre = capitalizarTexto(nombre.value);
+    payload.apellidos = capitalizarTexto(apellidos.value);
+  }
 
   try {
     const respuesta = await fetch(`${urlBase}${endpoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email.value,
-        password: password.value
-      })
+      body: JSON.stringify(payload)
     });
 
     const datos = await respuesta.json();
 
     if (datos.exito) {
       tipoMensaje.value = "exito";
-      mensaje.value = datos.mensaje;
 
       if (!esRegistro.value) {
-        // --- CASO LOGIN EXITOSO ---
-        // Guardamos usuario en memoria del navegador
+        // --- LOGIN EXITOSO ---
         localStorage.setItem("usuario", datos.usuario);
-        // Redirigimos al Foro 1 después de 1 segundo
+        localStorage.setItem("rol", datos.rol);
+
+        if (datos.nombre) localStorage.setItem("nombre", datos.nombre);
+
+        mensaje.value = "Bienvenido, " + (datos.nombre || "Usuario");
+
         setTimeout(() => {
           router.push("/foro1");
         }, 1000);
+
       } else {
-        // --- CASO REGISTRO EXITOSO ---
-        // Cambiamos a pantalla de login para que ingrese
-        setTimeout(() => {
-          esRegistro.value = false;
-          mensaje.value = "¡Cuenta creada! Ahora inicia sesión.";
-          password.value = "";
-        }, 1500);
+        // --- REGISTRO EXITOSO ---
+        mensaje.value = "Cuenta creada correctamente. Inicia sesión.";
+        esRegistro.value = false; // Cambiamos a login automáticamente
+        password.value = "";      // Limpiamos pass por seguridad
       }
     } else {
-      // Python nos devolvió un error (ej: contraseña mal, usuario ya existe)
       tipoMensaje.value = "error";
       mensaje.value = datos.mensaje;
     }
@@ -178,7 +229,18 @@ async function procesarFormulario() {
   } catch (error) {
     console.error(error);
     tipoMensaje.value = "error";
-    mensaje.value = "Error conectando con el servidor. ¿Está encendido el Python?";
+    mensaje.value = "Error conectando con el servidor.";
   }
 }
 </script>
+
+<style scoped>
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+</style>

@@ -6,6 +6,7 @@ from psycopg2.extras import RealDictCursor
 
 app = FastAPI()
 
+# --- CONFIGURACIÓN DE SEGURIDAD (CORS) ---
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,10 +16,21 @@ app.add_middleware(
 )
 
 # --- MODELOS DE DATOS ---
+
+# 1. Modelo de Registro/Login actualizado
 class UsuarioRegistro(BaseModel):
     email: str
     password: str
+    nombre: str = None
+    apellidos: str = None
 
+# 2. Modelo para actualizar datos (por si acaso)
+class UsuarioDatos(BaseModel):
+    email: str
+    nombre: str
+    apellidos: str
+
+# 3. Modelo para las respuestas del Foro
 class RespuestasForo1(BaseModel):
     email: str
     r1: str
@@ -28,6 +40,7 @@ class RespuestasForo1(BaseModel):
     r5: str
     r6: str
 
+# --- CONEXIÓN A BASE DE DATOS ---
 def conectar_bd():
     try:
         conn = psycopg2.connect(
@@ -43,7 +56,7 @@ def conectar_bd():
         print(f"Error conectando a la BD: {e}")
         return None
 
-# --- RUTAS DE USUARIOS (LOGIN/REGISTRO) ---
+# --- RUTAS DE USUARIOS ---
 
 @app.post("/registrar")
 async def registrar(datos: UsuarioRegistro):
@@ -51,16 +64,22 @@ async def registrar(datos: UsuarioRegistro):
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor()
-        query = "INSERT INTO usuarios (email, password) VALUES (%s, %s)"
-        cursor.execute(query, (datos.email, datos.password))
+        query = """
+                INSERT INTO usuarios (email, password, nombre, apellidos)
+                VALUES (%s, %s, %s, %s) \
+                """
+        cursor.execute(query, (datos.email, datos.password, datos.nombre, datos.apellidos))
+
         conexion.commit()
-        return {"mensaje": "Usuario creado", "exito": True}
+        return {"mensaje": "Usuario creado correctamente", "exito": True}
+
     except psycopg2.IntegrityError:
         conexion.rollback()
         return {"mensaje": "El usuario ya existe", "exito": False}
     except Exception as e:
         conexion.rollback()
-        return {"mensaje": f"Error: {str(e)}", "exito": False}
+        print(f"Error en registro: {e}")
+        return {"mensaje": f"Error interno: {str(e)}", "exito": False}
     finally:
         conexion.close()
 
@@ -70,15 +89,41 @@ async def login(datos: UsuarioRegistro):
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor(cursor_factory=RealDictCursor)
-        query = "SELECT * FROM usuarios WHERE email = %s AND password = %s"
+        query = "SELECT email, nombre, apellidos FROM usuarios WHERE email = %s AND password = %s"
         cursor.execute(query, (datos.email, datos.password))
         usuario = cursor.fetchone()
+
         if usuario:
-            return {"mensaje": "Login correcto", "exito": True, "usuario": usuario['email']}
+            return {
+                "mensaje": "Login correcto",
+                "exito": True,
+                "usuario": usuario['email'],
+                "nombre": usuario['nombre'],
+                "apellidos": usuario['apellidos']
+            }
         else:
             return {"mensaje": "Credenciales incorrectas", "exito": False}
     finally:
         conexion.close()
+
+@app.post("/actualizar_perfil")
+async def actualizar_perfil(datos: UsuarioDatos):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        query = "UPDATE usuarios SET nombre = %s, apellidos = %s WHERE email = %s"
+        cursor.execute(query, (datos.nombre, datos.apellidos, datos.email))
+        conexion.commit()
+        return {"mensaje": "Datos guardados", "exito": True}
+    except Exception as e:
+        conexion.rollback()
+        print(e)
+        return {"mensaje": "Error al actualizar", "exito": False}
+    finally:
+        conexion.close()
+
+# --- RUTAS DEL FORO 1 ---
 
 @app.post("/guardar_foro1")
 async def guardar_respuestas(datos: RespuestasForo1):
@@ -88,7 +133,7 @@ async def guardar_respuestas(datos: RespuestasForo1):
         cursor = conexion.cursor()
         query = """
                 INSERT INTO respuestas_foro1 (email, r1, r2, r3, r4, r5, r6)
-                VALUES (%s, %s, %s, %s, %s, %s, %s) \
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
                 """
         cursor.execute(query, (datos.email, datos.r1, datos.r2, datos.r3, datos.r4, datos.r5, datos.r6))
         conexion.commit()
@@ -105,10 +150,23 @@ async def obtener_respuestas():
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor(cursor_factory=RealDictCursor)
-        # Traemos las respuestas ordenadas por fecha (las más nuevas primero)
-        query = "SELECT * FROM respuestas_foro1 ORDER BY fecha DESC"
+        query = """
+                SELECT r.*, u.nombre, u.apellidos
+                FROM respuestas_foro1 r
+                         LEFT JOIN usuarios u ON r.email = u.email
+                ORDER BY r.fecha DESC \
+                """
         cursor.execute(query)
         lista = cursor.fetchall()
         return lista
+    except Exception as e:
+        print(f"Error obteniendo respuestas: {e}")
+        conexion.rollback()
+        cursor.execute("SELECT * FROM respuestas_foro1 ORDER BY fecha DESC")
+        return cursor.fetchall()
     finally:
         conexion.close()
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
