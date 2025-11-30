@@ -146,6 +146,7 @@ async def guardar_respuestas(datos: RespuestasForo1):
 
 @app.get("/respuestas_foro1")
 async def obtener_respuestas():
+    global cursor
     conexion = conectar_bd()
     if not conexion: raise HTTPException(500, "Error BD")
     try:
@@ -184,6 +185,40 @@ async def verificar_participacion(email: str):
         return {"participo": ya_respondio}
     finally:
         conexion.close()
+
+
+@app.get("/conseguir_usuario/{email}")
+async def sacar_usuario(email: str):
+    conexion = conectar_bd()
+    if not conexion:
+        raise HTTPException(500, "Error BD")
+
+    try:
+        cursor = conexion.cursor()
+        query = "SELECT nombre, apellidos,email FROM usuarios WHERE email = %s"
+        cursor.execute(query, (email,))
+        resultado = cursor.fetchone()
+
+        cursor.close()
+        if not resultado:
+            raise HTTPException(404, "Usuario no encontrado")
+
+        nombre_usuario = resultado[0]
+        apellido_usuario = resultado[1]
+        email_usuario=resultado[2]
+
+
+        return {
+                "nombre": nombre_usuario,
+                "apellidos":apellido_usuario,
+                "email": email_usuario
+
+        }
+
+
+    finally:
+        conexion.close()
+
 
 if __name__ == "__main__":
     import uvicorn
