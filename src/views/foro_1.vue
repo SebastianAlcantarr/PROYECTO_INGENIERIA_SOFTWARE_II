@@ -102,8 +102,8 @@
             <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
               <span class="material-symbols-outlined text-3xl">check_circle</span>
               <div>
-                <h3 class="font-bold text-lg">¡Gracias por participar!</h3>
-                <p class="text-sm opacity-80">Ya has enviado tus respuestas. Ahora puedes ver las conclusiones de tus compañeros.</p>
+                <h3 class="font-bold text-2xl">¡Gracias por participar!</h3>
+                <p class="text-xl opacity-80">Ya has enviado tus respuestas. Ahora puedes ver las conclusiones de tus compañeros.</p>
               </div>
             </div>
 
@@ -129,16 +129,16 @@
                       {{ obtenerIniciales(item.nombre, item.apellidos || item.email) }}
                     </div>
                     <div>
-                      <span class="text-blue-400 font-bold text-lg">
+                      <span class="text-blue-400 font-bold text-xl">
                         {{ item.nombre ? `${item.nombre} ${item.apellidos}` : item.email }}
                       </span>
                       <p class="text-gray-500 text-xs">{{ formatearFecha(item.fecha) }}</p>
                     </div>
                   </div>
-                  <span class="bg-blue-900/50 text-blue-200 text-xs px-2 py-1 rounded">Respuesta #{{ listaRespuestas.length - index }}</span>
+                  <span class="bg-blue-900/50 text-blue-200 text-xl px-2 py-1 rounded">Respuesta #{{ listaRespuestas.length - index }}</span>
                 </div>
 
-                <div class="space-y-4 text-gray-300 text-sm pl-2 border-l border-gray-700 ml-4">
+                <div class="space-y-4 text-gray-300 text-xl pl-2 border-l border-gray-700 ml-4">
                   <p><strong class="text-blue-200">1. Definición DMO:</strong> <br>{{ item.r1 }}</p>
                   <p><strong class="text-blue-200">2. Factores Salud:</strong> <br>{{ item.r2 }}</p>
 

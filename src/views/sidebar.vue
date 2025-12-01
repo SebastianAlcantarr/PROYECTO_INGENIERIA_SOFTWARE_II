@@ -1,13 +1,34 @@
 <template>
+  <!-- Botón de menú para móviles -->
+  <button 
+    @click="toggleSidebar"
+    class="md:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-slate-800/80 text-white hover:bg-slate-700 transition-colors shadow-lg"
+  >
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+
+  <!-- Overlay para móviles -->
+  <div 
+    v-if="isMobileMenuOpen"
+    @click="closeSidebar"
+    class="md:hidden fixed inset-0 bg-black/50 z-40"
+  ></div>
+
+  <!-- Sidebar -->
   <aside
-    class="fixed left-0 top-0 h-screen w-72 border-r border-slate-800 flex flex-col shadow-2xl z-50 transition-all duration-300"
+    ref="sidebar"
+    class="fixed left-0 top-0 h-screen w-80 border-r border-slate-800 flex flex-col shadow-2xl z-50 transition-all duration-300 bg-[#0f172a]"
+    :class="{
+      '-translate-x-full': !isMobileMenuOpen && isMobile,
+      'translate-x-0': isMobileMenuOpen || !isMobile
+    }"
   >
     <div class="p-2 border-t border-slate-800 bg-[#0f172a]">
       <button
         class="w-full flex items-center gap-3 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
       >
         <div
-          class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center"
+          class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center"
         >
           <span class="material-symbols-outlined text-sm">person</span>
         </div>
@@ -68,8 +89,8 @@
             <a
               v-for="(item, i) in act.items"
               :key="i"
-              @click="router.push(item.ruta)"
-              class="relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all duration-200 cursor-pointer group/item overflow-hidden"
+              @click="navigateTo(item.ruta)"
+              class="relative flex items-center gap-3 px-3 py-2.5 rounded-md text-xl transition-all duration-200 cursor-pointer group/item overflow-hidden"
               :class="
                 route.path === item.ruta
                   ? 'bg-blue-600/10 text-blue-400 font-medium'
@@ -100,8 +121,54 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import { onMounted, ref, onMounted as onMountedVue, onBeforeUnmount } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+// Estado para controlar el menú móvil
+const isMobileMenuOpen = ref(false);
+const isMobile = ref(false);
+const sidebar = ref(null);
+
+// Función para alternar el menú
+const toggleSidebar = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+// Función para cerrar el menú
+const closeSidebar = () => {
+  if (isMobile.value) {
+    isMobileMenuOpen.value = false;
+  }
+};
+
+// Verificar si es móvil
+const checkIfMobile = () => {
+  isMobile.value = window.innerWidth < 768; // md breakpoint de Tailwind
+  if (!isMobile.value) {
+    isMobileMenuOpen.value = true; // Siempre visible en escritorio
+  } else {
+    isMobileMenuOpen.value = false; // Oculto por defecto en móviles
+  }
+};
+
+// Configurar event listeners para el responsive
+onMountedVue(() => {
+  checkIfMobile();
+  window.addEventListener('resize', checkIfMobile);
+});
+
+// Limpiar event listeners
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkIfMobile);
+});
+
+// Cerrar el menú al hacer clic en un enlace
+const navigateTo = (path) => {
+  router.push(path);
+  if (isMobile.value) {
+    closeSidebar();
+  }
+};
 
 const router = useRouter();
 const route = useRoute();
@@ -161,7 +228,7 @@ async function cargarUsuario() {
   if (!email) return;
 
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/${email}`);
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/conseguir_usuario/${email}`);
     // Guarda el objeto entero
     USUARIOS.value = await res.json();
 
@@ -177,6 +244,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Transiciones suaves */
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
 /* Custom Scrollbar */
 .scrollbar-thin::-webkit-scrollbar {
   width: 4px;
