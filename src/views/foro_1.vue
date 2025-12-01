@@ -194,7 +194,7 @@ onMounted(async () => {
 async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.comverificar_foro1/${email}`);
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro1/${email}`);
     const datos = await res.json();
 
     if (datos.participo) {
@@ -277,21 +277,30 @@ function obtenerIniciales(nombre, apellidoOEmail) {
 function formatearFecha(fechaString) {
   if (!fechaString) return "";
 
+  // Crear fecha y ajustar a la zona horaria de Hermosillo
   const fecha = new Date(fechaString);
+  
+  // Obtener la diferencia de tiempo en minutos con la zona horaria local
+  const tzOffset = fecha.getTimezoneOffset();
+  // Ajustar la fecha a la zona horaria de Hermosillo (UTC-7 o UTC-6 dependiendo del horario de verano)
+  const hermosilloOffset = -7 * 60; // Aproximado, se ajustará según el horario de verano
+  const diff = tzOffset + hermosilloOffset;
+  const adjustedDate = new Date(fecha.getTime() + diff * 60 * 1000);
 
-  // Opciones para mostrar fecha y hora en Hermosillo
+  // Opciones para mostrar fecha y hora
   const opciones = {
-    timeZone: 'America/Hermosillo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
+    timeZone: 'America/Hermosillo',
+    hour12: true
   };
 
-  return fecha.toLocaleString('es-MX', opciones);
+  // Usar toLocaleString con la zona horaria específica
+  return adjustedDate.toLocaleString('es-MX', opciones);
 }
-
 
 </script>
 
