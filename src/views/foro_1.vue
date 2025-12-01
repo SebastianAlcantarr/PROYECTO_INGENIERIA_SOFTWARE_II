@@ -234,6 +234,7 @@ async function enviarRespuestas() {
         email: usuarioEmail,
         r1: r1.value, r2: r2.value, r3: r3.value,
         r4: r4.value, r5: r5.value, r6: r6.value
+
       })
     });
 
