@@ -276,9 +276,23 @@ function obtenerIniciales(nombre, apellidoOEmail) {
 
 function formatearFecha(fechaString) {
   if (!fechaString) return "";
+
   const fecha = new Date(fechaString);
-  return fecha.toLocaleDateString() + ' ' + fecha.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  // Opciones para mostrar fecha y hora en Hermosillo
+  const opciones = {
+    timeZone: 'America/Hermosillo',
+    hour: '2-digit',
+    minute: '2-digit',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  };
+
+  return fecha.toLocaleString('es-MX', opciones);
 }
+
+
 </script>
 
 <style scoped>
