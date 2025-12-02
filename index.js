@@ -6,6 +6,7 @@ import Login from '/src/views/Login.vue'
 import Foro2 from '/src/views/foro_2.vue'
 import examen from '/src/views/examen1.vue'
 import Foro_6 from "@/views/foro_6.vue";
+import Foro_3 from "@/views/foro_3.vue";
 
 
 //Definir cada ruta para cada archivo
@@ -30,6 +31,11 @@ const routes = [
         name: 'examen1',
         component: examen
 
+    },
+    {
+        path: '/foro3',
+        name: 'Foro3',
+        component: Foro_3
     },
     {
         path: '/foro6',
