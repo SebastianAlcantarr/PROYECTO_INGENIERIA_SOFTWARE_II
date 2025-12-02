@@ -227,7 +227,7 @@
 
               <div class="pt-6 border-t border-gray-700 flex justify-end">
                 <button
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 shadow-lg rounded-lg"
                 >
                   Enviar
                 </button>
