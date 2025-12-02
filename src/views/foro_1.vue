@@ -86,7 +86,7 @@
                 <button
                     @click="enviarRespuestas"
                     :disabled="enviando"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    class="bg-blue-600 hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
                   {{ enviando ? 'Guardando...' : 'Publicar' }}
@@ -194,7 +194,7 @@ onMounted(async () => {
 async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro1/${email}`);
+    const res = await fetch(`http://127.0.0.1:8000/verificar_foro1/${email}`);
     const datos = await res.json();
 
     if (datos.participo) {
@@ -227,7 +227,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro1", {
+    const respuesta = await fetch("http://127.0.0.1:8000/guardar_foro1", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -260,7 +260,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro1");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_foro1");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

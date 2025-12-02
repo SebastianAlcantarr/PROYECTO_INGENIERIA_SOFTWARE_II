@@ -17,7 +17,7 @@
   <!-- Sidebar -->
   <aside
     ref="sidebar"
-    class="fixed left-0 top-0 h-screen w-80 border-r border-slate-800 flex flex-col shadow-2xl z-50 transition-all duration-300 bg-[#0f172a]"
+    class="fixed left-0 top-0 h-screen w-100 border-r border-slate-800 flex flex-col shadow-2xl z-50 transition-all duration-300 bg-[#0f172a]"
     :class="{
       '-translate-x-full': !isMobileMenuOpen && isMobile,
       'translate-x-0': isMobileMenuOpen || !isMobile
@@ -50,7 +50,7 @@
       class="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent p-4 space-y-6"
     >
       <!-- Activities Loop -->
-      <div v-for="(act, index) in actividades" :key="index" class="group">
+      <div v-for="(act, index) in actividades" :key="index" class="group" >
         <!-- Activity Header -->
         <button
           @click="act.abierta = !act.abierta"

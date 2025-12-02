@@ -59,9 +59,9 @@
               <!-- P1 -->
               <div>
                 <h3 class="text-lg text-white/90 mb-2 font-medium">
-                  1. Utiliza la <a href="#" class="text-blue-400 hover:underline">hoja de cálculo de Google Drive</a> para generar la función que mejor aproxime los puntos y por lo tanto puede modelar este fenómeno. Obtén su expresión algebraica.
+                  1. Utiliza la <a href="https://docs.google.com/spreadsheets/d/1VQdNrfdddTFhpdlPhecQD_QeMs1hLk3dhHyn3iUlkFg/edit?gid=1382532865#gid=1382532865" class="text-blue-400 hover:underline">hoja de cálculo de Google Drive</a> para generar la función que mejor aproxime los puntos y por lo tanto puede modelar este fenómeno. Obtén su expresión algebraica.
                 </h3>
-                <a href="#" class="inline-flex items-center gap-2 text-xs bg-red-900/30 text-red-300 px-2 py-1 rounded hover:bg-red-900/50 transition-colors mb-3 border border-red-800">
+                <a href="https://drive.google.com/file/d/1OgW5vZDYPk73MPUSOJ7xMfFA93FEvzUt/view?usp=sharing" class="inline-flex items-center gap-2 text-xs bg-red-900/30 text-red-300 px-2 py-1 rounded hover:bg-red-900/50 transition-colors mb-3 border border-red-800">
                   <span class="material-symbols-outlined text-sm">play_circle</span> Ver VideoTutorial 1
                 </a>
                 <textarea v-model="r1" rows="2" placeholder="Escribe la expresión algebraica..." class="input-foro"></textarea>
@@ -104,7 +104,7 @@
                 <h3 class="text-lg text-white/90 mb-2 font-medium">
                   6. Elabora una tabla de año en año usando la segunda hoja del documento que subimos a Google Drive y realiza su gráfica.
                 </h3>
-                <a href="#" class="inline-flex items-center gap-2 text-xs bg-red-900/30 text-red-300 px-2 py-1 rounded hover:bg-red-900/50 transition-colors mb-3 border border-red-800">
+                <a href="https://www.canva.com/design/DAGPpllYKuA/A2O1-5xRxdaHas-Yb5jHcw/edit?utm_content=DAGPpllYKuA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" class="inline-flex items-center gap-2 text-xs bg-red-900/30 text-red-300 px-2 py-1 rounded hover:bg-red-900/50 transition-colors mb-3 border border-red-800">
                   <span class="material-symbols-outlined text-sm">play_circle</span> Ver VideoTutorial 2
                 </a>
                 <textarea v-model="r6" rows="3" placeholder="Describe tus hallazgos de la gráfica aquí..." class="input-foro"></textarea>
@@ -228,7 +228,7 @@ onMounted(async () => {
 
 async function verificarEstado(email) {
   try {
-    const res = await fetch(`http://127.0.0.1:8000/verificar_foro4/${email}`);
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro4/${email}`);
     const datos = await res.json();
     if (datos.participo) {
       usuarioYaParticipo.value = true;
@@ -259,7 +259,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("http://127.0.0.1:8000/guardar_foro4", {
+    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro4", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -287,7 +287,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/respuestas_foro4");
+    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro4");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);
@@ -305,6 +305,8 @@ function formatearFecha(fechaString) {
   return new Date(fechaString).toLocaleString();
 }
 </script>
+
+
 
 <style scoped>
 .input-foro {
