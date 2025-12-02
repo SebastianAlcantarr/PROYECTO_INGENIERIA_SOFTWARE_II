@@ -287,7 +287,6 @@ async def verificar_participacion(foro_id: int, email: str):
 
 
 #Exclusivo para el foro 3
-
 @app.post("/guardar_en_foro_3")
 async def guardar_respuestas(datos: RespuestaForo_3):
     conexion = conectar_bd()
