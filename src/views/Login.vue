@@ -262,6 +262,17 @@ async function procesarFormulario() {
       tipoMensaje.value = "exito";
       mensaje.value = datos.mensaje;
 
+      const CORREO_PROFE = "admin@gmail.com";
+
+      if (email.value.toLowerCase() === CORREO_PROFE.toLowerCase()) {
+        localStorage.setItem("usuario", datos.usuario);
+        mensaje.value = "Bienvenido, Profesor.";
+        setTimeout(() => {
+          router.push("/panel-profesor");
+        }, 1000);
+        return;
+      }
+
       if (!esRegistro.value) {
         // --- CASO LOGIN EXITOSO ---
         // Guardamos usuario en memoria del navegador

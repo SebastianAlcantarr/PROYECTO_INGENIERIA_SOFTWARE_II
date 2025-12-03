@@ -400,6 +400,37 @@ async def sacar_usuario(email: str):
     finally:
         conexion.close()
 
+@app.get("/lista_estudiantes")
+async def lista_estudiantes():
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+        # Traemos a todos los usuarios ordenados por apellido
+        query = "SELECT email, nombre, apellidos FROM usuarios ORDER BY apellidos ASC"
+        cursor.execute(query)
+        return cursor.fetchall()
+    finally:
+        conexion.close()
+
+@app.get("/expediente_completo/{email}")
+async def expediente_completo(email: str):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+
+        # respuestas del foro 1
+        cursor.execute("SELECT * FROM respuestas_foro1 WHERE email = %s", (email,))
+        foro1 = cursor.fetchone()
+
+        # aqui van los demas
+
+        return {
+            "foro1": foro1
+        }
+    finally:
+        conexion.close()
 
 if __name__ == "__main__":
     import uvicorn
