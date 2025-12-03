@@ -8,6 +8,7 @@ import examen from '/src/views/examen1.vue'
 import Foro_6 from "@/views/foro_6.vue";
 import Foro_3 from "@/views/foro_3.vue";
 import Foro_4 from "@/views/foro_4.vue";
+import PanelProfesor from "@/views/PanelProfesor.vue";
 
 
 //Definir cada ruta para cada archivo
@@ -42,6 +43,11 @@ const routes = [
         path: '/foro4',
         name: 'Foro4',
         component: Foro_4
+    },
+    {
+        path: '/panel-profesor',
+        name: 'PanelProfesor',
+        component: PanelProfesor
     },
     {
         path: '/foro6',

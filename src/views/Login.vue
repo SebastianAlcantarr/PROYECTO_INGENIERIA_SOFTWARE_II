@@ -241,7 +241,7 @@ async function procesarFormulario() {
   tipoMensaje.value = "";
 
   // URL de tu backend en Python (El puerto 8000 que ya tienes corriendo)
-  const urlBase = "http://127.0.0.1:8000";
+  const urlBase = "https://proyecto-ingenieria-software-6ccv.onrender.com";
   const endpoint = esRegistro.value ? "/registrar" : "/login";
 
   try {
@@ -261,6 +261,17 @@ async function procesarFormulario() {
     if (datos.exito) {
       tipoMensaje.value = "exito";
       mensaje.value = datos.mensaje;
+
+      const CORREO_PROFE = "admin@gmail.com";
+
+      if (email.value.toLowerCase() === CORREO_PROFE.toLowerCase()) {
+        localStorage.setItem("usuario", datos.usuario);
+        mensaje.value = "Bienvenido, Profesor.";
+        setTimeout(() => {
+          router.push("/panel-profesor");
+        }, 1000);
+        return;
+      }
 
       if (!esRegistro.value) {
         // --- CASO LOGIN EXITOSO ---

@@ -4,6 +4,24 @@ from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+
+
+class examen1(BaseModel):
+    email: str
+    r1: str = ""
+    r2: str = ""
+    r3: str = ""
+    r4: str = ""
+    r5: str = ""
+    r6: str = ""
+
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
 app = FastAPI()
 
 # --- CONFIGURACIÓN DE SEGURIDAD (CORS) ---
@@ -17,17 +35,20 @@ app.add_middleware(
 
 # --- MODELOS DE DATOS ---
 
+# 1. Modelo de Registro/Login actualizado
 class UsuarioRegistro(BaseModel):
     email: str
     password: str
     nombre: str = None
     apellidos: str = None
 
+# 2. Modelo para actualizar datos (por si acaso)
 class UsuarioDatos(BaseModel):
     email: str
     nombre: str
     apellidos: str
 
+# 3. Modelo genérico para las respuestas del Foro
 class RespuestasForo(BaseModel):
     email: str
     r1: str = ""
@@ -69,15 +90,6 @@ class RespuestaForo_3(BaseModel):
     t6_r7_c3: str = ""
     r7: str=""
     r8: str = ""
-
-class examen1(BaseModel):
-    email: str
-    r1: str = ""
-    r2: str = ""
-    r3: str = ""
-    r4: str = ""
-    r5: str = ""
-    r6: str = ""
 
 
 
@@ -277,7 +289,7 @@ async def verificar_participacion(foro_id: int, email: str):
     try:
         cursor = conexion.cursor()
 
-            # Verificar si el usuario ya ha participado en este foro
+        # Verificar si el usuario ya ha participado en este foro
         query = f"SELECT COUNT(*) FROM {foro['nombre']} WHERE email = %s"
         cursor.execute(query, (email,))
         resultado = cursor.fetchone()
@@ -401,9 +413,46 @@ async def sacar_usuario(email: str):
                 "email": email_usuario
 
         }
+
+
     finally:
         conexion.close()
 
+@app.get("/lista_estudiantes")
+async def lista_estudiantes():
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+        # Traemos a todos los usuarios ordenados por apellido
+        query = "SELECT email, nombre, apellidos FROM usuarios ORDER BY apellidos ASC"
+        cursor.execute(query)
+        return cursor.fetchall()
+    finally:
+        conexion.close()
+
+@app.get("/expediente_completo/{email}")
+async def expediente_completo(email: str):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+
+        # respuestas del foro 1
+        cursor.execute("SELECT * FROM respuestas_foro1 WHERE email = %s", (email,))
+        foro1 = cursor.fetchone()
+
+        # aqui van los demas
+
+        return {
+            "foro1": foro1
+        }
+    finally:
+        conexion.close()
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
 
 @app.post("/guardar_examen1")
 async def guardar_respuestas(datos: examen1):
@@ -465,14 +514,6 @@ async def verificar_participacion(email: str):
         return {"participo": ya_respondio}
     finally:
         conexion.close()
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     import uvicorn
