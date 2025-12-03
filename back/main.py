@@ -17,20 +17,17 @@ app.add_middleware(
 
 # --- MODELOS DE DATOS ---
 
-# 1. Modelo de Registro/Login actualizado
 class UsuarioRegistro(BaseModel):
     email: str
     password: str
     nombre: str = None
     apellidos: str = None
 
-# 2. Modelo para actualizar datos (por si acaso)
 class UsuarioDatos(BaseModel):
     email: str
     nombre: str
     apellidos: str
 
-# 3. Modelo genérico para las respuestas del Foro
 class RespuestasForo(BaseModel):
     email: str
     r1: str = ""
@@ -72,6 +69,15 @@ class RespuestaForo_3(BaseModel):
     t6_r7_c3: str = ""
     r7: str=""
     r8: str = ""
+
+class examen1(BaseModel):
+    email: str
+    r1: str = ""
+    r2: str = ""
+    r3: str = ""
+    r4: str = ""
+    r5: str = ""
+    r6: str = ""
 
 
 
@@ -271,7 +277,7 @@ async def verificar_participacion(foro_id: int, email: str):
     try:
         cursor = conexion.cursor()
 
-        # Verificar si el usuario ya ha participado en este foro
+            # Verificar si el usuario ya ha participado en este foro
         query = f"SELECT COUNT(*) FROM {foro['nombre']} WHERE email = %s"
         cursor.execute(query, (email,))
         resultado = cursor.fetchone()
@@ -395,10 +401,77 @@ async def sacar_usuario(email: str):
                 "email": email_usuario
 
         }
-
-
     finally:
         conexion.close()
+
+
+@app.post("/guardar_examen1")
+async def guardar_respuestas(datos: examen1):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        query = """
+                INSERT INTO examen1 (email,r1,r2,r3,r4,r5,r6)
+                VALUES (%s, %s, %s, %s, %s, %s,%s)
+                """
+        cursor.execute(query, (datos.email, datos.r1, datos.r2, datos.r3, datos.r4,datos.r5,datos.r6))
+        conexion.commit()
+        return {"mensaje": "Respuestas guardadas", "exito": True}
+    except Exception as e:
+        print(e)
+        return {"mensaje": "Error al guardar respuestas", "exito": False}
+    finally:
+        conexion.close()
+
+@app.get("/respuestas_examen1")
+async def obtener_respuestas():
+    global cursor
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+        query = """
+                SELECT r.*, u.nombre, u.apellidos
+                FROM examen1 r
+                         LEFT JOIN usuarios u ON r.email = u.email
+                ORDER BY r.fecha DESC 
+                """
+        cursor.execute(query)
+        lista = cursor.fetchall()
+        return lista
+    except Exception as e:
+        print(f"Error obteniendo respuestas: {e}")
+        conexion.rollback()
+        cursor.execute("SELECT * FROM respuestas_foro3 ORDER BY fecha DESC")
+        return cursor.fetchall()
+    finally:
+        conexion.close()
+
+@app.get("/verificar_examen1/{email}")
+async def verificar_participacion(email: str):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        # Contamos cuántas respuestas tiene este email en la tabla
+        query = "SELECT COUNT(*) FROM examen1 WHERE email = %s"
+        cursor.execute(query, (email,))
+        resultado = cursor.fetchone()
+
+        # Si el conteo es mayor a 0, es que YA respondió
+        ya_respondio = resultado[0] > 0
+
+        return {"participo": ya_respondio}
+    finally:
+        conexion.close()
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

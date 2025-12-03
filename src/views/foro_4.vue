@@ -5,12 +5,12 @@
 
     <main class="w-full ml-0 md:ml-72 flex flex-col">
       <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto max-w-5xl">
 
           <!-- titulo -->
           <section class="scroll-mt-20 mb-8">
             <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-indigo-500">
-              <h1 class="text-white text-3xl md:text-5xl font-black text-center">
+              <h1 class="text-white text-3xl md:text-3xl font-black text-center">
                 Foro 4: Análisis DMO
               </h1>
             </div>
@@ -26,14 +26,14 @@
 
             <!-- tabla -->
             <div class="bg-[#161d2b] p-6 rounded-xl shadow-xl mb-8 border border-gray-700">
-              <h2 class="text-white text-xl font-bold mb-4">Datos de Referencia</h2>
+              <h2 class="text-white text-base font-bold mb-4">Datos de Referencia</h2>
               <p class="text-gray-300 mb-6">
                 Dada la siguiente tabla de la DMO de la cadera de las mujeres y la edad:
               </p>
 
               <div class="overflow-hidden rounded-lg border border-gray-600 max-w-lg mx-auto">
                 <table class="w-full text-sm text-left text-gray-400">
-                  <thead class="text-xs text-white uppercase bg-indigo-900/50">
+                  <thead class="text-m text-white uppercase bg-indigo-900/50">
                   <tr>
                     <th class="px-6 py-3 text-center border-b border-gray-600">Edad Promedio</th>
                     <th class="px-6 py-3 text-center border-b border-gray-600">DMO Cadera</th>
@@ -58,18 +58,18 @@
 
               <!-- P1 -->
               <div>
-                <h3 class="text-lg text-white/90 mb-2 font-medium">
+                <h3 class="text-base text-white/90 mb-2 font-medium">
                   1. Utiliza la <a href="https://docs.google.com/spreadsheets/d/1VQdNrfdddTFhpdlPhecQD_QeMs1hLk3dhHyn3iUlkFg/edit?gid=1382532865#gid=1382532865" class="text-blue-400 hover:underline">hoja de cálculo de Google Drive</a> para generar la función que mejor aproxime los puntos y por lo tanto puede modelar este fenómeno. Obtén su expresión algebraica.
                 </h3>
                 <a href="https://drive.google.com/file/d/1OgW5vZDYPk73MPUSOJ7xMfFA93FEvzUt/view?usp=sharing" class="inline-flex items-center gap-2 text-xs bg-red-900/30 text-red-300 px-2 py-1 rounded hover:bg-red-900/50 transition-colors mb-3 border border-red-800">
-                  <span class="material-symbols-outlined text-sm">play_circle</span> Ver VideoTutorial 1
+                  <span class="material-symbols-outlined text-xs">play_circle</span> Ver VideoTutorial 1
                 </a>
                 <textarea v-model="r1" rows="2" placeholder="Escribe la expresión algebraica..." class="input-foro"></textarea>
               </div>
 
               <!-- P2 -->
               <div>
-                <h3 class="text-lg text-white/90 mb-3 font-medium">
+                <h3 class="text-base text-white/90 mb-3 font-medium">
                   2. Explica las consideraciones que tomaste en cuenta para elegir la función que mejor aproxima los puntos.
                 </h3>
                 <textarea v-model="r2" rows="3" placeholder="Respuesta..." class="input-foro"></textarea>
@@ -77,7 +77,7 @@
 
               <!-- P3 -->
               <div>
-                <h3 class="text-lg text-white/90 mb-3 font-medium">
+                <h3 class="text-base text-white/90 mb-3 font-medium">
                   3. La función que elegiste ¿coincide con la evolución en la DMO a lo largo de la vida? Explica ampliamente tu respuesta.
                 </h3>
                 <textarea v-model="r3" rows="3" placeholder="Respuesta..." class="input-foro"></textarea>
@@ -85,7 +85,7 @@
 
               <!-- P4 -->
               <div>
-                <h3 class="text-lg text-white/90 mb-3 font-medium">
+                <h3 class="text-base text-white/90 mb-3 font-medium">
                   4. Calcula, usando la expresión algebraica, la densidad mineral ósea para una edad aleatoria de la tabla y verifica si el resultado obtenido es consistente. ¿Es el mismo valor? ¿A qué se debe?
                 </h3>
                 <textarea v-model="r4" rows="3" placeholder="Respuesta..." class="input-foro"></textarea>
@@ -93,7 +93,7 @@
 
               <!-- P5 -->
               <div>
-                <h3 class="text-lg text-white/90 mb-3 font-medium">
+                <h3 class="text-base text-white/90 mb-3 font-medium">
                   5. Con la expresión algebraica podemos obtener el valor de la DMO para cualquier edad. Argumenta e indica ¿qué ventajas se pueden tener si completamos la tabla anterior pero ahora con intervalos más pequeños, por ejemplo, de un año en un año?
                 </h3>
                 <textarea v-model="r5" rows="3" placeholder="Respuesta..." class="input-foro"></textarea>
@@ -101,7 +101,7 @@
 
               <!-- P6 -->
               <div>
-                <h3 class="text-lg text-white/90 mb-2 font-medium">
+                <h3 class="text-base text-white/90 mb-2 font-medium">
                   6. Elabora una tabla de año en año usando la segunda hoja del documento que subimos a Google Drive y realiza su gráfica.
                 </h3>
                 <a href="https://www.canva.com/design/DAGPpllYKuA/A2O1-5xRxdaHas-Yb5jHcw/edit?utm_content=DAGPpllYKuA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" class="inline-flex items-center gap-2 text-xs bg-red-900/30 text-red-300 px-2 py-1 rounded hover:bg-red-900/50 transition-colors mb-3 border border-red-800">
@@ -112,7 +112,7 @@
 
               <!-- P7 -->
               <div>
-                <h3 class="text-lg text-white/90 mb-3 font-medium">
+                <h3 class="text-base text-white/90 mb-3 font-medium">
                   7. Argumenta ejemplificando detalladamente la siguiente afirmación:
                   <em class="block mt-2 pl-4 border-l-2 border-indigo-400 text-gray-400">
                     "Con la expresión algebraica podemos obtener el valor de la DMO para cualquier edad, es decir se puede obtener la DMO de la cadera en cualquier momento de la vida, por ejemplo, a los 38.6 años, esto indica que el fenómeno de variación es continuo y la función elegida también es continua."
@@ -143,7 +143,7 @@
             <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
               <span class="material-symbols-outlined text-3xl">check_circle</span>
               <div>
-                <h3 class="font-bold text-lg">Actividad Completada</h3>
+                <h3 class="font-bold text-base">Actividad Completada</h3>
                 <p class="text-sm opacity-80">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
               </div>
             </div>
@@ -165,7 +165,7 @@
                       {{ obtenerIniciales(item.nombre, item.email) }}
                     </div>
                     <div>
-                      <span class="text-indigo-400 font-bold text-lg">
+                      <span class="text-indigo-400 font-bold text-base">
                         {{ item.nombre ? `${item.nombre} ${item.apellidos}` : item.email }}
                       </span>
                       <p class="text-gray-500 text-xs">{{ formatearFecha(item.fecha) }}</p>

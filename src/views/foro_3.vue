@@ -7,14 +7,14 @@
 
     <main class="w-full ml-0 md:ml-72 flex flex-col">
       <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto max-w-5xl">
           <!-- titulo -->
           <section class="scroll-mt-20 mb-8">
             <div
               class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-purple-500"
             >
               <h1
-                class="text-white text-3xl md:text-5xl font-black text-center"
+                class="text-white text-3xl md:text-3xl font-black text-center"
               >
                 Foro 3. Densidad mineral ósea de la cadera de mujeres
               </h1>
@@ -25,7 +25,7 @@
           <section class="mb-8 animate-fade-in">
             <div class="">
               <div v-if="cargandoEstado" class="text-center py-10">
-                <p class="text-blue-200 text-xl animate-pulse">
+                <p class="text-blue-200 text-sm animate-pulse">
                   Verificando tu participación...
                 </p>
               </div>
@@ -34,16 +34,17 @@
                 v-else-if="!usuarioYaParticipo"
                 class="space-y-6 animate-fade-in"
               >
-                <p class="text-gray-300 text-lg mb-6 leading-relaxed">
-                  Utilizando los datos del
-                  <span class="font-bold text-white"
-                    >artículo de investigación</span
-                  >
-                  de Lee y colaboradores (2013, p. 184), se eligieron los datos
-                  de la densidad mineral ósea de la cadera (Total hip) del grupo
-                  de mujeres. La elección de la cadera se debe a que es un hueso
-                  que se fractura con mayor frecuencia en edades mayores.
-                </p>
+              <p class="text-gray-300 text-base mb-6 leading-relaxed ">
+  Utilizando los datos del
+  <a href="https://www.researchgate.net/publication/259608747_Age-Related_Changes_in_the_Prevalence_of_Osteoporosis_according_to_Gender_and_Skeletal_Site_The_Korea_National_Health_and_Nutrition_Examination_Survey_2008-2010#fullTextFileContent" class="font-bold text-purple-500 hover:text-purple-700 transition-colors duration-200 ">
+    artículo de investigación
+  </a>
+  de Lee y colaboradores (2013, p. 184), se eligieron los datos
+  de la densidad mineral ósea de la cadera (Total hip) del grupo
+  de mujeres. La elección de la cadera se debe a que es un hueso
+  que se fractura con mayor frecuencia en edades mayores.
+</p>
+
 
                 <div class="flex flex-col lg:flex-row gap-8 items-start">
                   <!-- tabla1 -->
@@ -175,7 +176,7 @@
                   style="animation-delay: 0.2s"
                 >
                   <h2
-                    class="text-white text-xl font-bold px-2 flex items-center gap-2"
+                    class="text-white text-sm font-bold px-2 flex items-center gap-2"
                   >
                     <span class="material-symbols-outlined">quiz</span>
                     Cuestionario de Análisis
@@ -186,7 +187,7 @@
                   >
                     <!-- P1 -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-3 font-medium">
+                      <h3 class="text-base text-white/90 mb-3 font-medium">
                         1. Calcula, con base en los datos de la tabla, ¿cuánto
                         cambia la densidad mineral ósea (DMO) si la edad cambia
                         15 a 25 años?
@@ -201,7 +202,7 @@
 
                     <!-- P2 -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-3 font-medium">
+                      <h3 class="text-base text-white/90 mb-3 font-medium">
                         2. Escríbelo como una razón de cambio promedio (DMO /
                         edad) y exprésalo de forma verbal.
                       </h3>
@@ -215,7 +216,7 @@
 
                     <!-- P3 -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-3 font-medium">
+                      <h3 class="text-base text-white/90 mb-3 font-medium">
                         3. En promedio por año, ¿cuánto cambia la DMO entre los
                         15 y 25 años?
                       </h3>
@@ -229,7 +230,7 @@
 
                     <!-- P4 -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-3 font-medium">
+                      <h3 class="text-base text-white/90 mb-3 font-medium">
                         4. Ubica esos valores en el gráfico de la mujer y traza
                         una línea que una esos puntos, describe la inclinación
                         de esa línea con detalle.
@@ -244,7 +245,7 @@
 
                     <!-- P5 -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-3 font-medium">
+                      <h3 class="text-base text-white/90 mb-3 font-medium">
                         5. Calcula la pendiente de la recta secante que une los
                         dos puntos (15, 0.847) y (25, 0.890). ¿Encuentras una
                         relación entre este valor y la razón promedio de cambio?
@@ -260,7 +261,7 @@
 
                     <!-- P6 TABLA -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-4 font-medium">
+                      <h3 class="text-base text-white/90 mb-4 font-medium">
                         6. Para analizar el comportamiento de la gráfica de la
                         mujer, completa la siguiente tabla:
                       </h3>
@@ -506,7 +507,7 @@
 
                     <!-- P7 -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-3 font-medium">
+                      <h3 class="text-base text-white/90 mb-3 font-medium">
                         7. ¿Qué información aporta conocer el valor de la razón
                         promedio de cambio en distintos intervalos de una
                         gráfica?
@@ -521,7 +522,7 @@
 
                     <!-- P8 -->
                     <div>
-                      <h3 class="text-lg text-white/90 mb-3 font-medium">
+                      <h3 class="text-base text-white/90 mb-3 font-medium">
                         8. Con la información de la tabla, ¿podríamos determinar
                         el valor de la DMO de una mujer de 50 años? Argumenta.
                       </h3>
@@ -566,7 +567,7 @@
               >
               <div>
                 <h3 class="font-bold text-2xl">¡Gracias por participar!</h3>
-                <p class="text-xl opacity-80">
+                <p class="text-sm opacity-80">
                   Ya has enviado tus respuestas. Ahora puedes ver las
                   conclusiones de tus compañeros.
                 </p>
@@ -607,7 +608,7 @@
                       }}
                     </div>
                     <div>
-                      <span class="text-purple-400 font-bold text-xl">
+                      <span class="text-purple-400 font-bold text-sm">
                         {{
                           item.nombre
                             ? `${item.nombre} ${item.apellidos}`
@@ -620,13 +621,13 @@
                     </div>
                   </div>
                   <span
-                    class="bg-purple-900/50 text-purple-200 text-xl px-2 py-1 rounded"
+                    class="bg-purple-900/50 text-purple-200 text-sm px-2 py-1 rounded"
                     >Respuesta #{{ listaRespuestas.length - index }}</span
                   >
                 </div>
 
                 <div
-                  class="space-y-4 text-gray-300 text-xl pl-2 border-l border-gray-700 ml-4"
+                  class="space-y-4 text-gray-300 text-sm pl-2 border-l border-gray-700 ml-4"
                 >
                   <p>
                     <strong class="text-purple-200">1.Calcula,con base los datos de la tabla</strong>

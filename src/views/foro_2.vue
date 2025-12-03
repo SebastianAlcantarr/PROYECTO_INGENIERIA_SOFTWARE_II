@@ -4,11 +4,11 @@
     <Sidebar class="hidden md:block" />
     <main class="w-full ml-0 md:ml-72 flex flex-col">
       <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto max-w-5xl">
           <!-- INTRODUCCION -->
             <section class="scroll-mt-20 mb-8" id="introduction">
             <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-green-400">
-              <h1 class="text-white text-3xl md:text-5xl font-black text-center">
+              <h1 class="text-white text-base md:text-3xl font-black text-center">
                 Foro 2. Gráfico Comparativo
               </h1>
             </div>
@@ -22,7 +22,7 @@
                     <section v-else-if="!usuarioYaParticipo" class="space-y-6 animate-fade-in">
 
                                 <section class="scroll-mt-20" id="rules">
-            <h2 class="pregunta-texto text-2xl text-white/90 mb-3 ">
+            <h2 class="pregunta-texto text-xl text-white/90 mb-3 ">
               El siguiente gráfico comparativo se elaboró a partir de los datos
               del
               <a
@@ -36,7 +36,7 @@
 
             <div class="rounded-xl overflow-hidden">
               <img
-                  class="w-full max-w-[700px] md:max-w-[800px] lg:max-w-[1000px] xl:max-w-[1400px] mx-auto object-contain"
+                  class="w-full max-w-[700px] md:max-w-[800px] lg:max-w-[1000px] xl:max-w-[900px] mx-auto object-contain"
                   src="/src/imagenes/Cadera H vs M.png"
                   alt="Grafica"
               />
@@ -54,7 +54,7 @@
 
               <!-- Pregunta 1 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   1. Describe las similitudes y diferencias que observas en las gráficas de la DMO de la cadera entre hombres y mujeres, determinando aproximadamente la edad en que se presentan.
 
                 </h3>
@@ -63,7 +63,7 @@
 
               <!-- Pregunta 2 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   2. ¿En qué etapa de la vida aumenta más la densidad mineral ósea en las mujeres? ¿Y de los hombres? ¿Cuál podría ser la causa? Justifica tu respuesta.
 
                 </h3>
@@ -72,7 +72,7 @@
 
               <!-- Pregunta 3 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   3. ¿En qué etapa de la vida disminuye más la densidad mineral ósea en las mujeres? ¿Y de los hombres? ¿A qué se debe esto? Justifica tu respuesta.
                 </h3>
                 <textarea v-model="r3" rows="3" placeholder="Tu respuesta..." class="input-foro"></textarea>
@@ -80,7 +80,7 @@
 
               <!-- Pregunta 4 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   4. ¿Habrá una edad donde la densidad mineral ósea tenga un valor máximo? Ese valor, ¿se puede ubicar en la gráfica? Justifica tu respuesta.
 
                 </h3>
@@ -89,7 +89,7 @@
 
               <!-- Pregunta 5 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                  5. Analiza la siguiente afirmación argumentando por qué consideras que el fenómeno se comporta así:
 En la gráfica anterior se observa que la densidad mineral ósea,  aumenta en los primeros años de vida (la gráfica crece) y luego, a partir de cierta edad, se comienza a perder densidad mineral ósea (la gráfica decrece). Entonces, hay una edad donde la densidad mineral ósea alcanza su valor máximo (conocido como pico de densidad mineral ósea) por lo que este fenómeno de variación (cambio) tiene un valor óptimo y es un máximo.
                 </h3>
@@ -98,7 +98,7 @@ En la gráfica anterior se observa que la densidad mineral ósea,  aumenta en lo
 
               <!-- Pregunta 6 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   6. ¿Cómo podemos verificar o encontrar la edad dónde se alcanza el valor óptimo? Lista las ideas o herramientas que nos pueden ayudar a encontrar la edad exacta donde se alcanza ese pico de masa ósea.
                 </h3>
                 <textarea v-model="r6" rows="3" placeholder="Tu respuesta..." class="input-foro"></textarea>
@@ -222,7 +222,7 @@ onMounted(async () => {
 async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro2/${email}`);
+    const res = await fetch(`http://127.0.0.1:8000/verificar_foro2/${email}`);
     const datos = await res.json();
 
     if (datos.participo) {
@@ -255,7 +255,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro2", {
+    const respuesta = await fetch("http://127.0.0.1:8000/guardar_foro2", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -288,7 +288,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro2");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_foro2");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

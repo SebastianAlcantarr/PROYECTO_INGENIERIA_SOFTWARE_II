@@ -5,12 +5,12 @@
 
     <main class="w-full ml-0 md:ml-72 flex flex-col">
       <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto max-w-5xl">
 
           <!-- TÍTULO -->
           <section class="scroll-mt-20 mb-8" id="introduction">
             <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-500">
-              <h1 class="text-white text-3xl md:text-5xl font-black text-center">
+              <h1 class="text-white text-base md:text-3xl font-black text-center">
                 Foro 1: La densidad mineral ósea
               </h1>
             </div>
@@ -18,12 +18,12 @@
 
           <!-- ESTADO DE CARGA INICIAL -->
           <div v-if="cargandoEstado" class="text-center py-10">
-            <p class="text-blue-200 text-xl animate-pulse">Verificando tu participación...</p>
+            <p class="text-blue-200 text-base animate-pulse">Verificando tu participación...</p>
           </div>
 
           <!-- MODO FORMULARIO: Solo se ve si NO ha participado -->
           <section v-else-if="!usuarioYaParticipo" class="space-y-6 animate-fade-in">
-            <h2 class="text-white text-xl font-bold px-2 flex items-center gap-2">
+            <h2 class="text-white text-base font-bold px-2 flex items-center gap-2">
               <span class="material-symbols-outlined">edit_note</span>
               Tu Turno: Investiga y responde
             </h2>
@@ -32,7 +32,7 @@
 
               <!-- Pregunta 1 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   1.- Explica en qué consiste la densidad mineral ósea (DMO) y cómo se mide.
                 </h3>
                 <textarea v-model="r1" rows="3" placeholder="Escribe tu análisis aquí..." class="input-foro"></textarea>
@@ -40,7 +40,7 @@
 
               <!-- Pregunta 2 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   2.- ¿Qué factores consideras que influyen en una buena salud ósea?
                 </h3>
                 <textarea v-model="r2" rows="3" placeholder="Tu respuesta..." class="input-foro"></textarea>
@@ -48,7 +48,7 @@
 
               <!-- Pregunta 3 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   3.- ¿Relación entre edad y DMO? Justifica.
                 </h3>
                 <textarea v-model="r3" rows="3" placeholder="Tu respuesta..." class="input-foro"></textarea>
@@ -56,7 +56,7 @@
 
               <!-- Pregunta 4 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   4.- ¿Cómo evoluciona la DMO a lo largo de la vida?
                 </h3>
                 <textarea v-model="r4" rows="3" placeholder="Tu respuesta..." class="input-foro"></textarea>
@@ -64,7 +64,7 @@
 
               <!-- Pregunta 5 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   5.- ¿Se puede saber la edad aproximada dado un valor de DMO?
                 </h3>
                 <textarea v-model="r5" rows="3" placeholder="Tu respuesta..." class="input-foro"></textarea>
@@ -72,7 +72,7 @@
 
               <!-- Pregunta 6 -->
               <div>
-                <h3 class="pregunta-texto text-xl text-white/90 mb-3">
+                <h3 class="pregunta-texto text-base text-white/90 mb-3">
                   6.- ¿Diferencias entre esqueleto femenino y masculino?
                 </h3>
                 <textarea v-model="r6" rows="3" placeholder="Tu respuesta..." class="input-foro"></textarea>
@@ -102,13 +102,13 @@
             <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
               <span class="material-symbols-outlined text-3xl">check_circle</span>
               <div>
-                <h3 class="font-bold text-2xl">¡Gracias por participar!</h3>
-                <p class="text-xl opacity-80">Ya has enviado tus respuestas. Ahora puedes ver las conclusiones de tus compañeros.</p>
+                <h3 class="font-bold text-xl">¡Gracias por participar!</h3>
+                <p class="text-base opacity-80">Ya has enviado tus respuestas. Ahora puedes ver las conclusiones de tus compañeros.</p>
               </div>
             </div>
 
             <!-- Lista de Respuestas (Muro) -->
-            <h2 class="text-white text-2xl font-bold mb-6 border-b border-gray-700 pb-2 flex items-center gap-2">
+            <h2 class="text-white text-base font-bold mb-6 border-b border-gray-700 pb-2 flex items-center gap-2">
               <span class="material-symbols-outlined">forum</span>
               Participaciones del Grupo
             </h2>
@@ -129,16 +129,16 @@
                       {{ obtenerIniciales(item.nombre, item.apellidos || item.email) }}
                     </div>
                     <div>
-                      <span class="text-blue-400 font-bold text-xl">
+                      <span class="text-blue-400 font-bold text-base">
                         {{ item.nombre ? `${item.nombre} ${item.apellidos}` : item.email }}
                       </span>
                       <p class="text-gray-500 text-xs">{{ formatearFecha(item.fecha) }}</p>
                     </div>
                   </div>
-                  <span class="bg-blue-900/50 text-blue-200 text-xl px-2 py-1 rounded">Respuesta #{{ listaRespuestas.length - index }}</span>
+                  <span class="bg-blue-900/50 text-blue-200 text-sm px-2 py-1 rounded">Respuesta #{{ listaRespuestas.length - index }}</span>
                 </div>
 
-                <div class="space-y-4 text-gray-300 text-xl pl-2 border-l border-gray-700 ml-4">
+                <div class="space-y-4 text-gray-300 text-sm pl-2 border-l border-gray-700 ml-4">
                   <p><strong class="text-blue-200">1. Definición DMO:</strong> <br>{{ item.r1 }}</p>
                   <p><strong class="text-blue-200">2. Factores Salud:</strong> <br>{{ item.r2 }}</p>
 
@@ -194,7 +194,7 @@ onMounted(async () => {
 async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro1/${email}`);
+    const res = await fetch(`http://127.0.0.1:8000/verificar_foro1/${email}`);
     const datos = await res.json();
 
     if (datos.participo) {
@@ -227,7 +227,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro1", {
+    const respuesta = await fetch("http://127.0.0.1:8000/guardar_foro1", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -260,7 +260,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro1");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_foro1");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

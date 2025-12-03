@@ -17,7 +17,7 @@
   <!-- Sidebar -->
   <aside
     ref="sidebar"
-    class="fixed left-0 top-0 h-screen w-100 border-r border-slate-800 flex flex-col shadow-2xl z-50 transition-all duration-300 bg-[#0f172a]"
+    class="fixed left-0 top-0 h-screen w-72 border-r border-slate-800 flex flex-col shadow-2xl z-50 transition-all duration-300 bg-[#0f172a]"
     :class="{
       '-translate-x-full': !isMobileMenuOpen && isMobile,
       'translate-x-0': isMobileMenuOpen || !isMobile
@@ -28,15 +28,15 @@
         class="w-full flex items-center gap-3 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
       >
         <div
-          class="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center"
+          class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center"
         >
           <span class="material-symbols-outlined text-sm">person</span>
         </div>
 
         <div v-if="USUARIOS" class="flex flex-col items-start">
-          <span class="text-2xl font-medium text-white">{{ USUARIOS.nombre }}</span>
+          <span class="text-sm font-medium text-white">{{ USUARIOS.nombre }}</span>
 
-          <span class="text-xl text-slate-400">{{ USUARIOS.apellidos }}</span>
+          <span class="text-sm text-slate-400">{{ USUARIOS.apellidos }}</span>
         </div>
 
         <div v-else>
@@ -47,7 +47,7 @@
 
     <!-- Scrollable Content -->
     <div
-      class="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent p-4 space-y-6"
+      class=""
     >
       <!-- Activities Loop -->
       <div v-for="(act, index) in actividades" :key="index" class="group" >
@@ -62,7 +62,7 @@
               :class="act.abierta ? 'text-blue-400' : ''"
               >{{ act.icon }}</span
             >
-            <span class="font-mono text-2xl tracking-wide">{{
+            <span class="font-mono text-lg tracking-wide">{{
               act.nombre
             }}</span>
           </div>
@@ -90,7 +90,7 @@
               v-for="(item, i) in act.items"
               :key="i"
               @click="navigateTo(item.ruta)"
-              class="relative flex items-center gap-3 px-3 py-2.5 rounded-md text-xl transition-all duration-200 cursor-pointer group/item overflow-hidden"
+              class="relative flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-all duration-200 cursor-pointer group/item overflow-hidden"
               :class="
                 route.path === item.ruta
                   ? 'bg-blue-600/10 text-blue-400 font-medium'
