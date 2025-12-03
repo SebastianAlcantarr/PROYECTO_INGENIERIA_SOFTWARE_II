@@ -506,7 +506,6 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import Sidebar from "@/views/sidebar.vue";
-import axios from "axios";
 
 const preguntas = ref([
   {

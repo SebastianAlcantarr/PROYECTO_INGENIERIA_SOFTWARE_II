@@ -93,6 +93,74 @@
             </div>
           </div>
 
+          <!-- TARJETA FORO 2 -->
+          <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg mt-6">
+            <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f2')">
+              <h3 class="font-bold text-lg flex items-center gap-2 text-green-200">
+                <span class="material-symbols-outlined text-green-500">bar_chart</span>
+                Foro 2: Gráfico Comparativo
+              </h3>
+              <div class="flex items-center gap-3">
+                <span class="text-xs px-2 py-1 rounded font-bold" :class="expediente.foro2 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'">
+                  {{ expediente.foro2 ? 'Completado' : 'Sin entregar' }}
+                </span>
+                <span class="material-symbols-outlined text-gray-400 transition-transform" :class="expandido.f2 ? 'rotate-180' : ''">expand_more</span>
+              </div>
+            </div>
+
+            <div v-if="expediente.foro2 && expandido.f2" class="p-6 space-y-6 text-sm text-gray-300 border-t border-gray-700">
+              <div class="grid gap-6">
+                <div><strong class="text-green-300 block mb-1 text-base">1. Análisis del gráfico:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro2.r1 }}</p></div>
+                <div><strong class="text-green-300 block mb-1 text-base">2. Comparativa visual:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro2.r2 }}</p></div>
+                <div><strong class="text-green-300 block mb-1 text-base">3. Tendencias observadas:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro2.r3 }}</p></div>
+                <div><strong class="text-green-300 block mb-1 text-base">4. Puntos críticos:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro2.r4 }}</p></div>
+                <div><strong class="text-green-300 block mb-1 text-base">5. Conclusiones:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro2.r5 }}</p></div>
+                <div><strong class="text-green-300 block mb-1 text-base">6. Reflexión final:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro2.r6 }}</p></div>
+              </div>
+              <p class="text-xs text-gray-500 mt-4 border-t border-gray-700 pt-2 text-right">
+                Entregado el: {{ new Date(expediente.foro2.fecha).toLocaleString() }}
+              </p>
+            </div>
+          </div>
+
+          <!-- TARJETA FORO 3 -->
+          <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg mt-6">
+            <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f3')">
+              <h3 class="font-bold text-lg flex items-center gap-2 text-purple-200">
+                <span class="material-symbols-outlined text-purple-500">accessibility_new</span>
+                Foro 3: DMO Cadera
+              </h3>
+              <div class="flex items-center gap-3">
+                <span class="text-xs px-2 py-1 rounded font-bold" :class="expediente.foro3 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'">
+                  {{ expediente.foro3 ? 'Completado' : 'Sin entregar' }}
+                </span>
+                <span class="material-symbols-outlined text-gray-400 transition-transform" :class="expandido.f3 ? 'rotate-180' : ''">expand_more</span>
+              </div>
+            </div>
+
+            <div v-if="expediente.foro3 && expandido.f3" class="p-6 space-y-6 text-sm text-gray-300 border-t border-gray-700">
+              <div class="grid gap-6">
+                <div><strong class="text-purple-300 block mb-1 text-base">1. Cambio DMO (15-25 años):</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro3.r1 }}</p></div>
+                <div><strong class="text-purple-300 block mb-1 text-base">2. Razón de cambio promedio:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro3.r2 }}</p></div>
+                <div><strong class="text-purple-300 block mb-1 text-base">3. Cambio promedio por año:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro3.r3 }}</p></div>
+                <div><strong class="text-purple-300 block mb-1 text-base">4. Ubicación en gráfico:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro3.r4 }}</p></div>
+                <div><strong class="text-purple-300 block mb-1 text-base">5. Pendiente recta secante:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro3.r5 }}</p></div>
+
+                <!-- Nota: La tabla de la pregunta 6 es muy grande, así que mostramos un resumen o solo las preguntas de texto -->
+                <div class="bg-gray-800/50 p-3 rounded border border-gray-700">
+                  <strong class="text-purple-300 block mb-1">6. Tabla de Análisis:</strong>
+                  <p class="text-xs text-gray-400 italic">Los datos de la tabla se encuentran almacenados en la base de datos.</p>
+                </div>
+
+                <div><strong class="text-purple-300 block mb-1 text-base">7. Información razón promedio:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro3.r7 }}</p></div>
+                <div><strong class="text-purple-300 block mb-1 text-base">8. Determinar valor a los 50 años:</strong> <p class="bg-gray-900/50 p-3 rounded">{{ expediente.foro3.r8 }}</p></div>
+              </div>
+              <p class="text-xs text-gray-500 mt-4 border-t border-gray-700 pt-2 text-right">
+                Entregado el: {{ new Date(expediente.foro3.fecha).toLocaleString() }}
+              </p>
+            </div>
+          </div>
+
           <!-- TARJETA FORO 4 (7 Preguntas) -->
           <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg">
             <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f4')">
@@ -142,7 +210,7 @@ const expediente = ref({});
 const cargandoExpediente = ref(false);
 
 // Control de acordeón
-const expandido = ref({ f1: false, f4: false });
+const expandido = ref({ f1: false, f2: false, f3: false, f4: false });
 
 function toggle(seccion) {
   expandido.value[seccion] = !expandido.value[seccion];
@@ -150,7 +218,7 @@ function toggle(seccion) {
 
 onMounted(async () => {
   try {
-    const res = await fetch('https://proyecto-ingenieria-software-6ccv.onrender.com/lista_estudiantes');
+    const res = await fetch('http://127.0.0.1:8000/lista_estudiantes');
     estudiantes.value = await res.json();
   } catch (e) {
     console.error(e);
@@ -163,10 +231,10 @@ async function cargarExpediente(alumno) {
   seleccionado.value = alumno;
   cargandoExpediente.value = true;
   // Reseteamos acordeones para que se abran al seleccionar nuevo alumno
-  expandido.value = { f1: true, f4: true };
+  expandido.value = { f1: true, f2: true, f3: true, f4: true };
 
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/expediente_completo/${alumno.email}`);
+    const res = await fetch(`http://127.0.0.1:8000/expediente_completo/${alumno.email}`);
     expediente.value = await res.json();
   } catch (e) {
     console.error(e);

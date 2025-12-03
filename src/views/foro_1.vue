@@ -97,15 +97,14 @@
 
           <!-- MODO VISTA: Solo se ve si YA participó -->
           <section v-else class="animate-fade-in">
-
-            <!-- Aviso de "Ya cumpliste" -->
             <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
               <span class="material-symbols-outlined text-3xl">check_circle</span>
               <div>
-                <h3 class="font-bold text-xl">¡Gracias por participar!</h3>
-                <p class="text-base opacity-80">Ya has enviado tus respuestas. Ahora puedes ver las conclusiones de tus compañeros.</p>
+                <h3 class="font-bold text-base">Actividad Completada</h3>
+                <p class="text-sm opacity-80">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
               </div>
             </div>
+
 
             <!-- Lista de Respuestas (Muro) -->
             <h2 class="text-white text-base font-bold mb-6 border-b border-gray-700 pb-2 flex items-center gap-2">
