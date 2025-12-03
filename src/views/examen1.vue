@@ -31,6 +31,7 @@
               </div>
             </div>
           </section>
+
             <div v-if="cargandoEstado" class="text-center py-10">
               <p class="text-white text-xl animate-pulse">Verificando tu participación...</p>
             </div>
