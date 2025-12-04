@@ -1,20 +1,13 @@
 <template>
-  <div
-    class="min-h-screen flex bg-gray-50 dark:bg-[rgb(16,22,34)] font-display"
-  >
+  <div class="min-h-screen flex bg-gray-50 dark:bg-[rgb(16,22,34)] font-display">
     <!-- Panel Izquierdo (Decorativo) - Sin cambios -->
-    <div
-      class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#244a76] dark:bg-slate-900 items-center justify-center"
-    >
-      <div
-        class="absolute inset-0 bg-gradient-to-br from-blue-900 to accent-indigo-600/90  mix-blend-normal"
-      ></div>
-
+    <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#244a76] dark:bg-slate-900 items-center justify-center">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/40 mix-blend-overlay"></div>
+      <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-purple-500/10 blur-3xl"></div>
 
       <div class="relative z-10 p-12 text-center">
-        <h1 class="text-4xl font-bold text-white mb-4 tracking-tight">
-          Portal de Derivadas
-        </h1>
+        <h1 class="text-4xl font-bold text-white mb-4 tracking-tight">Portal de Derivadas</h1>
         <p class="text-blue-100 text-lg max-w-md mx-auto">
           Ingresa o crea una cuenta para guardar tu progreso.
         </p>
