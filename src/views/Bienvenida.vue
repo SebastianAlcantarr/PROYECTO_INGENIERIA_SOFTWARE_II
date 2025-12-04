@@ -51,7 +51,7 @@
 
     </div>
 
-    <p class="text-gray-500 text-sm mt-8 relative z-10">Ingeniería de Software II &copy; 2024</p>
+    <p class="text-gray-500 text-sm mt-8 relative z-10">Proyecto Ingeniería de Software II 2025</p>
 
   </div>
 </template>

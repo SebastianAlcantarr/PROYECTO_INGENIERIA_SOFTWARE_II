@@ -36,7 +36,8 @@
               >
               <p class="text-gray-300 text-base mb-6 leading-relaxed ">
   Utilizando los datos del
-  <a href="https://www.researchgate.net/publication/259608747_Age-Related_Changes_in_the_Prevalence_of_Osteoporosis_according_to_Gender_and_Skeletal_Site_The_Korea_National_Health_and_Nutrition_Examination_Survey_2008-2010#fullTextFileContent" class="font-bold text-blue-700 hover:text-blue-400 transition-colors duration-200 ">
+  <a href="https://www.researchgate.net/publication/259608747_Age-Related_Changes_in_the_Prevalence_of_Osteoporosis_according_to_Gender_and_Skeletal_Site_The_Korea_National_Health_and_Nutrition_Examination_Survey_2008-2010#fullTextFileContent" class="font-bold text-blue-700 hover:text-blue-400 transition-colors duration-200 " target="_blank"
+     rel="noopener noreferrer">
     artículo de investigación
   </a>
   de Lee y colaboradores (2013, p. 184), se eligieron los datos

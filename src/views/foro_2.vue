@@ -28,6 +28,8 @@
               <a
                 class="text-blue-400 hover:text-green-900 transition-colors duration-200"
                 href="https://e-enm.org/journal/view.php?doi=10.3803/EnM.2013.28.3.180"
+                target="_blank"
+                rel="noopener noreferrer"
                 >articulo de investigacion</a
               >
               de Lee y colaboradores (2013, p. 184). El gráfico muestra los
