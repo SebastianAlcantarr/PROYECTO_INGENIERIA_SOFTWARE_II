@@ -593,12 +593,12 @@
               <div
                 v-for="(item, index) in listaRespuestas"
                 :key="index"
-                class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-purple-500 shadow-md hover:bg-[#253042] transition-colors"
+                class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-blue-700 shadow-md hover:bg-[#253042] transition-colors"
               >
                 <div class="flex justify-between items-start mb-4">
                   <div class="flex items-center gap-3">
                     <div
-                      class="h-10 w-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold"
+                      class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold"
                     >
                       {{
                         obtenerIniciales(
@@ -608,7 +608,7 @@
                       }}
                     </div>
                     <div>
-                      <span class="text-purple-400 font-bold text-sm">
+                      <span class="text-blue-400 font-bold text-sm">
                         {{
                           item.nombre
                             ? `${item.nombre} ${item.apellidos}`
@@ -621,7 +621,7 @@
                     </div>
                   </div>
                   <span
-                    class="bg-purple-900/50 text-purple-200 text-sm px-2 py-1 rounded"
+                    class="bg-blue-900/50 text-blue-200 text-sm px-2 py-1 rounded"
                     >Respuesta #{{ listaRespuestas.length - index }}</span
                   >
                 </div>
@@ -630,11 +630,11 @@
                   class="space-y-4 text-gray-300 text-sm pl-2 border-l border-gray-700 ml-4"
                 >
                   <p>
-                    <strong class="text-purple-200">1.Calcula,con base los datos de la tabla</strong>
+                    <strong class="text-blue-200">1.Calcula,con base los datos de la tabla</strong>
                     <br />{{ item.r1 }}
                   </p>
                   <p>
-                    <strong class="text-purple-200"
+                    <strong class="text-blue-200"
                       >2.Escribelo como una razon de cambio de promedio</strong
                     >
                     <br />{{ item.r2 }}
@@ -654,25 +654,25 @@
                       class="mt-2 space-y-4 pt-2 border-t border-gray-700/50 animate-fade-in"
                     >
                       <p>
-                        <strong class="text-purple-200"
+                        <strong class="text-blue-200"
                           >3.En promedio por año,</strong
                         >
                         <br />{{ item.r3 }}
                       </p>
                       <p>
-                        <strong class="text-purple-200"
+                        <strong class="text-blue-200"
                           >4.Ubica esos valores en el gráfico </strong
                         >
                         <br />{{ item.r4 }}
                       </p>
                       <p>
-                        <strong class="text-purple-200"
+                        <strong class="text-blue-200"
                           >5.Calcula la pendiente </strong
                         >
                         <br />{{ item.r5 }}
                       </p>
                        <p>
-                        <strong class="text-purple-200"
+                        <strong class="text-blue-200"
                           >6.Completar siguente tabla</strong
                         >
                       </p>
@@ -825,13 +825,13 @@
                       </div>
 
                       <p>
-                        <strong class="text-purple-200"
+                        <strong class="text-blue-200"
                           >7. Información de la razón promedio</strong
                         >
                         <br />{{ item.r7 }}
                       </p>
                       <p>
-                        <strong class="text-purple-200"
+                        <strong class="text-blue-200"
                           >8. Determinación de DMO a los 50 años</strong
                         >
                         <br />{{ item.r8 }}

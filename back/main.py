@@ -1,8 +1,12 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+import base64
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -61,7 +65,6 @@ class RespuestaForo_3(BaseModel):
 class Examen1(BaseModel):
     email: str
     r1: str = ""; r2: str = ""; r3: str = ""; r4: str = ""; r5: str = ""; r6: str = ""
-
 # ==========================================
 #            CONFIGURACIÓN BD
 # ==========================================
@@ -71,7 +74,6 @@ FOROS = [
     {"id": 1, "nombre": "respuestas_foro1", "preguntas": 6, "ruta": "foro1"},
     {"id": 2, "nombre": "respuestas_foro2", "preguntas": 6, "ruta": "foro2"},
     {"id": 4, "nombre": "respuestas_foro4", "preguntas": 7, "ruta": "foro4"},
-    {"id": 5, "nombre": "respuestas_foro5", "preguntas": 7, "ruta": "foro5"},
     {"id": 6, "nombre": "respuestas_foro6", "preguntas": 8, "ruta": "foro6"}
 ]
 
@@ -377,6 +379,8 @@ async def expediente_completo(email: str):
             "foro2": None,
             "foro3": None,
             "foro4": None,
+            "foro5": None,
+            "foro6": None,
             "examen1": None
         }
 
@@ -397,18 +401,112 @@ async def expediente_completo(email: str):
         cursor.execute("SELECT * FROM respuestas_foro3 WHERE email = %s", (email,))
         foro3 = cursor.fetchone()
 
+        cursor.execute("SELECT * FROM respuestas_foro5 WHERE email = %s", (email,))
+        foro5 = cursor.fetchone()
+
         cursor.execute("SELECT * FROM examen1 WHERE email = %s", (email,))
         examen1 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro6 WHERE email = %s", (email,))
+        foro6 = cursor.fetchone()
 
         return {
             "foro1": foro1,
             "foro2": foro2,
             "foro3": foro3,
             "foro4": foro4,
+            "foro5": foro5,
+            "foro6": foro6,
             "examen1": examen1
         }
     finally:
         conexion.close()
+
+from fastapi import Form, File, UploadFile, HTTPException
+
+from fastapi import Form, File, UploadFile
+
+from fastapi import Form, File, UploadFile
+
+@app.post("/guardar_foro5/{email}")
+async def guardar_foro5(
+    email: str,                    # <-- viene del path
+    r2: str = Form(""),
+    r3: str = Form(""),
+    r4: str = Form(""),
+    r5: str = Form(""),
+    r6: str = Form(""),
+    imagen: UploadFile = File(None)
+):
+
+    conexion = conectar_bd()
+    cursor = conexion.cursor()
+
+    contenido = await imagen.read() if imagen else None
+
+    query = """
+        INSERT INTO respuestas_foro5 (email, r2, r3, r4, r5, r6, imagen)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """
+
+    cursor.execute(query, (email, r2, r3, r4, r5, r6, contenido))
+
+    conexion.commit()
+    conexion.close()
+
+    return {"exito": True}
+
+
+
+@app.get("/verificar_en_foro_5/{email}")
+async def verificar_foro3(email: str):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("SELECT COUNT(*) FROM respuestas_foro5 WHERE email = %s", (email,))
+        return {"participo": cursor.fetchone()[0] > 0}
+    except:
+        return {"participo": False}
+    finally:
+        conexion.close()
+
+
+@app.get("/respuestas_en_foro_5")
+async def leer_foro3():
+    conexion = conectar_bd()
+    if not conexion:
+        raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("""
+            SELECT r.*, u.nombre, u.apellidos 
+            FROM respuestas_foro5 r
+            LEFT JOIN usuarios u ON r.email = u.email
+            ORDER BY r.id DESC;
+        """)
+        respuestas = cursor.fetchall()
+
+        for resp in respuestas:
+            try:
+                if resp.get('imagen'):
+                    encoded = base64.b64encode(resp['imagen']).decode('utf-8')
+                    resp['imagen_url'] = f"data:image/jpeg;base64,{encoded}"
+                    del resp['imagen']
+                else:
+                    resp['imagen_url'] = None
+            except Exception as e:
+                print("Error con imagen:", e)
+                resp['imagen_url'] = None
+
+        return respuestas
+    except Exception as e:
+        print("Error en endpoint:", e)
+        raise HTTPException(500, str(e))
+    finally:
+        conexion.close()
+
+
 
 if __name__ == "__main__":
     import uvicorn

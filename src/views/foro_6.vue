@@ -141,7 +141,7 @@
                   {{ mensaje }}
                 </p>
                 <button
-                    @click="enviarRespuestas"
+                    @click="enviar"
                     :disabled="enviando"
                     class="bg-blue-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2"
                 >
@@ -313,7 +313,7 @@ async function enviar() {
   mensaje.value = "Guardando...";
 
   try {
-    const res = await fetch(`${API_URL}/guardar_foro6`, {
+    const res = await fetch(`http://127.0.0.1:8000/guardar_foro6`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, ...form })
@@ -336,7 +336,7 @@ async function enviar() {
 
 async function cargarForo() {
   try {
-    const res = await fetch(`${API_URL}/respuestas_foro6`);
+    const res = await fetch(`http://127.0.0.1:8000/respuestas_foro6`);
     listaRespuestas.value = await res.json();
     await nextTick();
     if(window.MathJax) window.MathJax.typesetPromise();

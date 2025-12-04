@@ -11,6 +11,7 @@ import Foro_4 from "@/views/foro_4.vue";
 import PanelProfesor from "@/views/PanelProfesor.vue";
 import Bienvenida from "@/views/Bienvenida.vue";
 import PanelAlumno from "@/views/panel_alumno.vue";
+import Foro_5 from "@/views/foro_5.vue";
 
 
 //Definir cada ruta para cada archivo
@@ -70,6 +71,11 @@ const routes = [
         path: '/panel-alumno',
         name: 'PanelAlumno',
         component: PanelAlumno
+    },
+    {
+        path: '/foro5',
+        name: 'foro5',
+        component: Foro_5
     }
 ]
 

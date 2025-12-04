@@ -279,7 +279,7 @@ function formatearFecha(fechaString) {
 
   // Crear fecha y ajustar a la zona horaria de Hermosillo
   const fecha = new Date(fechaString);
-  
+
   // Obtener la diferencia de tiempo en minutos con la zona horaria local
   const tzOffset = fecha.getTimezoneOffset();
   // Ajustar la fecha a la zona horaria de Hermosillo (UTC-7 o UTC-6 dependiendo del horario de verano)
