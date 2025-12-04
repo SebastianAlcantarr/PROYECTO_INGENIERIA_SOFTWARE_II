@@ -373,52 +373,34 @@ async def lista_estudiantes():
 
 @app.get("/expediente_completo/{email}")
 async def expediente_completo(email: str):
-    if email == "admin@gmail.com":
-        return {
-            "foro1": None,
-            "foro2": None,
-            "foro3": None,
-            "foro4": None,
-            "foro5": None,
-            "foro6": None,
-            "examen1": None
-        }
-
     conexion = conectar_bd()
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor(cursor_factory=RealDictCursor)
 
-        cursor.execute("SELECT * FROM respuestas_foro1 WHERE email = %s", (email,))
-        foro1 = cursor.fetchone()
-
-        cursor.execute("SELECT * FROM respuestas_foro2 WHERE email = %s", (email,))
-        foro2 = cursor.fetchone()
-
-        cursor.execute("SELECT * FROM respuestas_foro4 WHERE email = %s", (email,))
-        foro4 = cursor.fetchone()
-
-        cursor.execute("SELECT * FROM respuestas_foro3 WHERE email = %s", (email,))
-        foro3 = cursor.fetchone()
-
-        cursor.execute("SELECT * FROM respuestas_foro5 WHERE email = %s", (email,))
-        foro5 = cursor.fetchone()
-
-        cursor.execute("SELECT * FROM examen1 WHERE email = %s", (email,))
-        examen1 = cursor.fetchone()
-
-        cursor.execute("SELECT * FROM respuestas_foro6 WHERE email = %s", (email,))
-        foro6 = cursor.fetchone()
-
-        return {
-            "foro1": foro1,
-            "foro2": foro2,
-            "foro3": foro3,
-            "foro4": foro4,
-            "foro5": foro5,
-            "foro6": foro6,
-            "examen1": examen1
+        # Lista de tablas a buscar
+        tablas = {
+            "foro1": "respuestas_foro1",
+            "foro2": "respuestas_foro2",
+            "foro3": "respuestas_foro3",
+            "foro4": "respuestas_foro4",
+            "foro5": "respuestas_foro5",
+            "foro6": "respuestas_foro6",
+            "examen1": "examen1"
         }
+
+        resultado = {}
+
+        # Buscamos en cada tabla de forma segura
+        for clave, tabla in tablas.items():
+            try:
+                cursor.execute(f"SELECT * FROM {tabla} WHERE email = %s", (email,))
+                resultado[clave] = cursor.fetchone()
+            except:
+                conexion.rollback() # Si la tabla no existe, seguimos
+                resultado[clave] = None
+
+        return resultado
     finally:
         conexion.close()
 

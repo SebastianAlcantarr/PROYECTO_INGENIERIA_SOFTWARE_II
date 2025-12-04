@@ -191,6 +191,77 @@
               </p>
             </div>
           </div>
+
+          <!-- TARJETA FORO 5: Razón de Cambio -->
+          <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg mt-6">
+            <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f5')">
+              <h3 class="font-bold text-lg flex items-center gap-2 text-orange-200">
+                <span class="material-symbols-outlined text-orange-500">trending_up</span>
+                Foro 5: Razón de Cambio
+              </h3>
+              <div class="flex items-center gap-3">
+      <span class="text-xs px-2 py-1 rounded font-bold" :class="expediente.foro5 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'">
+        {{ expediente.foro5 ? 'Completado' : 'Sin entregar' }}
+      </span>
+                <span class="material-symbols-outlined text-gray-400 transition-transform" :class="expandido.f5 ? 'rotate-180' : ''">expand_more</span>
+              </div>
+            </div>
+
+            <div v-if="expediente.foro5 && expandido.f5" class="p-6 space-y-4 text-sm text-gray-300 border-t border-gray-700">
+              <div class="grid gap-4">
+                <!-- Asumo 7 preguntas como en el config de main.py -->
+                <p><strong class="text-orange-300">P1:</strong> {{ expediente.foro5.r1 }}</p>
+                <p><strong class="text-orange-300">P2:</strong> {{ expediente.foro5.r2 }}</p>
+                <p><strong class="text-orange-300">P3:</strong> {{ expediente.foro5.r3 }}</p>
+                <details>
+                  <summary class="cursor-pointer text-gray-400 mt-2">Ver más...</summary>
+                  <div class="pl-4 pt-2 space-y-2">
+                    <p><strong class="text-orange-300">P4:</strong> {{ expediente.foro5.r4 }}</p>
+                    <p><strong class="text-orange-300">P5:</strong> {{ expediente.foro5.r5 }}</p>
+                    <p><strong class="text-orange-300">P6:</strong> {{ expediente.foro5.r6 }}</p>
+                    <p><strong class="text-orange-300">P7:</strong> {{ expediente.foro5.r7 }}</p>
+                  </div>
+                </details>
+              </div>
+              <p class="text-xs text-gray-500 mt-4 text-right">Entregado el: {{ new Date(expediente.foro5.fecha).toLocaleString() }}</p>
+            </div>
+          </div>
+
+          <!-- TARJETA FORO 6: Covariación -->
+          <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg mt-6">
+            <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f6')">
+              <h3 class="font-bold text-lg flex items-center gap-2 text-pink-200">
+                <span class="material-symbols-outlined text-pink-500">swap_horiz</span>
+                Foro 6: Covariación
+              </h3>
+              <div class="flex items-center gap-3">
+      <span class="text-xs px-2 py-1 rounded font-bold" :class="expediente.foro6 ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'">
+        {{ expediente.foro6 ? 'Completado' : 'Sin entregar' }}
+      </span>
+                <span class="material-symbols-outlined text-gray-400 transition-transform" :class="expandido.f6 ? 'rotate-180' : ''">expand_more</span>
+              </div>
+            </div>
+
+            <div v-if="expediente.foro6 && expandido.f6" class="p-6 space-y-4 text-sm text-gray-300 border-t border-gray-700">
+              <div class="grid gap-4">
+                <!-- 8 preguntas del Foro 6 -->
+                <p><strong class="text-pink-300">1. Dominio:</strong> {{ expediente.foro6.r1 }}</p>
+                <p><strong class="text-pink-300">2. Argumento:</strong> {{ expediente.foro6.r2 }}</p>
+                <details>
+                  <summary class="cursor-pointer text-gray-400 mt-2">Ver respuestas completas (3-8)...</summary>
+                  <div class="pl-4 pt-2 space-y-2">
+                    <pre class="bg-gray-900/50 p-2 rounded whitespace-pre-wrap font-sans text-xs"><strong class="text-pink-300">3. Simulador:</strong> {{ expediente.foro6.r3 }}</pre>
+                    <p><strong class="text-pink-300">4. GeoGebra:</strong> {{ expediente.foro6.r4 }}</p>
+                    <p><strong class="text-pink-300">5. Pendientes:</strong> {{ expediente.foro6.r5 }}</p>
+                    <p><strong class="text-pink-300">6. Notas:</strong> {{ expediente.foro6.r6 }}</p>
+                    <pre class="bg-gray-900/50 p-2 rounded whitespace-pre-wrap font-sans text-xs"><strong class="text-pink-300">7. Óptimo M:</strong> {{ expediente.foro6.r7 }}</pre>
+                    <p><strong class="text-pink-300">8. Óptimo H:</strong> {{ expediente.foro6.r8 }}</p>
+                  </div>
+                </details>
+              </div>
+              <p class="text-xs text-gray-500 mt-4 text-right">Entregado el: {{ new Date(expediente.foro6.fecha).toLocaleString() }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -209,7 +280,7 @@ const expediente = ref({});
 const cargandoExpediente = ref(false);
 
 // Control de acordeón
-const expandido = ref({ f1: false, f2: false, f3: false, f4: false });
+const expandido = ref({ f1: false, f2: false, f3: false, f4: false, f5: false, f6: false, e1: false });
 
 function toggle(seccion) {
   expandido.value[seccion] = !expandido.value[seccion];
@@ -230,7 +301,7 @@ async function cargarExpediente(alumno) {
   seleccionado.value = alumno;
   cargandoExpediente.value = true;
   // Reseteamos acordeones para que se abran al seleccionar nuevo alumno
-  expandido.value = { f1: true, f2: true, f3: true, f4: true };
+  expandido.value = { f1: true, f2: true, f3: true, f4: true, f5: true, f6: true, e1: true };
 
   try {
     const res = await fetch(`http://127.0.0.1:8000/expediente_completo/${alumno.email}`);
