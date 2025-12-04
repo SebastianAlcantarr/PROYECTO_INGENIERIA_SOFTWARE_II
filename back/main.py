@@ -72,7 +72,7 @@ FOROS = [
     {"id": 2, "nombre": "respuestas_foro2", "preguntas": 6, "ruta": "foro2"},
     {"id": 4, "nombre": "respuestas_foro4", "preguntas": 7, "ruta": "foro4"},
     {"id": 5, "nombre": "respuestas_foro5", "preguntas": 7, "ruta": "foro5"},
-    {"id": 6, "nombre": "respuestas_foro6", "preguntas": 7, "ruta": "foro6"}
+    {"id": 6, "nombre": "respuestas_foro6", "preguntas": 8, "ruta": "foro6"}
 ]
 
 def get_foro_config(foro_id: int):
