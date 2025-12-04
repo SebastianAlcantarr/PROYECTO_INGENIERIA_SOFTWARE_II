@@ -278,7 +278,7 @@
                       <!-- FOTO (Opcional) Mejorado -->
                       <div class="mt-6">
                         <label class="block text-sm font-medium text-gray-300 mb-3">
-                          Sube una foto de tu bosquejo (Opcional):
+                          Sube una foto de tu bosquejo
                         </label>
                         
                         <div 
