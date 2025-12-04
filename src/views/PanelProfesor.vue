@@ -65,8 +65,8 @@
           <!-- TARJETA FORO 1 (6 Preguntas) -->
           <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg">
             <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f1')">
-              <h3 class="font-bold text-lg flex items-center gap-2 text-blue-200">
-                <span class="material-symbols-outlined text-blue-500">forum</span>
+              <h3 class="font-bold text-lg flex items-center gap-2 text-blue-600">
+                <span class="material-symbols-outlined text-blue-600">forum</span>
                 Foro 1: Densidad Mineral Ósea
               </h3>
               <div class="flex items-center gap-3">
@@ -96,8 +96,8 @@
           <!-- TARJETA FORO 2 -->
           <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg mt-6">
             <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f2')">
-              <h3 class="font-bold text-lg flex items-center gap-2 text-green-200">
-                <span class="material-symbols-outlined text-green-500">bar_chart</span>
+              <h3 class="font-bold text-lg flex items-center gap-2 text-blue-500">
+                <span class="material-symbols-outlined text-blue-500">bar_chart</span>
                 Foro 2: Gráfico Comparativo
               </h3>
               <div class="flex items-center gap-3">
@@ -126,8 +126,8 @@
           <!-- TARJETA FORO 3 -->
           <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg mt-6">
             <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f3')">
-              <h3 class="font-bold text-lg flex items-center gap-2 text-purple-200">
-                <span class="material-symbols-outlined text-purple-500">accessibility_new</span>
+              <h3 class="font-bold text-lg flex items-center gap-2 text-blue-500">
+                <span class="material-symbols-outlined text-blue-500">accessibility_new</span>
                 Foro 3: DMO Cadera
               </h3>
               <div class="flex items-center gap-3">
@@ -164,8 +164,8 @@
           <!-- TARJETA FORO 4 (7 Preguntas) -->
           <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg">
             <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors" @click="toggle('f4')">
-              <h3 class="font-bold text-lg flex items-center gap-2 text-purple-200">
-                <span class="material-symbols-outlined text-purple-500">analytics</span>
+              <h3 class="font-bold text-lg flex items-center gap-2 text-blue-400">
+                <span class="material-symbols-outlined text-blue-400">analytics</span>
                 Foro 4: Análisis DMO
               </h3>
               <div class="flex items-center gap-3">
