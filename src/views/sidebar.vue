@@ -25,7 +25,8 @@
   >
     <div class="p-2 border-t border-slate-800 bg-[#0f172a]">
       <button
-        class="w-full flex items-center gap-3 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          @click="navigateTo('/panel-alumno')"
+        class="cursor-pointer w-full flex items-center gap-3 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
       >
         <div
           class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center"

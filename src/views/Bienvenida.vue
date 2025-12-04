@@ -41,7 +41,7 @@
         <div class="flex justify-end">
           <button
               @click="comenzar"
-              class="group flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white text-lg font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-blue-900/50 hover:shadow-blue-500/40 active:scale-95"
+              class="group flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white text-lg font-bold py-4 px-8 rounded-xl transition-all shadow-lg   active:scale-95"
           >
             <span>Comenzar</span>
             <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>

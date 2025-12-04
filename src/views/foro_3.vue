@@ -11,7 +11,7 @@
           <!-- titulo -->
           <section class="scroll-mt-20 mb-8">
             <div
-              class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-purple-500"
+              class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-700"
             >
               <h1
                 class="text-white text-3xl md:text-3xl font-black text-center"
@@ -36,7 +36,7 @@
               >
               <p class="text-gray-300 text-base mb-6 leading-relaxed ">
   Utilizando los datos del
-  <a href="https://www.researchgate.net/publication/259608747_Age-Related_Changes_in_the_Prevalence_of_Osteoporosis_according_to_Gender_and_Skeletal_Site_The_Korea_National_Health_and_Nutrition_Examination_Survey_2008-2010#fullTextFileContent" class="font-bold text-purple-500 hover:text-purple-700 transition-colors duration-200 ">
+  <a href="https://www.researchgate.net/publication/259608747_Age-Related_Changes_in_the_Prevalence_of_Osteoporosis_according_to_Gender_and_Skeletal_Site_The_Korea_National_Health_and_Nutrition_Examination_Survey_2008-2010#fullTextFileContent" class="font-bold text-blue-700 hover:text-blue-400 transition-colors duration-200 ">
     artículo de investigación
   </a>
   de Lee y colaboradores (2013, p. 184), se eligieron los datos
@@ -545,7 +545,7 @@
                           class="material-symbols-outlined animate-spin"
                           >refresh</span
                         >
-                        {{ enviando ? "Guardando..." : "Publicar" }}
+                        {{ enviando ? "Guardando..." : "Enviar Respuestas" }}
                       </button>
                     </div>
                   </div>
@@ -909,7 +909,7 @@ async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
     const res = await fetch(
-      `https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_en_foro_3/${email}`
+      `http://127.0.0.1:8000/verificar_en_foro_3/${email}`
     );
     const datos = await res.json();
 
@@ -979,7 +979,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_en_foro_3", {
+    const respuesta = await fetch("http://127.0.0.1:8000/guardar_en_foro_3", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1037,7 +1037,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_en_foro_3");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_en_foro_3");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);
@@ -1095,8 +1095,8 @@ function formatearFecha(fechaString) {
 }
 .input-foro:focus {
   outline: none;
-  border-color: #a855f7; /* Color morado para diferenciar este foro */
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3);
+  border-color: #1447e6; /* Color morado para diferenciar este foro */
+  box-shadow: 0 0 0 2px rgba(20, 70, 226);
 }
 
 .input-celda {

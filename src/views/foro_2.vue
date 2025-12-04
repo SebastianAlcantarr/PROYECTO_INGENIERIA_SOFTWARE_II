@@ -7,7 +7,7 @@
         <div class="mx-auto max-w-5xl">
           <!-- INTRODUCCION -->
             <section class="scroll-mt-20 mb-8" id="introduction">
-            <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-green-400">
+            <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-800">
               <h1 class="text-white text-base md:text-3xl font-black text-center">
                 Foro 2. Gráfico Comparativo
               </h1>
@@ -26,7 +26,7 @@
               El siguiente gráfico comparativo se elaboró a partir de los datos
               del
               <a
-                class="text-green-400 hover:text-green-900 transition-colors duration-200"
+                class="text-blue-400 hover:text-green-900 transition-colors duration-200"
                 href="https://e-enm.org/journal/view.php?doi=10.3803/EnM.2013.28.3.180"
                 >articulo de investigacion</a
               >
@@ -115,7 +115,7 @@ En la gráfica anterior se observa que la densidad mineral ósea,  aumenta en lo
                     class="bg-blue-600 hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
-                  {{ enviando ? 'Guardando...' : 'Publicar' }}
+                  {{ enviando ? 'Guardando...' : 'Enviar Respuestas' }}
                 </button>
               </div>
             </div>
@@ -353,8 +353,8 @@ export default {
 }
 .input-foro:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  border-color: #193cb8;
+  box-shadow: 0 0 0 2px rgba(25, 60, 184);
 }
 
 @keyframes fadeIn {

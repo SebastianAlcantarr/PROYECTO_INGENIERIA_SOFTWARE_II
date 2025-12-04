@@ -9,7 +9,7 @@
 
           <!-- titulo -->
           <section class="scroll-mt-20 mb-8">
-            <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-indigo-500">
+            <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-600">
               <h1 class="text-white text-3xl md:text-3xl font-black text-center">
                 Foro 4: Análisis DMO
               </h1>
@@ -114,7 +114,7 @@
               <div>
                 <h3 class="text-base text-white/90 mb-3 font-medium">
                   7. Argumenta ejemplificando detalladamente la siguiente afirmación:
-                  <em class="block mt-2 pl-4 border-l-2 border-indigo-400 text-gray-400">
+                  <em class="block mt-2 pl-4 border-l-2 border-blue-600 text-gray-400">
                     "Con la expresión algebraica podemos obtener el valor de la DMO para cualquier edad, es decir se puede obtener la DMO de la cadera en cualquier momento de la vida, por ejemplo, a los 38.6 años, esto indica que el fenómeno de variación es continuo y la función elegida también es continua."
                   </em>
                 </h3>
@@ -129,7 +129,7 @@
                 <button
                     @click="enviarRespuestas"
                     :disabled="enviando"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2"
+                    class="bg-blue-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2"
                 >
                   <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
                   {{ enviando ? 'Guardando...' : 'Enviar Respuestas' }}
@@ -157,11 +157,11 @@
               <div
                   v-for="(item, index) in listaRespuestas"
                   :key="index"
-                  class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-indigo-500 shadow-md"
+                  class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-blue-600 shadow-md"
               >
                 <div class="flex justify-between items-start mb-4">
                   <div class="flex items-center gap-3">
-                    <div class="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
+                    <div class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
                       {{ obtenerIniciales(item.nombre, item.email) }}
                     </div>
                     <div>
@@ -228,7 +228,7 @@ onMounted(async () => {
 
 async function verificarEstado(email) {
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro4/${email}`);
+    const res = await fetch(`http://127.0.0.1:8000/verificar_foro4/${email}`);
     const datos = await res.json();
     if (datos.participo) {
       usuarioYaParticipo.value = true;
@@ -259,7 +259,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro4", {
+    const respuesta = await fetch("http://127.0.0.1:8000/guardar_foro4", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -287,7 +287,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro4");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_foro4");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);
@@ -320,8 +320,8 @@ function formatearFecha(fechaString) {
 }
 .input-foro:focus {
   outline: none;
-  border-color: #6366f1; /* Indigo-500 */
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+  border-color: #2a63cb; /* Indigo-500 */
+  box-shadow: 0 0 0 3px rgb(35, 118, 229);
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

@@ -9,7 +9,7 @@
 
           <!-- TÍTULO -->
           <section class="scroll-mt-20 mb-8" id="introduction">
-            <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-500">
+            <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-900">
               <h1 class="text-white text-base md:text-3xl font-black text-center">
                 Foro 1: La densidad mineral ósea
               </h1>
@@ -86,10 +86,10 @@
                 <button
                     @click="enviarRespuestas"
                     :disabled="enviando"
-                    class="bg-blue-600 hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    class="bg-blue-900  hover:bg-blue-500 transition-300 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
-                  {{ enviando ? 'Guardando...' : 'Publicar' }}
+                  {{ enviando ? 'Guardando...' : 'Enviar Respuestas' }}
                 </button>
               </div>
             </div>
@@ -120,7 +120,7 @@
               <div
                   v-for="(item, index) in listaRespuestas"
                   :key="index"
-                  class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-blue-500 shadow-md hover:bg-[#253042] transition-colors"
+                  class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-blue-900 shadow-md hover:bg-[#253042] transition-colors"
               >
                 <div class="flex justify-between items-start mb-4">
                   <div class="flex items-center gap-3">
@@ -316,8 +316,8 @@ function formatearFecha(fechaString) {
 }
 .input-foro:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  border-color: #1c398e;
+  box-shadow: 0 0 0 3px rgb(5, 40, 95);
 }
 
 @keyframes fadeIn {
