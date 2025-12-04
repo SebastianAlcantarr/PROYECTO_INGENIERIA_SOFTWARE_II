@@ -53,7 +53,7 @@
 
                   <div class="bg-blue-900/10 p-6 rounded-r-xl shadow-sm mt-6">
                     <div
-                      class="text-2xl text-center text-blue-200 tracking-wider my-6 bg-[#0f172a] p-6 rounded-lg border border-blue-900/50 shadow-inner overflow-x-auto math-tex"
+                      class="   text-2xl text-center text-blue-200 tracking-wider my-6 bg-[#0f172a] p-6 rounded-lg border border-blue-900/50 shadow-inner overflow-x-auto math-tex font-style: italic"
                     >
                       (DMO = −0.0001 (edad<sup>2</sup>) + 0.0076 (edad) +
                       0.7652)
