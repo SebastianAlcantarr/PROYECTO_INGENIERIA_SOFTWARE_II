@@ -338,7 +338,7 @@
 
                       <!-- P3 -->
                       <div>
-                        <h3 class="text-base text-white/90 mb-3 font-medium">
+                        <h3 class="text-base text-white/90 mb-3 font-medium mt-10">
                           4. Ubica en la tabla el valor óptimo de la DMO de la
                           cadera de las mujeres ¿cómo podemos argumentar usando
                           la razón promedio de cambio, que el valor es máximo y
