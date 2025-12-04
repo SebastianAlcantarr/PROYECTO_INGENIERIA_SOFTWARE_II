@@ -229,7 +229,7 @@ async function cargarUsuario() {
   if (!email) return;
 
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/conseguir_usuario/${email}`);
+    const res = await fetch(`http://127.0.0.1:8000/conseguir_usuario/${email}`);
     // Guarda el objeto entero
     USUARIOS.value = await res.json();
 

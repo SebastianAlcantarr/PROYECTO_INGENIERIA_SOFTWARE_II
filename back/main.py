@@ -342,7 +342,7 @@ async def verificar_examen1(email: str):
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor()
-        cursor.execute("SELECT COUNT(*) FROM examen1 WHERE email = %s", (email,))
+        cursor.execute("SELECT COUNT(*) FROM examen1 WHERE email = %s AND email != 'admin@gmail.com'", (email,))
         return {"participo": cursor.fetchone()[0] > 0}
     finally:
         conexion.close()
@@ -357,50 +357,48 @@ async def lista_estudiantes():
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor(cursor_factory=RealDictCursor)
-        cursor.execute("SELECT email, nombre, apellidos FROM usuarios ORDER BY apellidos ASC")
+        cursor.execute("""
+            SELECT email, nombre, apellidos 
+            FROM usuarios 
+            WHERE email != 'admin@gmail.com'
+            ORDER BY apellidos ASC
+        """)
         return cursor.fetchall()
     finally:
         conexion.close()
 
+
+
 @app.get("/expediente_completo/{email}")
 async def expediente_completo(email: str):
+    if email == "admin@gmail.com":
+        return {
+            "foro1": None,
+            "foro2": None,
+            "foro3": None,
+            "foro4": None,
+            "examen1": None
+        }
+
     conexion = conectar_bd()
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor(cursor_factory=RealDictCursor)
 
-        # 1. Buscamos respuestas del Foro 1
         cursor.execute("SELECT * FROM respuestas_foro1 WHERE email = %s", (email,))
         foro1 = cursor.fetchone()
 
         cursor.execute("SELECT * FROM respuestas_foro2 WHERE email = %s", (email,))
         foro2 = cursor.fetchone()
 
-        # 2. Buscamos respuestas del Foro 4
-        try:
-            cursor.execute("SELECT * FROM respuestas_foro4 WHERE email = %s", (email,))
-            foro4 = cursor.fetchone()
-            print(f"Encontrado Foro 4: {foro4 is not None}")
-        except Exception as e:
-            print(f"Error en Foro 4: {e}")
-            conexion.rollback()
-            foro4 = None
+        cursor.execute("SELECT * FROM respuestas_foro4 WHERE email = %s", (email,))
+        foro4 = cursor.fetchone()
 
-        # 3. Buscamos respuestas del Foro 3
-        try:
-            cursor.execute("SELECT * FROM respuestas_foro3 WHERE email = %s", (email,))
-            foro3 = cursor.fetchone()
-        except:
-            conexion.rollback()
-            foro3 = None
+        cursor.execute("SELECT * FROM respuestas_foro3 WHERE email = %s", (email,))
+        foro3 = cursor.fetchone()
 
-        # 4. Buscamos Examen 1
-        try:
-            cursor.execute("SELECT * FROM examen1 WHERE email = %s", (email,))
-            examen1 = cursor.fetchone()
-        except:
-            conexion.rollback()
-            examen1 = None
+        cursor.execute("SELECT * FROM examen1 WHERE email = %s", (email,))
+        examen1 = cursor.fetchone()
 
         return {
             "foro1": foro1,
