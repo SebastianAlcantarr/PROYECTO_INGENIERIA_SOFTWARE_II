@@ -281,8 +281,21 @@ async function procesarFormulario() {
 
         // Redirigimos al Foro 1 después de 1 segundo
         setTimeout(() => {
-          router.push("/foro1");
+          router.push("/bienvenida");
         }, 1000);
+
+        const yaVioBienvenida = localStorage.getItem(`visto_bienvenida_${datos.usuario}`);
+
+        setTimeout(() => {
+          if (yaVioBienvenida === 'true') {
+            // Si ya la vio, directo al foro
+            router.push("/foro1");
+          } else {
+            // Si es la primera vez, a la bienvenida
+            router.push("/bienvenida");
+          }
+        }, 1000);
+
       } else {
         // --- CASO REGISTRO EXITOSO ---
         // Cambiamos a pantalla de login para que ingrese
@@ -305,3 +318,13 @@ async function procesarFormulario() {
   }
 }
 </script>
+
+<style scoped>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+</style>
