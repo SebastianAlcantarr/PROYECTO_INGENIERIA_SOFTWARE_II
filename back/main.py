@@ -65,6 +65,16 @@ class RespuestaForo_3(BaseModel):
 class Examen1(BaseModel):
     email: str
     r1: str = ""; r2: str = ""; r3: str = ""; r4: str = ""; r5: str = ""; r6: str = ""
+
+class Examen2(BaseModel):
+        email: str
+        r1: str = ""
+        r2: str = ""
+        r3: str = ""
+        r4: str = ""
+        r5: str = ""
+        r6: str = ""
+        r7: str = ""
 # ==========================================
 #            CONFIGURACIÓN BD
 # ==========================================
@@ -371,44 +381,130 @@ async def lista_estudiantes():
 
 
 
+import base64
+
+
+
 @app.get("/expediente_completo/{email}")
 async def expediente_completo(email: str):
+    if email == "admin@gmail.com":
+        return {
+            "foro1": None,
+            "foro2": None,
+            "foro3": None,
+            "foro4": None,
+            "foro5": None,
+            "foro6": None,
+            "examen1": None,
+            "examen2": None
+        }
+
     conexion = conectar_bd()
     if not conexion: raise HTTPException(500, "Error BD")
     try:
         cursor = conexion.cursor(cursor_factory=RealDictCursor)
 
-        # Lista de tablas a buscar
-        tablas = {
-            "foro1": "respuestas_foro1",
-            "foro2": "respuestas_foro2",
-            "foro3": "respuestas_foro3",
-            "foro4": "respuestas_foro4",
-            "foro5": "respuestas_foro5",
-            "foro6": "respuestas_foro6",
-            "examen1": "examen1"
+        cursor.execute("SELECT * FROM respuestas_foro1 WHERE email = %s", (email,))
+        foro1 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro2 WHERE email = %s", (email,))
+        foro2 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro4 WHERE email = %s", (email,))
+        foro4 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro3 WHERE email = %s", (email,))
+        foro3 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro5 WHERE email = %s", (email,))
+        foro5 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM examen1 WHERE email = %s", (email,))
+        examen1 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM examen2 WHERE email = %s", (email,))
+        examen2 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro6 WHERE email = %s", (email,))
+        foro6 = cursor.fetchone()
+
+        if foro5 and "imagen" in foro5 and foro5["imagen"]:
+            foro5["imagen"] = base64.b64encode(foro5["imagen"]).decode("utf-8")
+
+        return {
+            "foro1": foro1,
+            "foro2": foro2,
+            "foro3": foro3,
+            "foro4": foro4,
+            "foro5": foro5,
+            "foro6": foro6,
+            "examen1": examen1,
+            "examen2":examen2
         }
-
-        resultado = {}
-
-        # Buscamos en cada tabla de forma segura
-        for clave, tabla in tablas.items():
-            try:
-                cursor.execute(f"SELECT * FROM {tabla} WHERE email = %s", (email,))
-                resultado[clave] = cursor.fetchone()
-            except:
-                conexion.rollback() # Si la tabla no existe, seguimos
-                resultado[clave] = None
-
-        return resultado
     finally:
         conexion.close()
 
-from fastapi import Form, File, UploadFile, HTTPException
 
-from fastapi import Form, File, UploadFile
+@app.get("/expediente_completo_alumno/{email}")
+async def expediente_completo(email: str):
+    if email == "admin@gmail.com":
+        return {
+            "foro1": None,
+            "foro2": None,
+            "foro3": None,
+            "foro4": None,
+            "foro5": None,
+            "foro6": None,
+            "examen1": None,
+            "examen2": None
+        }
 
-from fastapi import Form, File, UploadFile
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+
+        cursor.execute("SELECT * FROM respuestas_foro1 WHERE email = %s", (email,))
+        foro1 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro2 WHERE email = %s", (email,))
+        foro2 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro4 WHERE email = %s", (email,))
+        foro4 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro3 WHERE email = %s", (email,))
+        foro3 = cursor.fetchone()
+
+        cursor.execute("SELECT r3 FROM respuestas_foro5 WHERE email = %s", (email,))
+        foro5 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM examen1 WHERE email = %s", (email,))
+        examen1 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM examen2 WHERE email = %s", (email,))
+        examen2 = cursor.fetchone()
+
+        cursor.execute("SELECT * FROM respuestas_foro6 WHERE email = %s", (email,))
+        foro6 = cursor.fetchone()
+
+        if foro5 and "imagen" in foro5 and foro5["imagen"]:
+            foro5["imagen"] = base64.b64encode(foro5["imagen"]).decode("utf-8")
+
+        return {
+            "foro1": foro1,
+            "foro2": foro2,
+            "foro3": foro3,
+            "foro4": foro4,
+            "foro5": foro5,
+            "foro6": foro6,
+            "examen1": examen1,
+            "examen2":examen2
+        }
+    finally:
+        conexion.close()
+
+
 
 @app.post("/guardar_foro5/{email}")
 async def guardar_foro5(
@@ -487,6 +583,48 @@ async def leer_foro3():
         raise HTTPException(500, str(e))
     finally:
         conexion.close()
+
+        # ==========================================
+        #            EXAMEN 2
+        # ==========================================
+
+        @app.post("/guardar_examen2")
+        async def guardar_examen1(datos: Examen2):
+            conexion = conectar_bd()
+            if not conexion: raise HTTPException(500, "Error BD")
+            try:
+                cursor = conexion.cursor()
+                query = "INSERT INTO examen1 (email,r1,r2,r3,r4,r5,r6,r7) VALUES (%s, %s, %s, %s, %s, %s,%s,%s)"
+                cursor.execute(query, (datos.email, datos.r1, datos.r2, datos.r3, datos.r4, datos.r5, datos.r6,datos.r7))
+                conexion.commit()
+                return {"mensaje": "Guardado", "exito": True}
+            finally:
+                conexion.close()
+
+        @app.get("/respuestas_examen2")
+        async def leer_examen1():
+            conexion = conectar_bd()
+            if not conexion: raise HTTPException(500, "Error BD")
+            try:
+                cursor = conexion.cursor(cursor_factory=RealDictCursor)
+                cursor.execute(
+                    "SELECT r.*, u.nombre, u.apellidos FROM examen2 r LEFT JOIN usuarios u ON r.email = u.email ORDER BY r.fecha DESC")
+                return cursor.fetchall()
+            finally:
+                conexion.close()
+
+        @app.get("/verificar_examen2/{email}")
+        async def verificar_examen1(email: str):
+            conexion = conectar_bd()
+            if not conexion: raise HTTPException(500, "Error BD")
+            try:
+                cursor = conexion.cursor()
+                cursor.execute("SELECT COUNT(*) FROM examen2 WHERE email = %s AND email != 'admin@gmail.com'", (email,))
+                return {"participo": cursor.fetchone()[0] > 0}
+            finally:
+                conexion.close()
+
+
 
 
 

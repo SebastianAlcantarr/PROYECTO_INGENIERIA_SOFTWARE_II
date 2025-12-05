@@ -30,7 +30,6 @@
                 </p>
               </div>
 
-
               <section
                 v-else-if="!usuarioYaParticipo"
                 class="space-y-6 animate-fade-in"
@@ -281,8 +280,8 @@
                         <label class="block text-sm font-medium text-gray-300 mb-3">
                           Sube una foto de tu bosquejo
                         </label>
-                        
-                        <div 
+
+                        <div
                           @dragover.prevent="isDragging = true"
                           @dragleave.prevent="isDragging = false"
                           @drop.prevent="handleDrop"
@@ -307,12 +306,12 @@
                           <!-- Vista previa -->
                           <div v-else class="space-y-4">
                             <div class="relative mx-auto max-w-xs">
-                              <img 
-                                :src="preview" 
-                                alt="Vista previa del bosquejo" 
+                              <img
+                                :src="preview"
+                                alt="Vista previa del bosquejo"
                                 class="max-h-64 w-auto mx-auto rounded-lg shadow-md border border-gray-600"
                               >
-                              <button 
+                              <button
                                 @click.stop="removePhoto"
                                 class="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-1.5 shadow-lg hover:bg-red-600 transition-colors"
                                 title="Eliminar imagen"
@@ -415,12 +414,14 @@
 
           <!-- Sección de respuestas (se muestra después de participar) -->
           <section v-if="usuarioYaParticipo" class="animate-fade-in mt-12">
-            <h2
-              class="text-2xl text-white font-bold mb-6 flex items-center gap-2"
-            >
-              <span class="material-symbols-outlined text-blue-400">group</span>
-              Participaciones del Grupo
-            </h2>
+            <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
+              <span class="material-symbols-outlined text-3xl">check_circle</span>
+              <div>
+                <h3 class="font-bold text-base">Actividad Completada</h3>
+                <p class="text-sm opacity-80">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
+              </div>
+            </div>
+
 
             <div class="grid gap-6">
               <div
@@ -511,21 +512,21 @@ const fileInput = ref(null);
 function onFileChange(e) {
   const file = e.target.files[0];
   if (!file) return;
-  
+
   // Validar tipo de archivo
   if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
     mensaje.value = 'Por favor sube una imagen JPG o PNG';
     tipoMensaje.value = 'error';
     return;
   }
-  
+
   // Validar tamaño (5MB máximo)
   if (file.size > 5 * 1024 * 1024) {
     mensaje.value = 'La imagen no debe pesar más de 5MB';
     tipoMensaje.value = 'error';
     return;
   }
-  
+
   foto.value = file;
   preview.value = URL.createObjectURL(file);
   isDragging.value = false;
@@ -653,14 +654,18 @@ function obtenerIniciales(nombre, apellidoOEmail) {
   return apellidoOEmail ? apellidoOEmail.substring(0, 2).toUpperCase() : "??";
 }
 
-function formatearFecha(f) {
-  if (!f) return "";
-  const fechaStr = f.endsWith("Z") ? f : f + "Z";
-
-  return new Date(fechaStr).toLocaleDateString('es-ES', {
-    year: 'numeric', month: 'short', day: 'numeric',
-    hour: '2-digit', minute:'2-digit', hour12: true
-  });
+function formatearFecha(fechaString) {
+  if (!fechaString) return "";
+  const fecha = new Date(fechaString);
+  const opciones = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
+  return fecha.toLocaleString("es-MX", opciones);
 }
 </script>
 
