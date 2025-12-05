@@ -654,11 +654,10 @@ async function enviarExamen() {
     if (response.data.exito) {
       usuarioYaParticipo.value = true;
       await cargarRespuestas();
-    } else {
-      alert("Error al guardar: " + response.data.mensaje);
     }
   } catch (error) {
     console.error("Error enviando examen:", error);
+    alert("Error de conexión");
   } finally {
     enviando.value = false;
   }
