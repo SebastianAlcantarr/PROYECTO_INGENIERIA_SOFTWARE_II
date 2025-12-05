@@ -194,7 +194,7 @@ async function fetchData() {
   try {
     // Fetch User Data
     const userRes = await fetch(
-      `http://127.0.0.1:8000/conseguir_usuario/${email}`
+      `https://proyecto-ingenieria-software-6ccv.onrender.com/conseguir_usuario/${email}`
     );
     if (userRes.ok) {
       userData.value = await userRes.json();
@@ -202,7 +202,7 @@ async function fetchData() {
 
     // Fetch Expediente
     const expRes = await fetch(
-      `http://127.0.0.1:8000/expediente_completo_alumno/${email}`
+      `https://proyecto-ingenieria-software-6ccv.onrender.com/expediente_completo_alumno/${email}`
     );
     if (expRes.ok) {
       expediente.value = await expRes.json();
