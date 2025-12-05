@@ -411,7 +411,6 @@
 
             <!-- preguntas -->
           </section>
-
           <!-- Sección de respuestas (se muestra después de participar) -->
           <section v-if="usuarioYaParticipo" class="animate-fade-in mt-12">
             <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
