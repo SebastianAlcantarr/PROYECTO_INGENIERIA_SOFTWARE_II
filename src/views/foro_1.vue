@@ -274,32 +274,14 @@ function obtenerIniciales(nombre, apellidoOEmail) {
   return apellidoOEmail.substring(0, 2).toUpperCase();
 }
 
-function formatearFecha(fechaString) {
-  if (!fechaString) return "";
+function formatearFecha(f) {
+  if (!f) return "";
+  const fechaStr = f.endsWith("Z") ? f : f + "Z";
 
-  // Crear fecha y ajustar a la zona horaria de Hermosillo
-  const fecha = new Date(fechaString);
-
-  // Obtener la diferencia de tiempo en minutos con la zona horaria local
-  const tzOffset = fecha.getTimezoneOffset();
-  // Ajustar la fecha a la zona horaria de Hermosillo (UTC-7 o UTC-6 dependiendo del horario de verano)
-  const hermosilloOffset = -7 * 60; // Aproximado, se ajustará según el horario de verano
-  const diff = tzOffset + hermosilloOffset;
-  const adjustedDate = new Date(fecha.getTime() + diff * 60 * 1000);
-
-  // Opciones para mostrar fecha y hora
-  const opciones = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'America/Hermosillo',
-    hour12: true
-  };
-
-  // Usar toLocaleString con la zona horaria específica
-  return adjustedDate.toLocaleString('es-MX', opciones);
+  return new Date(fechaStr).toLocaleDateString('es-ES', {
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute:'2-digit', hour12: true
+  });
 }
 
 </script>

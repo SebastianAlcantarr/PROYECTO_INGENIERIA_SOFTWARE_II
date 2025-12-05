@@ -303,9 +303,14 @@ function obtenerIniciales(nombre, email) {
   return email ? email.substring(0, 2).toUpperCase() : "?";
 }
 
-function formatearFecha(fechaString) {
-  if (!fechaString) return "";
-  return new Date(fechaString).toLocaleString();
+function formatearFecha(f) {
+  if (!f) return "";
+  const fechaStr = f.endsWith("Z") ? f : f + "Z";
+
+  return new Date(fechaStr).toLocaleDateString('es-ES', {
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute:'2-digit', hour12: true
+  });
 }
 </script>
 

@@ -350,9 +350,11 @@ function obtenerIniciales(n, e) {
 
 function formatearFecha(f) {
   if (!f) return "";
-  return new Date(f).toLocaleDateString('es-ES', {
+  const fechaStr = f.endsWith("Z") ? f : f + "Z";
+
+  return new Date(fechaStr).toLocaleDateString('es-ES', {
     year: 'numeric', month: 'short', day: 'numeric',
-    hour: '2-digit', minute:'2-digit'
+    hour: '2-digit', minute:'2-digit', hour12: true
   });
 }
 </script>

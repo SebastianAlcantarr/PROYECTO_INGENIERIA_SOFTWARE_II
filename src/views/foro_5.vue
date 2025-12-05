@@ -30,6 +30,7 @@
                 </p>
               </div>
 
+
               <section
                 v-else-if="!usuarioYaParticipo"
                 class="space-y-6 animate-fade-in"
@@ -652,18 +653,14 @@ function obtenerIniciales(nombre, apellidoOEmail) {
   return apellidoOEmail ? apellidoOEmail.substring(0, 2).toUpperCase() : "??";
 }
 
-function formatearFecha(fechaString) {
-  if (!fechaString) return "";
-  const fecha = new Date(fechaString);
-  const opciones = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  };
-  return fecha.toLocaleString("es-MX", opciones);
+function formatearFecha(f) {
+  if (!f) return "";
+  const fechaStr = f.endsWith("Z") ? f : f + "Z";
+
+  return new Date(fechaStr).toLocaleDateString('es-ES', {
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute:'2-digit', hour12: true
+  });
 }
 </script>
 

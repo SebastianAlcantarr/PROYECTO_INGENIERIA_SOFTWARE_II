@@ -126,13 +126,13 @@ En la gráfica anterior se observa que la densidad mineral ósea,  aumenta en lo
                     <section v-else class="animate-fade-in">
 
             <!-- Aviso de "Ya cumpliste" -->
-            <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
-              <span class="material-symbols-outlined text-3xl">check_circle</span>
-              <div>
-                <h3 class="font-bold text-2xl">¡Gracias por participar!</h3>
-                <p class="text-xl opacity-80">Ya has enviado tus respuestas. Ahora puedes ver las conclusiones de tus compañeros.</p>
-              </div>
-            </div>
+                      <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
+                        <span class="material-symbols-outlined text-3xl">check_circle</span>
+                        <div>
+                          <h3 class="font-bold text-base">Actividad Completada</h3>
+                          <p class="text-sm opacity-80">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
+                        </div>
+                      </div>
 
             <!-- Lista de Respuestas (Muro) -->
             <h2 class="text-white text-2xl font-bold mb-6 border-b border-gray-700 pb-2 flex items-center gap-2">
@@ -305,32 +305,14 @@ function obtenerIniciales(nombre, apellidoOEmail) {
   return apellidoOEmail.substring(0, 2).toUpperCase();
 }
 
-function formatearFecha(fechaString) {
-  if (!fechaString) return "";
+function formatearFecha(f) {
+  if (!f) return "";
+  const fechaStr = f.endsWith("Z") ? f : f + "Z";
 
-  // Crear fecha y ajustar a la zona horaria de Hermosillo
-  const fecha = new Date(fechaString);
-
-  // Obtener la diferencia de tiempo en minutos con la zona horaria local
-  const tzOffset = fecha.getTimezoneOffset();
-  // Ajustar la fecha a la zona horaria de Hermosillo (UTC-7 o UTC-6 dependiendo del horario de verano)
-  const hermosilloOffset = -7 * 60; // Aproximado, se ajustará según el horario de verano
-  const diff = tzOffset + hermosilloOffset;
-  const adjustedDate = new Date(fecha.getTime() + diff * 60 * 1000);
-
-  // Opciones para mostrar fecha y hora
-  const opciones = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'America/Hermosillo',
-    hour12: true
-  };
-
-  // Usar toLocaleString con la zona horaria específica
-  return adjustedDate.toLocaleString('es-MX', opciones);
+  return new Date(fechaStr).toLocaleDateString('es-ES', {
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute:'2-digit', hour12: true
+  });
 }
 
 </script>
