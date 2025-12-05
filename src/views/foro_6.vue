@@ -221,7 +221,7 @@
 import { ref, reactive, onMounted, nextTick } from 'vue';
 import Sidebar from "@/views/sidebar.vue";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
 const form = reactive({ r1:"", r2:"", r3:"", r4:"", r5:"", r6:"", r7:"", r8:"" });
 const mensaje = ref("");
@@ -313,7 +313,7 @@ async function enviar() {
   mensaje.value = "Guardando...";
 
   try {
-    const res = await fetch(`http://127.0.0.1:8000/guardar_foro6`, {
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro6`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, ...form })
@@ -336,7 +336,7 @@ async function enviar() {
 
 async function cargarForo() {
   try {
-    const res = await fetch(`http://127.0.0.1:8000/respuestas_foro6`);
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro6`);
     listaRespuestas.value = await res.json();
     await nextTick();
     if(window.MathJax) window.MathJax.typesetPromise();

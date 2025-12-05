@@ -312,7 +312,7 @@ function toggle(seccion) {
 
 onMounted(async () => {
   try {
-    const res = await fetch('http://127.0.0.1:8000/lista_estudiantes');
+    const res = await fetch('https://proyecto-ingenieria-software-6ccv.onrender.com/lista_estudiantes');
     estudiantes.value = await res.json();
   } catch (e) {
     console.error(e);
@@ -328,7 +328,7 @@ async function cargarExpediente(alumno) {
   expandido.value = {f1: true, f2: true, f3: true, f4: true, f5: true, f6: true, e1: true};
 
   try {
-    const res = await fetch(`http://127.0.0.1:8000/expediente_completo/${alumno.email}`);
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/expediente_completo/${alumno.email}`);
     expediente.value = await res.json();
   } catch (e) {
     console.error(e);
