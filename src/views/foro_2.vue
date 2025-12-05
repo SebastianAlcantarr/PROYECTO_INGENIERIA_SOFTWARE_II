@@ -26,7 +26,7 @@
               El siguiente gráfico comparativo se elaboró a partir de los datos
               del
               <a
-                class="text-blue-400 hover:text-green-900 transition-colors duration-200"
+                class="text-blue-400 hover:text-blue-700 transition-colors duration-200"
                 href="https://e-enm.org/journal/view.php?doi=10.3803/EnM.2013.28.3.180"
                 target="_blank"
                 rel="noopener noreferrer"

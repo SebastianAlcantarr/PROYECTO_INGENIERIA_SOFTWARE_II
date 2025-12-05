@@ -215,7 +215,7 @@ const actividades = ref([
       { nombre: "Foro 6: Covariación", ruta: "/foro6", icon: "swap_horiz" },
       {
         nombre: "Examen 2",
-        ruta: "/actividad3/examen2",
+        ruta: "/foro6/examen2",
         icon: "assignment_turned_in",
       },
     ],
