@@ -156,6 +156,7 @@ const expediente = ref({
   foro5: null,
   foro6: null,
   examen1: null,
+  examen2: null,
 });
 
 const userInitials = computed(() => {
@@ -167,10 +168,10 @@ const userInitials = computed(() => {
 const forosStatus = computed(() => [
   { id: 1, name: "Foro 1: Densidad", completed: !!expediente.value.foro1 },
   { id: 2, name: "Foro 2: Gráfico", completed: !!expediente.value.foro2 },
-  { id: 3, name: "Foro 3: DMO Cadera", completed: !!expediente.value.foro3 },
+  { id: 3, name: "Foro 3: DMO Cadera", completed: !!expediente.value.foro3 } ,
   { id: 4, name: "Foro 4: Análisis", completed: !!expediente.value.foro4 },
-  {id:4,name:"Foro 5: Razon de Cambio",completed:!!expediente.value.foro5},
-  {id:5,name:"Foro 6: Covariación",completed:!!expediente.value.foro6}
+  {id:5,name:"Foro 5: Razon de Cambio",completed:!!expediente.value.foro5},
+  {id:6,name:"Foro 6: Covariación",completed:!!expediente.value.foro6}
 ]);
 
 const examenesStatus = computed(() => [

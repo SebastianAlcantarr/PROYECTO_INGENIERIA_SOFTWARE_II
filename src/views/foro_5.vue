@@ -25,7 +25,7 @@
           <section class="mb-8 animate-fade-in">
             <div class="">
               <div v-if="cargandoEstado" class="text-center py-10">
-                <p class="text-blue-200 text-sm animate-pulse">
+                <p class="text-blue-200 text-xl animate-pulse">
                   Verificando tu participación...
                 </p>
               </div>
@@ -410,74 +410,86 @@
             </div>
 
             <!-- preguntas -->
-          </section>
-          <!-- Sección de respuestas (se muestra después de participar) -->
-          <section v-if="usuarioYaParticipo" class="animate-fade-in mt-12">
-            <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
-              <span class="material-symbols-outlined text-3xl">check_circle</span>
-              <div>
-                <h3 class="font-bold text-base">Actividad Completada</h3>
-                <p class="text-sm opacity-80">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
-              </div>
-            </div>
+            <section v-if="usuarioYaParticipo" class="animate-fade-in mt-12">
+                   <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
+    <span class="material-symbols-outlined text-3xl">check_circle</span>
+    <div>
+      <h3 class="font-bold text-base">Actividad Completada</h3>
+      <p class="text-sm opacity-80">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
+    </div>
+  </div>
+
+  <div
+    v-for="(item, index) in listaRespuestas"
+    :key="index"
+    class="bg-[#161d2b] p-6 rounded-xl border border-gray-700 shadow-lg hover:border-blue-500/50 transition-colors"
+  >
+
+    <!-- 🔹 Encabezado -->
+    <div class="flex items-center gap-4 mb-4 border-b border-gray-700 pb-4">
+      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+        {{ obtenerIniciales(item.nombre, item.email) }}
+      </div>
+      <div>
+        <h3 class="text-white font-bold text-lg">{{ item.nombre }} {{ item.apellidos }}</h3>
+        <p class="text-blue-300 text-sm">{{ formatearFecha(item.fecha) }}</p>
+      </div>
+    </div>
+
+    <!-- 🔹 Contenido de respuestas -->
+    <div class="space-y-4 text-gray-300">
+
+      <!-- Siempre visibles -->
+      <div v-if="item.r2">
+        <p class="text-sm text-gray-500 mb-1">2. Observa y describe el comportamiento de la RPC</p>
+        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r2 }}</p>
+      </div>
+
+      <div v-if="item.imagen_url">
+        <p class="text-sm text-gray-500 mb-1">3. Realiza un bosquejo de la gráfica</p>
+        <img :src="item.imagen_url" class="shadow-md max-w-full h-70 border border-gray-700" />
+      </div>
+
+      <!-- Expandibles -->
+      <details class="text-gray-400 cursor-pointer group" v-if="item.r3 || item.r4 || item.r5 || item.r6">
+        <summary class="hover:text-white list-none flex items-center gap-2 py-2">
+          <span class="material-symbols-outlined text-sm group-open:rotate-180 transition-transform">expand_more</span>
+          Ver respuestas completas...
+        </summary>
+
+        <div class="mt-2 space-y-4 pt-2 border-t border-gray-700/50 animate-fade-in">
+
+          <div v-if="item.r3">
+            <p class="text-sm text-gray-500 mb-1">4. Ubica en la tabla el valor óptimo de la DMO de la cadera de las mujeres</p>
+            <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r3 }}</p>
+          </div>
+
+          <div v-if="item.r4">
+            <p class="text-sm text-gray-500 mb-1">5. ¿El valor máximo de la DMO es igual al que habías dado en Foro 2?</p>
+            <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r4 }}</p>
+          </div>
+
+          <div v-if="item.r5">
+            <p class="text-sm text-gray-500 mb-1">6. Argumenta utilizando rectas secantes:</p>
+            <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r5 }}</p>
+          </div>
+
+          <div v-if="item.r6">
+            <p class="text-sm text-gray-500 mb-1">7. ¿Cómo encontrar la edad donde se alcanza el valor óptimo?</p>
+            <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r6 }}</p>
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+
+  </div> <!-- fin de cada tarjeta -->
+</section>
+
+</section>
 
 
-            <div class="grid gap-6">
-              <div
-                v-for="(item, index) in listaRespuestas"
-                :key="index"
-                class="bg-[#161d2b] p-6 rounded-xl border border-gray-700 shadow-lg hover:border-blue-500/50 transition-colors"
-              >
-                <div
-                  class="flex items-center gap-4 mb-4 border-b border-gray-700 pb-4"
-                >
-                  <div
-                    class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg"
-                  >
-                    {{ obtenerIniciales(item.nombre, item.email) }}
-                  </div>
-                  <div>
-                    <h3 class="text-white font-bold text-lg">
-                      {{ item.nombre }} {{ item.apellidos }}
-                    </h3>
-                    <p class="text-blue-300 text-sm">
-                      {{ formatearFecha(item.fecha) }}
-                    </p>
-                  </div>
-                </div>
-
-                <div class="space-y-4 text-gray-300">
-                  <div v-if="item.r2">
-                    <p class="text-sm text-gray-500 mb-1">2. Observa y describe el comportamiento de la RPC</p>
-                    <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r2 }}</p>
-                  </div>
-
-                  <div v-if="item.imagen_url">
-                    <p class="text-sm text-gray-500 mb-1">
-                      3. Realiza un bosquejo de la gráfica
-                    </p>
-                    <img
-                      :src="item.imagen_url"
-                      class=" shadow-md max-w-full h-70 border border-gray-700"
-                    />
-                  </div>
-
-                  <div v-if="item.r3">
-                    <p class="text-sm text-gray-500 mb-1">4. Ubica en la tabla el valor óptimo de la DMO de la cadera de las mujeres</p>
-                    <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r3 }}</p>
-                  </div>
-                  <div v-if="item.r4">
-                    <p class="text-sm text-gray-500 mb-1">5. ¿El valor máximo de la DMO es igual al que habías dado en la pregunta #4 del foro 2?</p>
-                    <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r4 }}</p>
-                  </div>
-                  <div v-if="item.r5">
-                    <p class="text-sm text-gray-500 mb-1"> 6. Argumenta, utilizando rectas secantes, la siguiente afirmación:</p>
-                    <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r5 }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
         </div>
       </div>
     </main>

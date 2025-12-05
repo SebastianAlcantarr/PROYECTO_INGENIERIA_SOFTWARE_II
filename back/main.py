@@ -613,17 +613,43 @@ async def leer_foro3():
             finally:
                 conexion.close()
 
-        @app.get("/verificar_examen2/{email}")
-        async def verificar_examen1(email: str):
-            conexion = conectar_bd()
-            if not conexion: raise HTTPException(500, "Error BD")
-            try:
-                cursor = conexion.cursor()
-                cursor.execute("SELECT COUNT(*) FROM examen2 WHERE email = %s AND email != 'admin@gmail.com'", (email,))
-                return {"participo": cursor.fetchone()[0] > 0}
-            finally:
-                conexion.close()
 
+
+
+@app.post("/guardar_examen2")
+async def guardar_examen1(datos: Examen2):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        query = "INSERT INTO examen2 (email,r1,r2,r3,r4,r5,r6,r7) VALUES (%s, %s, %s, %s, %s, %s,%s,%s)"
+        cursor.execute(query, (datos.email, datos.r1, datos.r2, datos.r3, datos.r4, datos.r5, datos.r6,datos.r7))
+        conexion.commit()
+        return {"mensaje": "Guardado", "exito": True}
+    finally:
+        conexion.close()
+
+@app.get("/respuestas_examen2")
+async def leer_examen1():
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("SELECT r.*, u.nombre, u.apellidos FROM examen2 r LEFT JOIN usuarios u ON r.email = u.email ORDER BY r.fecha DESC")
+        return cursor.fetchall()
+    finally:
+        conexion.close()
+
+@app.get("/verificar_examen2/{email}")
+async def verificar_examen1(email: str):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        cursor.execute("SELECT COUNT(*) FROM examen2 WHERE email = %s AND email != 'admin@gmail.com'", (email,))
+        return {"participo": cursor.fetchone()[0] > 0}
+    finally:
+        conexion.close()
 
 
 
