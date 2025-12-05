@@ -520,7 +520,7 @@ async function verificarEstado() {
 
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/verificar_examen2/${email}`
+      `https://proyecto-ingenieria-software-ii.onrender.com/verificar_examen2/${email}`
     );
     if (response.data.participo) {
       usuarioYaParticipo.value = true;
@@ -536,7 +536,7 @@ async function verificarEstado() {
 async function cargarRespuestas() {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/respuestas_examen2"
+      "https://proyecto-ingenieria-software-ii.onrender.com/respuestas_examen2"
     );
     listaRespuestas.value = response.data;
   } catch (error) {
@@ -647,7 +647,7 @@ async function enviarExamen() {
     };
 
     const response = await axios.post(
-      "http://127.0.0.1:8000/guardar_examen2",
+      "https://proyecto-ingenieria-software-ii.onrender.com/guardar_examen2",
       payload
     );
 
