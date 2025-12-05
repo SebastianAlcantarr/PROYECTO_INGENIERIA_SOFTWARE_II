@@ -659,7 +659,6 @@ async function enviarExamen() {
     }
   } catch (error) {
     console.error("Error enviando examen:", error);
-    alert("Error de conexión");
   } finally {
     enviando.value = false;
   }
