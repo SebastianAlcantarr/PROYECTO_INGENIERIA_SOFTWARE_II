@@ -51,11 +51,12 @@
 
 
             <div v-if="mostrarInformacion" class="animate-fade-in space-y-6">
-              <img
-                src="/src/imagenes/Grafica.png"
-                alt="Gráfico de Densidad Mineral Ósea"
-                class="mx-auto w-1/2 p-5"
-              />
+                           <img
+  :src="Grafica"
+  alt="Gráfico de Densidad Mineral Ósea"
+  class="mx-auto w-150 p-5"
+/>
+
               <div class="pregunta-texto text-base text-white/90 mb-3">
                 La densidad ósea, también conocida como densidad mineral ósea
                 (DMO), se refiere a la cantidad de tejido óseo presente en la
@@ -83,11 +84,12 @@
                   el volumen del hueso funcionan o no.
                 </div>
 
-                <img
-                  src="/src/imagenes/rango.jpg"
-                  alt="Gráfico de Densidad Mineral Ósea"
-                  class="mx-auto w-90 p-5"
-                />
+              <img
+  :src="rango"
+  alt="Gráfico de Densidad Mineral Ósea"
+  class="mx-auto w-90 p-5"
+/>
+
                 <div>
                   La prueba de densidad mineral ósea conocida como DEX o DEXA (o
                   como BMDT, por sus siglas en inglés) mide el contenido de
@@ -355,6 +357,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Sidebar from "@/views/sidebar.vue";
+import rango from "@/imagenes/rango.jpg"
+import Grafica from "@/imagenes/Grafica.png"
 
 // Variables reactivas
 const r1 = ref("");

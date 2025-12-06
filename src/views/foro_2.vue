@@ -38,11 +38,11 @@
                       <div class="text-white text-2xl md:text-3xl font-black mt-5">
                   Modelación de la Situación Problema
                 </div>
-              <img
-                src="/src/imagenes/foro2.png"
-                alt="Gráfico de Densidad Mineral Ósea"
-                class="mx-auto w-250 p-5"
-              />
+                                       <img
+  :src="foro2"
+  alt="Gráfico de Densidad Mineral Ósea"
+  class="mx-auto w-200 p-5"
+/>
               <div class="pregunta-texto text-base text-white/90 mb-3">
                 Las graficas anteriores obtenidas del artículo: Cambios relacionados con la edad en la prevalencia de la osteoporosis según el género y la zona esquelética: Encuesta nacional de examen de salud y nutrición de Corea 2008-20101,muestran los cambios en la densidad mineral ósea, entre los 10 y los 89 años de la espina lumbar, la cadera y el femur (específicamente el cuello femoral) de 17,205 coreanos (7,837 hombres y 9,368 mujeres) como indicadores de la salud ósea.
                 <div class="mt-5">
@@ -246,6 +246,8 @@ En la gráfica anterior se observa que la densidad mineral ósea,  aumenta en lo
 <script setup>
 import { ref, onMounted } from 'vue';
 import Sidebar from "@/views/sidebar.vue";
+import foro2 from "@/imagenes/foro2.png"
+import Grafica from "@/imagenes/Grafica.png";
 
 // Variables reactivas
 const r1 = ref(""); const r2 = ref(""); const r3 = ref("");
