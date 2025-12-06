@@ -9,7 +9,7 @@
             <section class="scroll-mt-20 mb-8" id="introduction">
             <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-800">
               <h1 class="text-white text-base md:text-3xl font-black text-center">
-                Foro 2. Gráfico Comparativo
+                Densidad mineral ósea entre hombres y mujeres
               </h1>
             </div>
           </section>
@@ -36,7 +36,7 @@
               </button>
                    <div v-if="mostrarInformacion" class="animate-fade-in space-y-6">
                       <div class="text-white text-2xl md:text-3xl font-black mt-5">
-                  Modelación de la Situación Problema
+                  Modelación del problema
                 </div>
                                        <img
   :src="foro2"
@@ -64,9 +64,13 @@
             <section class="scroll-mt-20" id="rules">
 
 
-               <div class="pregunta-texto text-3xl text-white/90 mb-10 mt-15" >
-                Preguntas  Foro 2
+              <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-800">
+                <h1 class="text-white text-base md:text-3xl font-black text-center">
+                  Foro 2: Gráfico comparativo
+                </h1>
               </div>
+
+              <br>
 
             <h2 class="pregunta-texto text-xl text-white/90 mb-3 ">
               El siguiente gráfico comparativo se elaboró a partir de los datos

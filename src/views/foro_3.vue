@@ -16,7 +16,7 @@
               <h1
                 class="text-white text-3xl md:text-3xl font-black text-center"
               >
-                Foro 3. Densidad mineral ósea de la cadera de mujeres
+                Relación entre edad y DMO
               </h1>
             </div>
           </section>
@@ -60,9 +60,15 @@
               </div>
             </div>
             </div>
-<div class="pregunta-texto text-3xl text-white/90 mb-10 mt-15" >
-                Preguntas  Foro 3
-              </div>
+                  <div
+                      class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-700"
+                  >
+                    <h1
+                        class="text-white text-3xl md:text-3xl font-black text-center"
+                    >
+                      Foro 3: Densidad mineral ósea de la cadera de mujeres
+                    </h1>
+                  </div>
             </div>
               <p class="text-gray-300 text-base mb-6 leading-relaxed ">
   Utilizando los datos del

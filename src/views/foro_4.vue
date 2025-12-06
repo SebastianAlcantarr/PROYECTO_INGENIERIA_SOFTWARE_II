@@ -23,24 +23,11 @@
 
           <!-- si no ha participado -->
           <section v-else-if="!usuarioYaParticipo" class="animate-fade-in">
-            <div class="text-white text-2xl md:text-3xl font-black ">
-
-Generalizando la razón instantánea de cambio
-                </div>
-              <div class="pregunta-texto text-base text-white/90 mb-3">
-                <div class="mt-5 mb-5">
-                 Hasta ahora, hemos utilizado la razón promedio de cambio como una herramienta para modelar el comportamiento de un gráfico y mostrar la relación de cambio entre dos valores consecutivos. En las actividades que siguen, buscaremos desarrollar una estrategia más precisa que nos permita obtener información más detallada sobre el comportamiento de una función que representa un problema.
-Esto nos facilitará determinar el valor máximo o mínimo con mayor precisión y describir el comportamiento de cualquier función en general. Así, podremos realizar predicciones o implementar mejoras con el objetivo de optimizar o eficientar algún fenómeno en estudio.
-                </div>
-
-              </div>
-
-
             <!-- tabla -->
             <div class="bg-[#161d2b] p-6 rounded-xl shadow-xl mb-8 border border-gray-700">
               <h2 class="text-white text-base font-bold mb-4">Datos de Referencia</h2>
               <p class="text-gray-300 mb-6">
-                Dada la siguiente tabla de la DMO de la cadera de las mujeres y la edad:
+                Dada la siguiente tabla de la DMO de la cadera de las mujeres y la edad, responde las preguntas correspondientes:
               </p>
 
               <div class="overflow-hidden rounded-lg border border-gray-600 max-w-lg mx-auto">
