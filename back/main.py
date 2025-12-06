@@ -75,6 +75,12 @@ class Examen2(BaseModel):
         r5: str = ""
         r6: str = ""
         r7: str = ""
+
+class FeedbackData(BaseModel):
+    email_alumno: str
+    actividad: str
+    comentario: str
+
 # ==========================================
 #            CONFIGURACIÓN BD
 # ==========================================
@@ -651,8 +657,36 @@ async def verificar_examen1(email: str):
     finally:
         conexion.close()
 
+@app.post("/guardar_feedback")
+async def guardar_feedback(datos: FeedbackData):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor()
+        query = "INSERT INTO feedback (email_alumno, actividad, comentario) VALUES (%s, %s, %s)"
+        cursor.execute(query, (datos.email_alumno, datos.actividad, datos.comentario))
+        conexion.commit()
+        return {"mensaje": "Feedback enviado", "exito": True}
+    except Exception as e:
+        print(e)
+        return {"mensaje": str(e), "exito": False}
+    finally:
+        conexion.close()
 
-
+@app.get("/obtener_feedback/{email}")
+async def obtener_feedback(email: str):
+    conexion = conectar_bd()
+    if not conexion: raise HTTPException(500, "Error BD")
+    try:
+        cursor = conexion.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("SELECT * FROM feedback WHERE email_alumno = %s ORDER BY fecha DESC", (email,))
+        lista = cursor.fetchall()
+        feedback_dict = {}
+        for item in lista:
+            feedback_dict[item['actividad']] = item['comentario']
+        return feedback_dict
+    finally:
+        conexion.close()
 
 if __name__ == "__main__":
     import uvicorn
