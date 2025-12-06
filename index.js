@@ -22,7 +22,7 @@ const routes = [
         component: Login
     },
     {
-        path: '/foro1',      // /about
+        path: '/foro1',
         name: 'Tema',
         component: Foro1
     },

@@ -377,7 +377,6 @@ const quizFinalizado = ref(false);
 const mostrandoFeedback = ref(false);
 const esRespuestaCorrecta = ref(false);
 
-// --- GAME STATE ---
 const faseActual = ref("quiz");
 
 const oracionCorrecta = ["En", "general", "la DMO", "de la", "cadera", "es mayor", "en el hombre", "que", "en", "las mujeres"];

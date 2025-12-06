@@ -21,6 +21,9 @@
             </div>
           </section>
 
+
+
+
           <!-- contexto -->
           <section class="mb-8 animate-fade-in">
             <div class="">
@@ -574,7 +577,7 @@ onMounted(async () => {
 async function verificarEstado(email) {
   try {
     const res = await fetch(
-      `https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_en_foro_5/${email}`
+      `http://127.0.0.1:8000/verificar_en_foro_5/${email}`
     );
     const datos = await res.json();
 
@@ -620,7 +623,7 @@ async function enviarRespuestas() {
     }
 
     const respuesta = await fetch(
-      `https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro5/${usuarioEmail}`,
+      `http://127.0.0.1:8000/guardar_foro5/${usuarioEmail}`,
       {
         method: "POST",
         body: formData,
@@ -649,7 +652,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_en_foro_5");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_en_foro_5");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

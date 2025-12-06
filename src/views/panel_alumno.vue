@@ -52,7 +52,7 @@
                     class="text-xs flex items-center gap-1 text-yellow-400 hover:text-yellow-300 transition-colors self-end bg-yellow-400/10 px-2 py-1 rounded"
                 >
                   <span class="material-symbols-outlined text-sm">mail</span>
-                  Ver nota del profe
+                  Ver nota del maestro
                 </button>
               </div>
             </div>

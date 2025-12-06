@@ -34,6 +34,36 @@
                 v-else-if="!usuarioYaParticipo"
                 class="space-y-6 animate-fade-in"
               >
+                <div class="text-white text-2xl md:text-3xl font-black ">
+                  Modelación de la Situación Problema
+                </div>
+                <div>
+                 <div class="  ">
+
+                   <div v-if="mostrarInformacion" class="animate-fade-in space-y-6">
+              <div class="pregunta-texto text-base text-white/90 mb-3">
+                <div class="mt-5">
+                Para modelar la relación que existe entre la edad y la densidad mineral ósea (DMO), partiendo de los datos en una tabla, se pueden utilizar herramientas que aproximan los puntos a una curva, como por ejemplo Excel, Hojas de cálculo de Google o cualquier otra
+                  <a
+                    class="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                    href="https://kidshealth.org/es/parents/bones-muscles-joints.html#:~:text=Los%20huesos%20est%C3%A1n%20compuestos%20por,en%20otras%20partes%20del%20cuerpo."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >herramienta disponible en Internet.</a
+                  >
+                  La mayoría de estas herramientas proporcionan la expresión algebraica de la curva que mejor aproxima los puntos. Es decir, aquella curva que minimiza la distancia a los puntos.
+                <div class="mt-5">
+                  Una vez que se obtiene la expresión algebraica, se pueden obtener más datos o realizar una gráfica más completa (con más puntos) para realizar análisis más profundos como identificar la edad en que se alcanza una densidad mineral ósea máxima (este valor es se conoce como óptimo o pico de masa ósea).
+                </div>
+                </div>
+
+              </div>
+            </div>
+            </div>
+<div class="pregunta-texto text-3xl text-white/90 mb-10 mt-15" >
+                Preguntas  Foro 3
+              </div>
+            </div>
               <p class="text-gray-300 text-base mb-6 leading-relaxed ">
   Utilizando los datos del
   <a href="https://www.researchgate.net/publication/259608747_Age-Related_Changes_in_the_Prevalence_of_Osteoporosis_according_to_Gender_and_Skeletal_Site_The_Korea_National_Health_and_Nutrition_Examination_Survey_2008-2010#fullTextFileContent" class="font-bold text-blue-700 hover:text-blue-400 transition-colors duration-200 " target="_blank"
@@ -879,6 +909,7 @@ const t6_r6_c3 = ref("");
 const t6_r7_c1 = ref("");
 const t6_r7_c2 = ref("");
 const t6_r7_c3 = ref("");
+const mostrarInformacion = ref(true);
 
 const mensaje = ref("");
 const tipoMensaje = ref("");
@@ -903,7 +934,7 @@ async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
     const res = await fetch(
-      `https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_en_foro_3/${email}`
+      `http://127.0.0.1:8000/verificar_en_foro_3/${email}`
     );
     const datos = await res.json();
 
@@ -973,7 +1004,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_en_foro_3", {
+    const respuesta = await fetch("http://127.0.0.1:8000/guardar_en_foro_3", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1031,7 +1062,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_en_foro_3");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_en_foro_3");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

@@ -23,6 +23,18 @@
 
           <!-- si no ha participado -->
           <section v-else-if="!usuarioYaParticipo" class="animate-fade-in">
+            <div class="text-white text-2xl md:text-3xl font-black ">
+
+Generalizando la razón instantánea de cambio
+                </div>
+              <div class="pregunta-texto text-base text-white/90 mb-3">
+                <div class="mt-5 mb-5">
+                 Hasta ahora, hemos utilizado la razón promedio de cambio como una herramienta para modelar el comportamiento de un gráfico y mostrar la relación de cambio entre dos valores consecutivos. En las actividades que siguen, buscaremos desarrollar una estrategia más precisa que nos permita obtener información más detallada sobre el comportamiento de una función que representa un problema.
+Esto nos facilitará determinar el valor máximo o mínimo con mayor precisión y describir el comportamiento de cualquier función en general. Así, podremos realizar predicciones o implementar mejoras con el objetivo de optimizar o eficientar algún fenómeno en estudio.
+                </div>
+
+              </div>
+
 
             <!-- tabla -->
             <div class="bg-[#161d2b] p-6 rounded-xl shadow-xl mb-8 border border-gray-700">
@@ -110,7 +122,7 @@
                    rel="noopener noreferrer">
                   <span class="material-symbols-outlined text-sm">play_circle</span> Ver VideoTutorial 2
                 </a>
-                <textarea v-model="r6" rows="3" placeholder="Describe tus hallazgos de la gráfica aquí..." class="input-foro"></textarea>
+                <textarea v-model="r6" rows="3" placeholder="Describe la grafica..." class="input-foro"></textarea>
               </div>
 
               <!-- P7 -->
@@ -231,7 +243,7 @@ onMounted(async () => {
 
 async function verificarEstado(email) {
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro4/${email}`);
+    const res = await fetch(`http://127.0.0.1:8000/verificar_foro4/${email}`);
     const datos = await res.json();
     if (datos.participo) {
       usuarioYaParticipo.value = true;
@@ -262,7 +274,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro4", {
+    const respuesta = await fetch("http://127.0.0.1:8000/guardar_foro4", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -290,7 +302,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro4");
+    const res = await fetch("http://127.0.0.1:8000/respuestas_foro4");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

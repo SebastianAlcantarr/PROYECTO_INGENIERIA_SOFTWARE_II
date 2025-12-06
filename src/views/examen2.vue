@@ -91,10 +91,6 @@
                       </p>
                     </div>
                   </div>
-                  <span
-                    class="bg-blue-900/50 text-blue-200 text-sm px-2 py-1 rounded"
-                    >Puntaje: {{ item.r6 }}</span
-                  >
                 </div>
                 <div
                   class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 mt-4"
@@ -373,18 +369,11 @@
                   </div>
 
                   <div class="mt-10 flex flex-col items-center gap-4">
-                    <button
-                      @click="enviarExamen"
-                      :disabled="enviando"
-                      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                    >
-                      <span
-                        v-if="enviando"
-                        class="material-symbols-outlined animate-spin"
-                        >refresh</span
-                      >
-                      {{ enviando ? "Enviando..." : "Enviar Resultados" }}
-                    </button>
+                    <button @click="enviarExamen" :disabled="enviando"
+                          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-xl shadow-lg transition-transform hover:scale-105 disabled:opacity-50 flex items-center justify-center gap-3">
+                    <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
+                    {{ enviando ? "Guardando..." : "Guardar y Finalizar" }}
+                  </button>
                   </div>
                 </div>
               </div>
@@ -399,7 +388,6 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import Sidebar from "@/views/sidebar.vue";
-import axios from "axios";
 
 const preguntas = ref([
   {
@@ -519,10 +507,15 @@ async function verificarEstado() {
   }
 
   try {
-    const response = await axios.get(
-      `https://proyecto-ingenieria-software-ii.onrender.com/verificar_examen2/${email}`
-    );
-    if (response.data.participo) {
+    const res = await fetch(`http://127.0.0.1:8000/verificar_examen2/${email}`);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    if (data.participo) {
       usuarioYaParticipo.value = true;
       await cargarRespuestas();
     }
@@ -533,16 +526,21 @@ async function verificarEstado() {
   }
 }
 
+
 async function cargarRespuestas() {
   try {
-    const response = await axios.get(
-      "https://proyecto-ingenieria-software-ii.onrender.com/respuestas_examen2"
-    );
-    listaRespuestas.value = response.data;
+    const res = await fetch("http://127.0.0.1:8000/respuestas_examen2");
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+
+    listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando respuestas:", error);
   }
 }
+
 
 function verificarRespuesta() {
   const pregunta = preguntas.value[preguntaActual.value];
@@ -633,11 +631,8 @@ function siguientePregunta() {
 }
 
 async function enviarExamen() {
-  const email = localStorage.getItem("usuario");
-  if (!email) {
-    alert("No se encontró el email del usuario");
-    return;
-  }
+  const email = localStorage.getItem("usuario"); // Ojo aquí, usé "usuario" que es lo que usas en el Login
+  if (!email) return alert("Error: Inicia sesión.");
 
   enviando.value = true;
   try {
@@ -646,17 +641,19 @@ async function enviarExamen() {
       ...respuestasGuardadas.value,
     };
 
-    const response = await axios.post(
-      "https://proyecto-ingenieria-software-ii.onrender.com/guardar_examen2",
-      payload
-    );
+    const response = await fetch(`http://127.0.0.1:8000/guardar_examen2`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
 
-    if (response.data.exito) {
+    if (data.exito) {
       usuarioYaParticipo.value = true;
       await cargarRespuestas();
     }
   } catch (error) {
-    console.error("Error enviando examen:", error);
+    console.error(error);
     alert("Error de conexión");
   } finally {
     enviando.value = false;

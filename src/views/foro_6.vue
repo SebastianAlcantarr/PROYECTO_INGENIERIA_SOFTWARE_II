@@ -5,12 +5,12 @@
 
     <main class="w-full ml-0 md:ml-72 flex flex-col">
       <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-6xl">
+        <div class="mx-auto max-w-5xl">
 
           <!-- TÍTULO -->
           <section class="scroll-mt-20 mb-8">
             <div class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-600">
-              <h1 class="text-white text-3xl md:text-4xl font-black text-center">
+              <h1 class="text-white text-3xl md:text-3xl font-black text-center">
                 Foro 6: Covariación de las magnitudes
               </h1>
             </div>
@@ -221,7 +221,7 @@
 import { ref, reactive, onMounted, nextTick } from 'vue';
 import Sidebar from "@/views/sidebar.vue";
 
-const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
+const API_URL = "http://127.0.0.1:8000";
 
 const form = reactive({ r1:"", r2:"", r3:"", r4:"", r5:"", r6:"", r7:"", r8:"" });
 const mensaje = ref("");

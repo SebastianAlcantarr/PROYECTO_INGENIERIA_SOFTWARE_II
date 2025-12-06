@@ -15,13 +15,59 @@
           </section>
 
             <div v-if="cargandoEstado" class="text-center py-10">
-            <p class="text-blue-200 text-xl animate-pulse">Verificando tu participación...</p>
+            <p class="http://127.0.0.1:8000">Verificando tu participación...</p>
           </div>
 
+          <section v-else-if="!usuarioYaParticipo" class="space-y-6 animate-fade-in">
+            <div>
+                 <div class="  ">
+              <button
+                @click="mostrarInformacion = !mostrarInformacion"
+                class="text-blue-300 hover:text-white flex items-center gap-2 text-sm bg-blue-900/30 px-3 py-1 rounded-lg transition-colors"
+              >
+                <span class="material-symbols-outlined">{{
+                  mostrarInformacion ? "visibility_off" : "visibility"
+                }}</span>
+                {{
+                  mostrarInformacion
+                    ? "Ocultar Material"
+                    : "Mostrar Material"
+                }}
+              </button>
+                   <div v-if="mostrarInformacion" class="animate-fade-in space-y-6">
+                      <div class="text-white text-2xl md:text-3xl font-black mt-5">
+                  Modelación de la Situación Problema
+                </div>
+              <img
+                src="/src/imagenes/foro2.png"
+                alt="Gráfico de Densidad Mineral Ósea"
+                class="mx-auto w-250 p-5"
+              />
+              <div class="pregunta-texto text-base text-white/90 mb-3">
+                Las graficas anteriores obtenidas del artículo: Cambios relacionados con la edad en la prevalencia de la osteoporosis según el género y la zona esquelética: Encuesta nacional de examen de salud y nutrición de Corea 2008-20101,muestran los cambios en la densidad mineral ósea, entre los 10 y los 89 años de la espina lumbar, la cadera y el femur (específicamente el cuello femoral) de 17,205 coreanos (7,837 hombres y 9,368 mujeres) como indicadores de la salud ósea.
+                <div class="mt-5">
+                 1. Jongseok Lee, Sungwha Lee, Sungok Jang y Ohk Hyun Ryu (2013). Age-Related Changes in the Prevalence of Osteoporosis according to Gender and Skeletal Site: The Korea National Health and Nutrition Examination Survey 2008-2010. Endocrinology and Metabolism, 28(3):180-191. DOI:
+                  <a
+                    class="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                    href="https://kidshealth.org/es/parents/bones-muscles-joints.html#:~:text=Los%20huesos%20est%C3%A1n%20compuestos%20por,en%20otras%20partes%20del%20cuerpo."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >https://e-enm.org/journal/view.php?doi=10.3803/EnM.2013.28.3.180</a
+                  >
+                </div>
+              </div>
+            </div>
+            </div>
 
-                    <section v-else-if="!usuarioYaParticipo" class="space-y-6 animate-fade-in">
+            </div>
 
-                                <section class="scroll-mt-20" id="rules">
+            <section class="scroll-mt-20" id="rules">
+
+
+               <div class="pregunta-texto text-3xl text-white/90 mb-10 mt-15" >
+                Preguntas  Foro 2
+              </div>
+
             <h2 class="pregunta-texto text-xl text-white/90 mb-3 ">
               El siguiente gráfico comparativo se elaboró a partir de los datos
               del
@@ -35,6 +81,8 @@
               de Lee y colaboradores (2013, p. 184). El gráfico muestra los
               valores de la cadera (Total hip) tanto de hombres como de mujeres.
             </h2>
+
+
 
             <div class="rounded-xl overflow-hidden">
               <img
@@ -210,6 +258,7 @@ const enviando = ref(false);
 const cargandoEstado = ref(true);
 const usuarioYaParticipo = ref(false);
 const listaRespuestas = ref([]);
+const mostrarInformacion = ref(true);
 
 // Al cargar la página, verificamos si el usuario ya hizo la tarea
 onMounted(async () => {
