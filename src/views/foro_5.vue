@@ -612,7 +612,7 @@ async function verificarEstado(email) {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/respuestas_en_foro_5");
+    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_en_foro_5");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);
