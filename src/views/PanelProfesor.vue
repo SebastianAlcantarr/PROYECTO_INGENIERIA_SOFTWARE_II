@@ -827,6 +827,43 @@
               </div>
             </div>
           </div>
+
+          <!-- TARJETA EXAMEN 2 (ROSE) -->
+          <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg">
+            <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group" @click="toggle('e2')">
+              <h3 class="font-bold text-lg flex items-center gap-2 text-rose-300 group-hover:text-rose-200 transition-colors">
+                <span class="material-symbols-outlined text-rose-400">assignment_turned_in</span> Examen 2
+              </h3>
+              <div class="flex items-center gap-3">
+                <span class="text-xs px-2 py-1 rounded font-bold border" :class="expediente.examen2 ? 'bg-green-900/30 text-green-300 border-green-700' : 'bg-red-900/30 text-red-200 border-red-800'">{{ expediente.examen2 ? 'Completado' : 'Sin entregar' }}</span>
+                <span class="material-symbols-outlined text-gray-400 transition-transform" :class="expandido.e2 ? 'rotate-180' : ''">expand_more</span>
+              </div>
+            </div>
+            <div v-if="expediente.examen2 && expandido.e2" class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-rose-500">
+              <div class="grid gap-4 mb-6">
+                <!-- Mostramos las 7 preguntas del examen 2 -->
+                <div><strong class="text-rose-200 block mb-1">P1:</strong> {{ expediente.examen2.r1 }}</div>
+                <div><strong class="text-rose-200 block mb-1">P2:</strong> {{ expediente.examen2.r2 }}</div>
+                <details><summary class="cursor-pointer text-rose-400 mt-1">Ver más...</summary>
+                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                    <p><strong class="text-rose-200">P3:</strong> {{ expediente.examen2.r3 }}</p>
+                    <p><strong class="text-rose-200">P4:</strong> {{ expediente.examen2.r4 }}</p>
+                    <p><strong class="text-rose-200">P5:</strong> {{ expediente.examen2.r5 }}</p>
+                    <p><strong class="text-rose-200">P6:</strong> {{ expediente.examen2.r6 }}</p>
+                    <p><strong class="text-rose-200">P7:</strong> {{ expediente.examen2.r7 }}</p>
+                  </div>
+                </details>
+              </div>
+              <!-- FEEDBACK -->
+              <div class="mt-4 pt-4 border-t border-gray-700">
+                <div class="flex gap-2">
+                  <textarea v-model="feedbackInputs.examen2" rows="1" class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-rose-500 outline-none" placeholder="Retroalimentación para Examen 2..."></textarea>
+                  <button @click="enviarFeedback('examen2')" class="bg-rose-700 hover:bg-rose-600 text-white px-4 rounded font-bold text-xs">Enviar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </main>
@@ -856,6 +893,7 @@ const expandido = ref({
   f5: false,
   f6: false,
   e1: false,
+  e2: false,
 });
 
 // Estado de Inputs de Feedback
@@ -867,6 +905,7 @@ const feedbackInputs = reactive({
   foro5: "",
   foro6: "",
   examen1: "",
+  examen2: "",
 });
 
 function toggle(seccion) {
@@ -888,13 +927,14 @@ async function cargarExpediente(alumno) {
   seleccionado.value = alumno;
   cargandoExpediente.value = true;
   expandido.value = {
-    f1: true,
-    f2: true,
-    f3: true,
-    f4: true,
-    f5: true,
-    f6: true,
-    e1: true,
+    f1: false,
+    f2: false,
+    f3: false,
+    f4: false,
+    f5: false,
+    f6: false,
+    e1: false,
+    e2: false,
   };
 
   // Limpiamos feedbacks anteriores
