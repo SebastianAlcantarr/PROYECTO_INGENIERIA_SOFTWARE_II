@@ -175,6 +175,7 @@ const forosStatus = computed(() => [
 
 const examenesStatus = computed(() => [
   { id: 1, code: 'examen1', name: "Examen 1", completed: !!expediente.value.examen1 },
+  { id: 2, code: 'examen2', name: "Examen 2", completed: !!expediente.value.examen2 },
 ]);
 
 const progressPercentage = computed(() => {

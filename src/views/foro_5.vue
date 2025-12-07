@@ -16,7 +16,7 @@
               <h1
                 class="text-white text-3xl md:text-3xl font-black text-center"
               >
-                Foro 5. Razon Pormedio de Cambio
+                Foro 5. Razón promedio de cambio
               </h1>
             </div>
           </section>
@@ -75,7 +75,7 @@
                             scope="col"
                             class="px-8 py-4 border-b-2 border-blue-600"
                           >
-                            Razon promedio de cambio
+                            Razón promedio de cambio
                           </th>
                         </tr>
                       </thead>
