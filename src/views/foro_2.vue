@@ -11,7 +11,7 @@
               class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-800"
             >
               <h1
-                class="text-white text-base md:text-3xl font-black text-center"
+                class="text-white text-2xl md:text-3xl font-black text-center"
               >
                 Densidad mineral ósea entre hombres y mujeres
               </h1>

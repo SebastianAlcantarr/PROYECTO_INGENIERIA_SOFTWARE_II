@@ -175,6 +175,7 @@ const forosStatus = computed(() => [
 
 const examenesStatus = computed(() => [
   { id: 1, code: 'examen1', name: "Examen 1", completed: !!expediente.value.examen1 },
+  {id:2,code : "examen2",name:"Examen2",completed: !!expediente.value.examen2},
 ]);
 
 const progressPercentage = computed(() => {
@@ -189,11 +190,11 @@ async function fetchData() {
 
   try {
 
+    const expRes = await fetch(`${API_URL}/expediente_completo_alumno/${email}`);
+    if (expRes.ok) expediente.value = await expRes.json();
+
     const userRes = await fetch(`${API_URL}/conseguir_usuario/${email}`);
     if (userRes.ok) userData.value = await userRes.json();
-
-    const expRes = await fetch(`${API_URL}/expediente_completo/${email}`);
-    if (expRes.ok) expediente.value = await expRes.json();
 
     const feedRes = await fetch(`${API_URL}/obtener_feedback/${email}`);
     if (feedRes.ok) feedbacks.value = await feedRes.json();

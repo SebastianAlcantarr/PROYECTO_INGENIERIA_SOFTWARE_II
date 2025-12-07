@@ -41,39 +41,46 @@
                   Cuestionario
                 </h2>
                 <p class="text-gray-300 text-base mb-6 leading-relaxed">
-                  1. A la tabla de año en año, que se construyó en el DRIVE
-                  (foro 4), le vamos a agrega una tercera columna para obtén la
+                  1. A la tabla de año en año, que se construyó en
+                    <a
+                    href="https://docs.google.com/spreadsheets/d/1VQdNrfdddTFhpdlPhecQD_QeMs1hLk3dhHyn3iUlkFg/edit?gid=1382532865#gid=1382532865"
+                    class="text-blue-500 hover:underline text-xl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >el DRIVE
+                  (foro 4)</a
+                  >
+                  , le vamos a agrega una tercera columna para obtén la
                   razón promedio de cambio (RPC) para puntos consecutivos, como
                   se muestra en la siguiente tabla. NOTA: En la tabla, que se
                   muestra, la Absorbancia se obtuvo con la expresión algebraica
                   del modelo que aproxima el fenómeno
                   <tresfotos @updateFotos="recibirTresFotos" />
                 </p>
-
-
                 <div class="flex justify-center w-full my-6">
                   <!-- tabla1 -->
                   <div
-                    class="w-full max-w-4xl bg-[#1a2232] rounded-xl overflow-hidden shadow-2xl"
-                  >
+  class="w-full max-w-5xl p-3 sm:p-5 md:p-8 bg-[#1a2232] rounded-xl overflow-hidden shadow-2xl"
+>
+
                     <table class="w-full text-base text-center text-gray-300">
-                      <thead class="text-base text-white uppercase bg-blue-700">
+                      <thead class="text-base text-white uppercase bg-blue-600">
                         <tr>
                           <th
                             scope="col"
-                            class="px-8 py-4 border-b-2 border-blue-600"
+                            class="px-8 py-4 border-b-2 border-blue-800"
                           >
                             Edad Promedio
                           </th>
                           <th
                             scope="col"
-                            class="px-8 py-4 border-b-2 border-blue-600"
+                            class="px-8 py-4 border-b-2 border-blue-800"
                           >
                             DMO Cadera Segun el modelo
                           </th>
                           <th
                             scope="col"
-                            class="px-8 py-4 border-b-2 border-blue-600"
+                            class="px-8 py-4 border-b-2 border-blue-800"
                           >
                             Razon promedio de cambio
                           </th>
@@ -88,11 +95,14 @@
                           >
                             1
                           </td>
+
                           <td class="px-8 py-4 text-lg">0.775400</td>
                           <td
                             class="px-8 py-4 text-lg font-medium text-blue-300"
                           ></td>
                         </tr>
+
+
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
                         >
@@ -102,7 +112,11 @@
                             2
                           </td>
                           <td class="px-6 py-3 text-center">0.782600</td>
+                            <td
+                          ></td>
                         </tr>
+
+
                         <tr
                           class="bg-[#222d3e] border-b border-gray-700 hover:bg-[#2a3649]"
                         >
@@ -112,6 +126,8 @@
                             3
                           </td>
                           <td class="px-6 py-3 text-center">0.789600</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -122,6 +138,8 @@
                             4
                           </td>
                           <td class="px-6 py-3 text-center">0.796400</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#222d3e] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -132,6 +150,8 @@
                             5
                           </td>
                           <td class="px-6 py-3 text-center">0.803000</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -142,6 +162,8 @@
                             6
                           </td>
                           <td class="px-6 py-3 text-center">0.809400</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#222d3e] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -152,6 +174,8 @@
                             7
                           </td>
                           <td class="px-6 py-3 text-center">0.815600</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -161,8 +185,9 @@
                           >
                             8
                           </td>
-
                           <td class="px-6 py-3 text-center">0.821600</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -174,6 +199,8 @@
                           </td>
 
                           <td class="px-6 py-3 text-center">0.827400</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -185,6 +212,8 @@
                           </td>
 
                           <td class="px-6 py-3 text-center">0.833000</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -196,6 +225,8 @@
                           </td>
 
                           <td class="px-6 py-3 text-center">0.838400</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
@@ -207,17 +238,21 @@
                           </td>
 
                           <td class="px-6 py-3 text-center">0.643400</td>
+                          <td
+                          ></td>
                         </tr>
                         <tr
                           class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
                         >
                           <td
-                            class="px-6 py-3 text-center font-bold text-white"
+                            class=" bf- px-6 py-3 text-center font-bold text-white"
                           >
                             90
                           </td>
 
                           <td class="px-6 py-3 text-center">0.633000</td>
+                          <td
+                          ></td>
                         </tr>
                       </tbody>
                     </table>

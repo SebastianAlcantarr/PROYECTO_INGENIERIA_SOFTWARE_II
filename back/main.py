@@ -491,32 +491,30 @@ async def expediente_completo(email: str):
     try:
         cursor = conexion.cursor(cursor_factory=RealDictCursor)
 
-        cursor.execute("SELECT * FROM respuestas_foro1 WHERE email = %s", (email,))
+        cursor.execute("SELECT r2 FROM respuestas_foro1 WHERE email = %s", (email,))
         foro1 = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM respuestas_foro2 WHERE email = %s", (email,))
+        cursor.execute("SELECT r2 FROM respuestas_foro2 WHERE email = %s", (email,))
         foro2 = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM respuestas_foro4 WHERE email = %s", (email,))
+        cursor.execute("SELECT r2 FROM respuestas_foro4 WHERE email = %s", (email,))
         foro4 = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM respuestas_foro3 WHERE email = %s", (email,))
+        cursor.execute("SELECT r2 FROM respuestas_foro3 WHERE email = %s", (email,))
         foro3 = cursor.fetchone()
 
-        cursor.execute("SELECT r3 FROM respuestas_foro5 WHERE email = %s", (email,))
+        cursor.execute("SELECT r5 FROM respuestas_foro5 WHERE email = %s", (email,))
         foro5 = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM examen1 WHERE email = %s", (email,))
+        cursor.execute("SELECT r2 FROM examen1 WHERE email = %s", (email,))
         examen1 = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM examen2 WHERE email = %s", (email,))
+        cursor.execute("SELECT r2 FROM examen2 WHERE email = %s", (email,))
         examen2 = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM respuestas_foro6 WHERE email = %s", (email,))
+        cursor.execute("SELECT r2 FROM respuestas_foro6 WHERE email = %s", (email,))
         foro6 = cursor.fetchone()
 
-        if foro5 and "imagen" in foro5 and foro5["imagen"]:
-            foro5["imagen"] = base64.b64encode(foro5["imagen"]).decode("utf-8")
 
         return {
             "foro1": foro1,
