@@ -391,7 +391,7 @@ onMounted(async () => {
 async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
-    const res = await fetch(`http://127.0.0.1:8000/verificar_foro1/${email}`);
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro1/${email}`);
     const datos = await res.json();
 
     if (datos.participo) {
