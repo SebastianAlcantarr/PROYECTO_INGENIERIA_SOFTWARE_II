@@ -940,7 +940,7 @@ async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
     const res = await fetch(
-      `http://127.0.0.1:8000/verificar_en_foro_3/${email}`
+      `https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_en_foro_3/${email}`
     );
     const datos = await res.json();
 
@@ -1010,7 +1010,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("http://127.0.0.1:8000/guardar_en_foro_3", {
+    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_en_foro_3", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1068,7 +1068,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/respuestas_en_foro_3");
+    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_en_foro_3");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

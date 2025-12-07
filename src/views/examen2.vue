@@ -507,7 +507,7 @@ async function verificarEstado() {
   }
 
   try {
-    const res = await fetch(`http://127.0.0.1:8000/verificar_examen2/${email}`);
+    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_examen2/${email}`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
@@ -529,7 +529,7 @@ async function verificarEstado() {
 
 async function cargarRespuestas() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/respuestas_examen2");
+    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_examen2");
 
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
@@ -641,7 +641,7 @@ async function enviarExamen() {
       ...respuestasGuardadas.value,
     };
 
-    const response = await fetch(`http://127.0.0.1:8000/guardar_examen2`, {
+    const response = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_examen2`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)

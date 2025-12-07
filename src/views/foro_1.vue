@@ -424,7 +424,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("http://127.0.0.1:8000/guardar_foro1", {
+    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro1", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -459,7 +459,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/respuestas_foro1");
+    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro1");
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

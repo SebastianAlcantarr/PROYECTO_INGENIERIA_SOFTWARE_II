@@ -409,7 +409,7 @@
 import { ref, reactive, onMounted, nextTick } from "vue";
 import Sidebar from "@/views/sidebar.vue";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
 const form = reactive({
   r1: "",

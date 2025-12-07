@@ -407,7 +407,7 @@ const listaRespuestas = ref([]);
 const respuestasGuardadas = ref({ r1: "", r2: "", r3: "", r4: "", r5: "", r6: "" });
 
 // URL API
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
 onMounted(() => {
   verificarEstado();

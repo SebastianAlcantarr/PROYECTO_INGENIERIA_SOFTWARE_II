@@ -86,8 +86,6 @@ function addFiles(fileList) {
     files.value.push(file);
     previews.value.push(URL.createObjectURL(file));
   }
-
-  // 🔴 CLAVE
   emit("updateFotos", files.value);
 }
 
@@ -105,8 +103,6 @@ function removePhoto(index) {
   URL.revokeObjectURL(previews.value[index]);
   previews.value.splice(index, 1);
   files.value.splice(index, 1);
-
-  // 🔴 CLAVE
   emit("updateFotos", files.value);
 }
 </script>

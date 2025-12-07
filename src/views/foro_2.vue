@@ -428,7 +428,7 @@ async function verificarEstado(email) {
   try {
     // 1. Preguntamos a Python: "¿Este email ya respondió?"
     const res = await fetch(
-      `http://127.0.0.1:8000/verificar_foro2/${email}`
+      `https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro2/${email}`
     );
     const datos = await res.json();
 
@@ -463,7 +463,7 @@ async function enviarRespuestas() {
 
   try {
     const respuesta = await fetch(
-      "http://127.0.0.1:8000/guardar_foro2",
+      "https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro2",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -501,7 +501,7 @@ async function enviarRespuestas() {
 async function cargarForoCompleto() {
   try {
     const res = await fetch(
-      "http://127.0.0.1:8000/respuestas_foro2"
+      "https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro2"
     );
     listaRespuestas.value = await res.json();
   } catch (error) {
