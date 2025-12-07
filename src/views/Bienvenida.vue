@@ -29,9 +29,8 @@
             Hola, <span class="text-blue-400 font-bold text-xl">{{ nombreUsuario }}</span>.
           </p>
           <p>
-            Esta plataforma está diseñada para guiarte en el aprendizaje de las
-            <strong class="text-white">derivadas</strong> y su aplicación en la vida real,
-            analizando casos como la densidad mineral ósea.
+            Esta plataforma está diseñada para comprender el concepto de
+            <strong class="text-white">derivada</strong> a través de la resolución de una situación contextualizada en la que se analiza la relación existente entre la edad de una persona y la densidad mineral ósea.
           </p>
           <p>
             Estás a punto de iniciar. Sigue las instrucciones de cada foro y actividad.

@@ -16,7 +16,7 @@
               <h1
                 class="text-white text-base md:text-3xl font-black text-center"
               >
-                Foro 1: La densidad mineral ósea
+                La densidad mineral ósea
               </h1>
             </div>
           </section>
@@ -99,9 +99,15 @@
                 </div>
               </div>
             </div>
-            <div class="pregunta-texto text-3xl text-white/90 mb-10 mt-15" >
-                Preguntas Foro 1
-              </div>
+            <div
+                class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-900"
+            >
+              <h1
+                  class="text-white text-base md:text-3xl font-black text-center"
+              >
+                Foro 1: La densidad mineral ósea
+              </h1>
+            </div>
             <h2
               class="text-white text-base font-bold px-2 flex items-center gap-2"
             >
