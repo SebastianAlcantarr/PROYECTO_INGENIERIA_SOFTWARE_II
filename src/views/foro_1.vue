@@ -35,27 +35,22 @@
             v-else-if="!usuarioYaParticipo"
             class="space-y-6 animate-fade-in"
           >
-              <button
-                @click="mostrarInformacion = !mostrarInformacion"
-                class="text-blue-300 hover:text-white flex items-center gap-2 text-sm bg-blue-900/30 px-3 py-1 rounded-lg transition-colors"
-              >
-                <span class="material-symbols-outlined">{{
-                  mostrarInformacion ? "visibility_off" : "visibility"
-                }}</span>
-                {{
-                  mostrarInformacion
-                    ? "Ocultar Material"
-                    : "Mostrar Material"
-                }}
-              </button>
-
+            <button
+              @click="mostrarInformacion = !mostrarInformacion"
+              class="text-blue-300 hover:text-white flex items-center gap-2 text-sm bg-blue-900/30 px-3 py-1 rounded-lg transition-colors"
+            >
+              <span class="material-symbols-outlined">{{
+                mostrarInformacion ? "visibility_off" : "visibility"
+              }}</span>
+              {{ mostrarInformacion ? "Ocultar Material" : "Mostrar Material" }}
+            </button>
 
             <div v-if="mostrarInformacion" class="animate-fade-in space-y-6">
-                           <img
-  :src="Grafica"
-  alt="Gráfico de Densidad Mineral Ósea"
-  class="mx-auto w-150 p-5"
-/>
+              <img
+                :src="Grafica"
+                alt="Gráfico de Densidad Mineral Ósea"
+                class="mx-auto w-150 p-5"
+              />
 
               <div class="pregunta-texto text-base text-white/90 mb-3">
                 La densidad ósea, también conocida como densidad mineral ósea
@@ -84,11 +79,11 @@
                   el volumen del hueso funcionan o no.
                 </div>
 
-              <img
-  :src="rango"
-  alt="Gráfico de Densidad Mineral Ósea"
-  class="mx-auto w-90 p-5"
-/>
+                <img
+                  :src="rango"
+                  alt="Gráfico de Densidad Mineral Ósea"
+                  class="mx-auto w-90 p-5"
+                />
 
                 <div>
                   La prueba de densidad mineral ósea conocida como DEX o DEXA (o
@@ -100,10 +95,10 @@
               </div>
             </div>
             <div
-                class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-900"
+              class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-900"
             >
               <h1
-                  class="text-white text-base md:text-3xl font-black text-center"
+                class="text-white text-base md:text-3xl font-black text-center"
               >
                 Foro 1: La densidad mineral ósea
               </h1>
@@ -363,8 +358,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import Sidebar from "@/views/sidebar.vue";
-import rango from "@/imagenes/rango.jpg"
-import Grafica from "@/imagenes/Grafica.png"
+import rango from "@/imagenes/rango.jpg";
+import Grafica from "@/imagenes/Grafica.png";
 
 // Variables reactivas
 const r1 = ref("");

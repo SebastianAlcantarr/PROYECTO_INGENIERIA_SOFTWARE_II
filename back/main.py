@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import FastAPI, HTTPException
 import base64
 from fastapi.middleware.cors import CORSMiddleware
@@ -390,6 +392,21 @@ async def lista_estudiantes():
 import base64
 
 
+def convertir_bytes(registro):
+    if not registro:
+        return
+    claves = list(registro.keys())
+    for clave in claves:
+        valor = registro[clave]
+        if isinstance(valor, memoryview):
+            valor = bytes(valor)
+        if isinstance(valor, (bytes, bytearray)):
+            encoded = base64.b64encode(valor).decode("utf-8")
+            if 'imagen' in clave.lower():
+                registro[clave] = f"data:image/jpeg;base64,{encoded}"
+            else:
+                registro[clave] = encoded
+
 
 @app.get("/expediente_completo/{email}")
 async def expediente_completo(email: str):
@@ -434,8 +451,12 @@ async def expediente_completo(email: str):
         cursor.execute("SELECT * FROM respuestas_foro6 WHERE email = %s", (email,))
         foro6 = cursor.fetchone()
 
-        if foro5 and "imagen" in foro5 and foro5["imagen"]:
-            foro5["imagen"] = base64.b64encode(foro5["imagen"]).decode("utf-8")
+        convertir_bytes(foro1)
+        convertir_bytes(foro2)
+        convertir_bytes(foro3)
+        convertir_bytes(foro4)
+        convertir_bytes(foro5)
+        convertir_bytes(foro6)
 
         return {
             "foro1": foro1,
@@ -514,28 +535,42 @@ async def expediente_completo(email: str):
 
 @app.post("/guardar_foro5/{email}")
 async def guardar_foro5(
-    email: str,                    # <-- viene del path
+    email: str,
     r2: str = Form(""),
     r3: str = Form(""),
     r4: str = Form(""),
     r5: str = Form(""),
     r6: str = Form(""),
-    imagen: UploadFile = File(None)
+    imagen_pregunta_3: UploadFile = File(None),
+    imagenes: List[UploadFile] = File([])
 ):
-
     conexion = conectar_bd()
     cursor = conexion.cursor()
 
-    contenido = await imagen.read() if imagen else None
+    # Imagen del bosquejo (pregunta 3)
+    contenido_p3 = await imagen_pregunta_3.read() if imagen_pregunta_3 else None
+
+    # Las 3 imágenes de la tabla
+    img1 = img2 = img3 = None
+    if len(imagenes) > 0:
+        img1 = await imagenes[0].read()
+    if len(imagenes) > 1:
+        img2 = await imagenes[1].read()
+    if len(imagenes) > 2:
+        img3 = await imagenes[2].read()
 
     query = """
-        INSERT INTO respuestas_foro5 (email, r2, r3, r4, r5, r6, imagen)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO respuestas_foro5 (
+            email, r2,  r4, r5, r6,
+            imagen_pregunta_3,
+            imagen_1, imagen_2, imagen_3
+        )
+        VALUES (%s, %s,  %s, %s, %s, %s, %s, %s, %s)
     """
 
-    cursor.execute(query, (email, r2, r3, r4, r5, r6, contenido))
-
+    cursor.execute(query, (email, r2,  r4, r5, r6, contenido_p3, img1, img2, img3))
     conexion.commit()
+    cursor.close()
     conexion.close()
 
     return {"exito": True}
@@ -573,15 +608,35 @@ async def leer_foro3():
 
         for resp in respuestas:
             try:
-                if resp.get('imagen'):
-                    encoded = base64.b64encode(resp['imagen']).decode('utf-8')
-                    resp['imagen_url'] = f"data:image/jpeg;base64,{encoded}"
-                    del resp['imagen']
+                # Imagen de la pregunta 3
+                if resp.get('imagen_pregunta_3'):
+                    valor = resp['imagen_pregunta_3']
+                    if isinstance(valor, memoryview):
+                        valor = bytes(valor)
+                    encoded = base64.b64encode(valor).decode('utf-8')
+                    resp['imagen_pregunta_3_url'] = f"data:image/jpeg;base64,{encoded}"
+                    del resp['imagen_pregunta_3']
                 else:
-                    resp['imagen_url'] = None
+                    resp['imagen_pregunta_3_url'] = None
+
+                # Las 3 imágenes de la tabla
+                for i in range(1, 4):
+                    campo = f'imagen_{i}'
+                    if resp.get(campo):
+                        valor = resp[campo]
+                        if isinstance(valor, memoryview):
+                            valor = bytes(valor)
+                        encoded = base64.b64encode(valor).decode('utf-8')
+                        resp[f'{campo}_url'] = f"data:image/jpeg;base64,{encoded}"
+                        del resp[campo]
+                    else:
+                        resp[f'{campo}_url'] = None
             except Exception as e:
                 print("Error con imagen:", e)
-                resp['imagen_url'] = None
+                resp['imagen_pregunta_3_url'] = None
+                resp['imagen_1_url'] = None
+                resp['imagen_2_url'] = None
+                resp['imagen_3_url'] = None
 
         return respuestas
     except Exception as e:
