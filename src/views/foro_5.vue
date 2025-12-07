@@ -41,12 +41,15 @@
                   Cuestionario
                 </h2>
                 <p class="text-gray-300 text-base mb-6 leading-relaxed">
-                  1. A la tabla de año en año, que se construyó en el DRIVE
-                  (foro 4), le vamos a agrega una tercera columna para obtén la
-                  razón promedio de cambio (RPC) para puntos consecutivos, como
-                  se muestra en la siguiente tabla. NOTA: En la tabla, que se
-                  muestra, la Absorbancia se obtuvo con la expresión algebraica
-                  del modelo que aproxima el fenómeno
+                  1. A la tabla de año en año, que se construyó en el
+                  <a
+                      href="https://docs.google.com/spreadsheets/d/1VQdNrfdddTFhpdlPhecQD_QeMs1hLk3dhHyn3iUlkFg/edit?gid=1382532865#gid=1382532865"
+                      class="text-blue-400 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                  >DRIVE (foro 4)</a
+                  >, le vamos a agregar una tercera columna (como se muestra en la tabla de abajo) para obtener la
+                  razón promedio de cambio (RPC) para puntos consecutivos.
                   <tresfotos @updateFotos="recibirTresFotos" />
                 </p>
 
