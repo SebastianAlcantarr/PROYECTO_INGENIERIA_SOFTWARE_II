@@ -70,7 +70,7 @@
                       DOI:
                       <a
                         class="text-blue-500 hover:text-blue-700 transition-colors duration-200"
-                        href="https://kidshealth.org/es/parents/bones-muscles-joints.html#:~:text=Los%20huesos%20est%C3%A1n%20compuestos%20por,en%20otras%20partes%20del%20cuerpo."
+                        href="https://e-enm.org/journal/view.php?doi=10.3803/EnM.2013.28.3.180"
                         target="_blank"
                         rel="noopener noreferrer"
                         >https://e-enm.org/journal/view.php?doi=10.3803/EnM.2013.28.3.180</a
