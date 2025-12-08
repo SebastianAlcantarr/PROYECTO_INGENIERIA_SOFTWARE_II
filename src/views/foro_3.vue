@@ -46,7 +46,7 @@
                 Para modelar la relación que existe entre la edad y la densidad mineral ósea (DMO), partiendo de los datos en una tabla, se pueden utilizar herramientas que aproximan los puntos a una curva, como por ejemplo Excel, Hojas de cálculo de Google o cualquier otra
                   <a
                     class="text-blue-500 hover:text-blue-700 transition-colors duration-200"
-                    href="https://kidshealth.org/es/parents/bones-muscles-joints.html#:~:text=Los%20huesos%20est%C3%A1n%20compuestos%20por,en%20otras%20partes%20del%20cuerpo."
+                    href="https://www.researchgate.net/publication/259608747_Age-Related_Changes_in_the_Prevalence_of_Osteoporosis_according_to_Gender_and_Skeletal_Site_The_Korea_National_Health_and_Nutrition_Examination_Survey_2008-2010#fullTextFileContent"
                     target="_blank"
                     rel="noopener noreferrer"
                     >herramienta disponible en Internet.</a

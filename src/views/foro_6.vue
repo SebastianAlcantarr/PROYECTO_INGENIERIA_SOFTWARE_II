@@ -369,9 +369,13 @@
                         <strong class="text-blue-200">2. Argumento:</strong>
                         {{ item.r2 }}
                       </p>
+                      <div class="text-blue-200 ">
+                        3.Utiliza el simulador para
+                      </div>
                       <pre
                         class="bg-gray-900/30 p-2 rounded whitespace-pre-wrap font-sans"
-                        >{{ item.r3 }}</pre
+                        >
+                        {{ item.r3 }}</pre
                       >
                       <p>
                         <strong class="text-blue-200">4. GeoGebra:</strong>
@@ -385,10 +389,11 @@
                         <strong class="text-blue-200">6. Notas:</strong>
                         {{ item.r6 }}
                       </p>
-                      <pre
-                        class="bg-gray-900/30 p-2 rounded whitespace-pre-wrap font-sans"
-                        >{{ item.r7 }}</pre
-                      >
+                      <p>
+                        <strong class="text-blue-200">7. Dada la función :</strong>
+                        {{ item.r7 }}
+                      </p>
+
                       <p>
                         <strong class="text-blue-200">8. Hombres:</strong>
                         {{ item.r8 }}

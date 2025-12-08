@@ -472,35 +472,35 @@
                     <div
                       class="mt-2 space-y-4 pt-2 border-t border-gray-700/50 animate-fade-in"
                     >
-                      <div v-if="item.r3">
+                      <div v-if="item.r4">
                         <p class="text-sm text-gray-500 mb-1">
                           4. Ubica en la tabla el valor óptimo de la DMO de la
                           cadera de las mujeres
-                        </p>
-                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r3 }}</p>
-                      </div>
-
-                      <div v-if="item.r4">
-                        <p class="text-sm text-gray-500 mb-1">
-                          5. ¿El valor máximo de la DMO es igual al que habías
-                          dado en Foro 2?
                         </p>
                         <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r4 }}</p>
                       </div>
 
                       <div v-if="item.r5">
                         <p class="text-sm text-gray-500 mb-1">
-                          6. Argumenta utilizando rectas secantes:
+                          5. ¿El valor máximo de la DMO es igual al que habías
+                          dado en Foro 2?
                         </p>
                         <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r5 }}</p>
                       </div>
 
                       <div v-if="item.r6">
                         <p class="text-sm text-gray-500 mb-1">
+                          6. Argumenta utilizando rectas secantes:
+                        </p>
+                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r6 }}</p>
+                      </div>
+
+                      <div v-if="item.r7">
+                        <p class="text-sm text-gray-500 mb-1">
                           7. ¿Cómo encontrar la edad donde se alcanza el valor
                           óptimo?
                         </p>
-                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r6 }}</p>
+                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r7 }}</p>
                       </div>
                     </div>
                   </details>
