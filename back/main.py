@@ -104,10 +104,10 @@ def get_foro_config(foro_id: int):
 def conectar_bd():
     try:
         conn = psycopg2.connect(
-            host="dpg-d4f80d7pm1nc73eop5h0-a.oregon-postgres.render.com",
-            database="database_7vyi",
-            user="database_7vyi_user",
-            password="EqKTvvDaJK6Ml5YoVYjnt4rLQmrxYIzo",
+            host="dpg-d7t7v4jbc2fs73bipmv0-a.oregon-postgres.render.com",
+            database="prueba_af3g",
+            user="prueba_af3g_user",
+            password="2N1MxFEas71GxcCZZvHctdrnUgXzU9PS",
             port=5432,
             sslmode="require"
         )
