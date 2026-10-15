@@ -11,7 +11,7 @@
       </p>
     </div>
 
-    <main class="mx-auto max-w-[1240px] px-4 pb-40 sm:px-6 lg:px-10">
+    <main class="mx-auto max-w-[1240px] px-4 pb-20 sm:px-6 lg:px-10">
       <!-- Cabecera de la pista -->
       <header
         class="grid items-end gap-8 pb-10 pt-10 md:pt-14 lg:gap-14"
@@ -48,6 +48,8 @@
       <slot />
     </main>
 
+    <PieInstitucional class="pb-[72px]" />
+
     <BarraEnCurso />
   </div>
 </template>
@@ -58,6 +60,7 @@ import { useRoute, RouterLink } from "vue-router";
 import { esInvitado } from "@/sesion.js";
 import EncabezadoPortal from "@/components/EncabezadoPortal.vue";
 import BarraEnCurso from "@/components/BarraEnCurso.vue";
+import PieInstitucional from "@/components/PieInstitucional.vue";
 import { pasos, indiceDe, pista, colorDeActividad, colorTextoDeActividad } from "@/ruta.js";
 
 defineProps({

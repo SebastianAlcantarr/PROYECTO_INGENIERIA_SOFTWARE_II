@@ -39,6 +39,8 @@
         </ol>
       </aside>
     </main>
+
+    <PieInstitucional />
   </div>
 </template>
 
@@ -46,6 +48,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import EncabezadoPortal from '@/components/EncabezadoPortal.vue';
+import PieInstitucional from '@/components/PieInstitucional.vue';
 import { pasos, pista } from '@/ruta.js';
 
 const router = useRouter();

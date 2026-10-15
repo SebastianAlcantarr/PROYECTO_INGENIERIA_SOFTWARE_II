@@ -16,6 +16,9 @@
       </div>
 
       <div class="flex-1 overflow-y-auto scrollbar-thin">
+        <p v-if="errorLista" role="alert" class="aviso aviso-error m-4">
+          No se pudo cargar la lista de alumnos. Recarga la página en un momento.
+        </p>
         <div v-if="cargando" class="p-5 text-center text-tenue">
           Cargando lista...
         </div>
@@ -885,6 +888,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const estudiantes = ref([]);
 const cargando = ref(true);
+const errorLista = ref(false);
 const seleccionado = ref(null);
 const expediente = ref({});
 const cargandoExpediente = ref(false);
@@ -920,9 +924,11 @@ function toggle(seccion) {
 onMounted(async () => {
   try {
     const res = await fetch(`${API_URL}/lista_estudiantes`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     estudiantes.value = await res.json();
   } catch (e) {
     console.error(e);
+    errorLista.value = true;
   } finally {
     cargando.value = false;
   }

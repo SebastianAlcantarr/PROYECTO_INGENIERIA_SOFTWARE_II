@@ -177,8 +177,20 @@ function validarCampos() {
     return false;
   }
 
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) {
+    mensaje.value = "Escribe un correo válido, por ejemplo nombre@ejemplo.com";
+    tipoMensaje.value = "error";
+    return false;
+  }
+
   if (!password.value) {
     mensaje.value = "Por favor ingresa tu contraseña";
+    tipoMensaje.value = "error";
+    return false;
+  }
+
+  if (esRegistro.value && password.value.length < 6) {
+    mensaje.value = "La contraseña debe tener al menos 6 caracteres";
     tipoMensaje.value = "error";
     return false;
   }

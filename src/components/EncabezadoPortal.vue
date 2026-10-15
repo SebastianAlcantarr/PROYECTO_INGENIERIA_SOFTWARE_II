@@ -9,8 +9,8 @@
       >
         <LogoUniversidad :size="40" />
         <span class="leading-tight">
-          <span class="hidden text-[0.8125rem] font-medium text-tenue sm:block">Universidad de Sonora</span>
-          <span class="block font-display text-lg font-extrabold tracking-[-0.02em]">Derivadas</span>
+          <span class="block whitespace-nowrap font-display text-lg font-extrabold tracking-[-0.02em]"><span class="hidden sm:inline">Portal de </span>Derivadas</span>
+          <span class="hidden text-[0.8125rem] font-medium text-tenue sm:block">Ingeniería de Software II · UNISON</span>
         </span>
       </RouterLink>
 

@@ -36,6 +36,15 @@
         </div>
       </header>
 
+      <p v-if="cargandoDatos" class="mb-6 flex items-center gap-2 text-tenue" aria-live="polite">
+        <span class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
+        Cargando tu avance… la primera vez puede tardar hasta un minuto.
+      </p>
+      <div v-if="errorCarga" role="alert" class="aviso aviso-error mb-6 items-center justify-between">
+        <span>No pudimos cargar tu avance. Revisa tu conexión e inténtalo de nuevo.</span>
+        <button type="button" class="boton boton-secundario !min-h-9 shrink-0" @click="fetchData">Reintentar</button>
+      </div>
+
       <!-- Lista de pistas por actividad -->
       <section v-for="act in actividades" :key="act.numero" class="border-t border-linea pb-6 pt-8" :aria-labelledby="`act-${act.numero}`">
         <h2 :id="`act-${act.numero}`" class="mb-4 flex items-center gap-3 text-2xl font-bold tracking-[-0.02em]">
@@ -86,6 +95,8 @@
         </ol>
       </section>
     </main>
+
+    <PieInstitucional />
   </div>
 </template>
 
@@ -94,6 +105,7 @@ import { API_URL } from "@/api.js";
 import { ref, onMounted, computed } from "vue";
 import { RouterLink } from "vue-router";
 import EncabezadoPortal from "@/components/EncabezadoPortal.vue";
+import PieInstitucional from "@/components/PieInstitucional.vue";
 import { pasos, actividades, pista, colorDeActividad, colorTextoDeActividad } from "@/ruta.js";
 
 
@@ -130,10 +142,15 @@ const progressPercentage = computed(() => {
   return total > 0 ? (completed / total) * 100 : 0;
 });
 
+const cargandoDatos = ref(false);
+const errorCarga = ref(false);
+
 async function fetchData() {
   const email = localStorage.getItem("usuario");
   if (!email) return;
 
+  cargandoDatos.value = true;
+  errorCarga.value = false;
   try {
 
     const expRes = await fetch(`${API_URL}/expediente_completo_alumno/${email}`);
@@ -147,6 +164,9 @@ async function fetchData() {
 
   } catch (error) {
     console.error("Error cargando datos:", error);
+    errorCarga.value = true;
+  } finally {
+    cargandoDatos.value = false;
   }
 }
 
