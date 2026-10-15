@@ -2,6 +2,15 @@
   <div class="min-h-dvh bg-fondo text-tinta">
     <EncabezadoPortal />
 
+    <div v-if="invitado" class="border-b border-linea bg-hundido">
+      <p class="mx-auto max-w-[1240px] px-4 py-2.5 text-sm text-tenue sm:px-6 lg:px-10">
+        <span class="material-symbols-outlined mr-1.5 align-[-4px] text-[18px] text-a1" aria-hidden="true">visibility</span>
+        <span class="font-semibold text-tinta">Modo invitado.</span>
+        Puedes ver todo el contenido; para responder las preguntas,
+        <RouterLink to="/" class="font-semibold text-tinta underline underline-offset-4 hover:text-a1">inicia sesión</RouterLink>.
+      </p>
+    </div>
+
     <main class="mx-auto max-w-[1240px] px-4 pb-40 sm:px-6 lg:px-10">
       <!-- Cabecera de la pista -->
       <header
@@ -45,7 +54,8 @@
 
 <script setup>
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, RouterLink } from "vue-router";
+import { esInvitado } from "@/sesion.js";
 import EncabezadoPortal from "@/components/EncabezadoPortal.vue";
 import BarraEnCurso from "@/components/BarraEnCurso.vue";
 import { pasos, indiceDe, pista, colorDeActividad, colorTextoDeActividad } from "@/ruta.js";
@@ -55,6 +65,7 @@ defineProps({
 });
 
 const route = useRoute();
+const invitado = esInvitado();
 const indice = computed(() => indiceDe(route.path));
 const paso = computed(() => pasos[indice.value]);
 const numeroPista = computed(() => (indice.value >= 0 ? pista(indice.value) : ""));

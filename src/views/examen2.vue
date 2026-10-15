@@ -147,16 +147,19 @@
         <span class="material-symbols-outlined text-5xl text-ok" aria-hidden="true">task_alt</span>
         <h3 class="mt-3 text-3xl font-bold">Examen Terminado</h3>
         <p class="mt-1 text-tenue">Guarda tus respuestas para que el profesor pueda revisarlas.</p>
-        <button type="button" class="boton boton-primario mt-8" :disabled="enviando" @click="enviarExamen">
+        <button v-if="!invitado" type="button" class="boton boton-primario mt-8" :disabled="enviando" @click="enviarExamen">
           <span v-if="enviando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
           {{ enviando ? "Guardando…" : "Guardar y finalizar" }}
         </button>
+        <AvisoInvitado v-else class="mt-8" titulo="Para guardar tu calificación, inicia sesión" />
       </div>
     </section>
   </PaginaPaso>
 </template>
 
 <script setup>
+import { esInvitado } from "@/sesion.js";
+import AvisoInvitado from "@/components/AvisoInvitado.vue";
 import { API_URL } from "@/api.js";
 import { ref, computed, onMounted } from "vue";
 import PaginaPaso from "@/components/PaginaPaso.vue";
@@ -458,4 +461,7 @@ const puntajeTotal = computed(() => {
 const totalPosible = computed(() => {
   return preguntas.value.length + 1 + parejas.length;
 });
+
+// Modo invitado: sin sesión se muestra el aviso en lugar del botón de enviar
+const invitado = esInvitado();
 </script>

@@ -302,16 +302,20 @@
           </div>
         </dl>
 
-        <button type="button" class="boton boton-primario mt-8" :disabled="enviando" @click="enviarExamen">
+        <button v-if="!invitado" type="button" class="boton boton-primario mt-8" :disabled="enviando" @click="enviarExamen">
           <span v-if="enviando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
           {{ enviando ? "Guardando…" : "Guardar y finalizar" }}
         </button>
+
+        <AvisoInvitado v-else class="mt-8" titulo="Para guardar tu calificación, inicia sesión" />
       </div>
     </section>
   </PaginaPaso>
 </template>
 
 <script setup>
+import { esInvitado } from "@/sesion.js";
+import AvisoInvitado from "@/components/AvisoInvitado.vue";
 import { API_URL } from "@/api.js";
 import { ref, computed, onMounted } from "vue";
 import axios from 'axios'; // Asegúrate de tener axios importado si no lo usas global
@@ -618,4 +622,7 @@ const fasesExamen = [
   { id: "final", nombre: "Resumen", icono: "flag" },
 ];
 const indiceFase = computed(() => fasesExamen.findIndex((f) => f.id === faseActual.value));
+
+// Modo invitado: sin sesión se muestra el aviso en lugar del botón de enviar
+const invitado = esInvitado();
 </script>

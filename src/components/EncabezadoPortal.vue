@@ -9,7 +9,7 @@
       >
         <LogoUniversidad :size="40" />
         <span class="leading-tight">
-          <span class="block text-[0.8125rem] font-medium text-tenue">Universidad de Sonora</span>
+          <span class="hidden text-[0.8125rem] font-medium text-tenue sm:block">Universidad de Sonora</span>
           <span class="block font-display text-lg font-extrabold tracking-[-0.02em]">Derivadas</span>
         </span>
       </RouterLink>
@@ -72,8 +72,14 @@
           Ruta
         </button>
 
+        <!-- Invitado -->
+        <RouterLink v-if="invitado" to="/" class="boton boton-primario !min-h-10 !px-4">
+          <span class="material-symbols-outlined -ml-1 text-[20px]" aria-hidden="true">login</span>
+          <span class="hidden sm:inline">Iniciar sesión</span><span class="sm:hidden">Entrar</span>
+        </RouterLink>
+
         <!-- Usuario -->
-        <div class="relative" ref="usuarioRef">
+        <div v-else class="relative" ref="usuarioRef">
           <button
             type="button"
             class="avatar !h-10 !w-10 transition-shadow hover:shadow-[0_0_0_3px_var(--c-linea)]"
@@ -150,12 +156,14 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRoute, useRouter, RouterLink } from "vue-router";
 import LogoUniversidad from "@/components/LogoUniversidad.vue";
 import { actividades, pasos, indiceDe, pista } from "@/ruta.js";
+import { esInvitado } from "@/sesion.js";
 
 const props = defineProps({
   modo: { type: String, default: "alumno" }, // 'alumno' | 'profesor'
 });
 
 const route = useRoute();
+const invitado = props.modo === "alumno" && esInvitado();
 const router = useRouter();
 
 const menuAbierto = ref(null);

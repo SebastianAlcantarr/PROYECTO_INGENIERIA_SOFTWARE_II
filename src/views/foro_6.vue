@@ -98,7 +98,7 @@
             dados los datos.
           </Pregunta>
 
-          <div class="flex flex-col gap-4 border-t border-linea pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <div v-if="!invitado" class="flex flex-col gap-4 border-t border-linea pt-8 sm:flex-row sm:items-center sm:justify-between">
             <p v-if="mensaje" role="status" class="aviso" :class="tipoMensaje === 'error' ? 'aviso-error' : 'aviso-info'">
               {{ mensaje }}
             </p>
@@ -108,6 +108,7 @@
               {{ enviando ? "Guardando…" : "Enviar respuestas" }}
             </button>
           </div>
+          <AvisoInvitado v-else class="mt-2" />
         </div>
       </Seccion>
     </template>
@@ -163,6 +164,8 @@
 </template>
 
 <script setup>
+import { esInvitado } from "@/sesion.js";
+import AvisoInvitado from "@/components/AvisoInvitado.vue";
 import { API_URL } from "@/api.js";
 import { ref, reactive, onMounted, nextTick } from "vue";
 import PaginaPaso from "@/components/PaginaPaso.vue";
@@ -321,4 +324,7 @@ function formatearFecha(f) {
     hour12: true,
   });
 }
+
+// Modo invitado: sin sesión se muestra el aviso en lugar del botón de enviar
+const invitado = esInvitado();
 </script>

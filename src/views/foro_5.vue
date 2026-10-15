@@ -119,13 +119,14 @@
             decrece cada vez más.
           </Pregunta>
 
-          <div class="flex flex-col gap-4 border-t border-linea pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <div v-if="!invitado" class="flex flex-col gap-4 border-t border-linea pt-8 sm:flex-row sm:items-center sm:justify-between">
             <p class="text-sm text-tenue">Al enviar verás las respuestas de tus compañeros.</p>
             <button type="button" class="boton boton-primario sm:ml-auto" :disabled="enviando" @click="enviarRespuestas">
               <span v-if="enviando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
               {{ enviando ? "Guardando…" : "Enviar respuestas" }}
             </button>
           </div>
+          <AvisoInvitado v-else class="mt-2" />
         </div>
       </Seccion>
     </template>
@@ -192,6 +193,8 @@
 </template>
 
 <script setup>
+import { esInvitado } from "@/sesion.js";
+import AvisoInvitado from "@/components/AvisoInvitado.vue";
 import { API_URL } from "@/api.js";
 import { onMounted, reactive, ref } from "vue";
 import PaginaPaso from "@/components/PaginaPaso.vue";
@@ -320,4 +323,7 @@ function formatearFecha(fechaString) {
   };
   return fecha.toLocaleString("es-MX", opciones);
 }
+
+// Modo invitado: sin sesión se muestra el aviso en lugar del botón de enviar
+const invitado = esInvitado();
 </script>

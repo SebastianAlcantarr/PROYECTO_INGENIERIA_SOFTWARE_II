@@ -103,6 +103,16 @@
             </button>
         </form>
 
+        <div class="relative my-6 flex items-center gap-4 text-sm text-tenue" aria-hidden="true">
+          <span class="h-px flex-1 bg-linea"></span>o<span class="h-px flex-1 bg-linea"></span>
+        </div>
+
+        <button type="button" class="boton boton-secundario w-full !min-h-12 text-base" @click="explorarSinSesion">
+          <span class="material-symbols-outlined -ml-1 text-[20px]" aria-hidden="true">visibility</span>
+          Ver el portal sin iniciar sesión
+        </button>
+        <p class="mt-2 text-center text-sm text-tenue">Podrás leer los foros y exámenes; para responder necesitas una cuenta.</p>
+
         <p class="mt-8 border-t border-linea pt-6 text-center text-tenue">
           {{ esRegistro ? "¿Ya tienes cuenta?" : "¿Aún no tienes cuenta?" }}
           <button type="button" class="ml-1 font-semibold text-tinta underline underline-offset-4 hover:text-a1" @click="cambiarModo">
@@ -121,6 +131,7 @@ import { API_URL } from "@/api.js";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LogoUniversidad from "@/components/LogoUniversidad.vue";
+import { entrarComoInvitado } from "@/sesion.js";
 
 const router = useRouter();
 
@@ -135,6 +146,11 @@ const mostrarContrasena = ref(false);
 const esRegistro = ref(false); // false = Login, true = Registro
 const mensaje = ref("");
 const tipoMensaje = ref(""); // 'error' o 'exito'
+
+function explorarSinSesion() {
+  entrarComoInvitado();
+  router.push("/bienvenida");
+}
 
 function cambiarModo() {
   esRegistro.value = !esRegistro.value;
