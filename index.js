@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 //importar cada archivo.vue y ponerle nombre
 import Foro1 from '/src/views/foro_1.vue'
@@ -85,7 +85,9 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // Rutas con # (/#/foro1): GitHub Pages no sabe reescribir rutas, así que con
+  // historial normal recargar /foro2/examen1 respondía 404. Con # siempre responde 200.
+  history: createWebHashHistory(),
   routes,
  scrollBehavior() {
   return { left: 0, top: 0 };

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Portal de Derivadas</title>
+    <script>
+      // GitHub Pages: convierte un enlace sin # (…/foro2/examen1) en la ruta de la app (…/#/foro2/examen1).
+      (function () {
+        var base = "/PROYECTO_INGENIERIA_SOFTWARE_II";
+        var ruta = location.pathname.indexOf(base) === 0 ? location.pathname.slice(base.length) : "/";
+        location.replace(base + "/#" + (ruta || "/") + location.search);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
