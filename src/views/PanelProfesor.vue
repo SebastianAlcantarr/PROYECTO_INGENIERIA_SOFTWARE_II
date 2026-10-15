@@ -1,21 +1,22 @@
 <template>
+  <EncabezadoPortal modo="profesor" />
   <div
-    class="flex h-screen bg-gray-900 text-white overflow-hidden font-display"
+    class="flex h-[calc(100dvh-4rem)] overflow-hidden bg-fondo text-tinta"
   >
     <!-- BARRA LATERAL -->
-    <aside class="w-80 bg-[#161d2b] border-r border-gray-700 flex flex-col">
-      <div class="p-4 border-b border-gray-700 bg-blue-900/20">
-        <h2 class="text-xl font-bold text-sky-300 flex items-center gap-2">
-          <span class="material-symbols-outlined">school</span>
-          Mis Estudiantes
+    <aside class="flex w-80 shrink-0 flex-col border-r border-linea bg-superficie max-md:w-full" :class="seleccionado ? 'max-md:hidden' : ''">
+      <div class="border-b border-linea p-5">
+        <h2 class="flex items-center gap-2 text-2xl font-bold tracking-[-0.02em]">
+          <span class="material-symbols-outlined text-a1" aria-hidden="true">groups</span>
+          Mis estudiantes
         </h2>
-        <p class="text-xs text-gray-400 mt-1">
+        <p class="mt-1 text-sm text-tenue">
           {{ estudiantes.length }} alumnos registrados
         </p>
       </div>
 
       <div class="flex-1 overflow-y-auto scrollbar-thin">
-        <div v-if="cargando" class="p-4 text-center text-gray-500">
+        <div v-if="cargando" class="p-5 text-center text-tenue">
           Cargando lista...
         </div>
 
@@ -23,19 +24,19 @@
           v-for="alumno in estudiantes"
           :key="alumno.email"
           @click="cargarExpediente(alumno)"
-          class="w-full text-left p-4 hover:bg-gray-800 border-b border-gray-800 transition-colors flex items-center gap-3"
+          class="flex w-full items-center gap-3 border-b border-linea px-5 py-3.5 text-left transition-colors hover:bg-hundido"
           :class="
             seleccionado?.email === alumno.email
-              ? 'bg-sky-900/20 border-l-4 border-l-sky-400'
+              ? 'bg-hundido font-semibold'
               : ''
           "
         >
           <div
-            class="h-10 w-10 rounded-full flex items-center justify-center text-sm font-bold text-white transition-colors"
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold transition-colors"
             :class="
               seleccionado?.email === alumno.email
-                ? 'bg-sky-600'
-                : 'bg-gray-700'
+                ? 'bg-a1 text-white'
+                : 'bg-hundido text-tinta'
             "
           >
             {{ obtenerIniciales(alumno) }}
@@ -45,91 +46,94 @@
               class="font-bold text-sm truncate"
               :class="
                 seleccionado?.email === alumno.email
-                  ? 'text-sky-100'
-                  : 'text-gray-300'
+                  ? 'text-tinta'
+                  : 'text-tinta'
               "
             >
               {{ alumno.nombre || "Sin nombre" }} {{ alumno.apellidos || "" }}
             </p>
-            <p class="text-xs text-gray-500 truncate">{{ alumno.email }}</p>
+            <p class="truncate text-sm text-tenue">{{ alumno.email }}</p>
           </div>
         </button>
       </div>
 
-      <div class="p-4 border-t border-gray-700">
+      <div class="border-t border-linea p-4">
         <button
           @click="cerrarSesion"
-          class="w-full py-2 bg-red-900/50 hover:bg-red-900 text-red-200 rounded text-sm transition"
+          class="boton boton-secundario w-full"
         >
-          Cerrar Sesión Profe
+          Cerrar sesión
         </button>
       </div>
     </aside>
 
     <!-- AREA PRINCIPAL -->
-    <main class="flex-1 flex flex-col bg-[#0f172a] relative">
+    <main class="relative flex min-w-0 flex-1 flex-col bg-fondo" :class="seleccionado ? '' : 'max-md:hidden'">
       <!-- Si no hay seleccionado -->
       <div
         v-if="!seleccionado"
-        class="flex-1 flex flex-col items-center justify-center text-gray-500 opacity-50"
+        class="flex flex-1 flex-col items-center justify-center gap-2 p-8 text-center text-tenue"
       >
-        <span class="material-symbols-outlined text-8xl mb-4"
+        <span class="material-symbols-outlined text-6xl" aria-hidden="true"
           >person_search</span
         >
-        <p class="text-xl">Selecciona un alumno para calificar</p>
+        <p class="font-display text-2xl font-bold text-tinta">Selecciona un alumno para calificar</p><p>Sus entregas y tu retroalimentación aparecerán aquí.</p>
       </div>
 
       <!-- Si hay alumno seleccionado -->
-      <div v-else class="flex-1 overflow-y-auto p-8 scrollbar-thin">
+      <div v-else class="flex-1 overflow-y-auto px-5 py-8 sm:px-8 lg:px-12">
         <header
-          class="mb-8 flex justify-between items-end border-b border-gray-700 pb-4"
+          class="mb-8 border-b border-linea pb-6"
         >
+          <button type="button" class="boton boton-secundario mb-6 !min-h-10 md:hidden" @click="seleccionado = null">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_back</span>Alumnos
+          </button>
           <div>
-            <h1 class="text-3xl font-bold text-white">
+            <h1 class="text-[clamp(2rem,4vw,3rem)] font-extrabold leading-tight tracking-[-0.025em]">
               {{ seleccionado.nombre }} {{ seleccionado.apellidos }}
             </h1>
-            <p class="text-sky-400">{{ seleccionado.email }}</p>
+            <p class="mt-1 text-tenue">{{ seleccionado.email }}</p>
           </div>
         </header>
 
         <div v-if="cargandoExpediente" class="text-center py-10">
           <span
-            class="material-symbols-outlined animate-spin text-4xl text-sky-500"
+            class="material-symbols-outlined animate-spin text-4xl text-a1"
             >refresh</span
           >
         </div>
 
-        <div v-else class="space-y-6 animate-fade-in pb-20">
+        <div v-else class="max-w-4xl space-y-4 pb-20">
           <!-- ========================================== -->
           <!-- TARJETA FORO 1 (CYAN)                    -->
           <!-- ========================================== -->
           <div
-            class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+            class="overflow-hidden rounded-2xl border border-linea bg-superficie"
           >
             <div
-              class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group"
-              @click="toggle('f1')"
+              class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0"
+              @click="toggle('f1')" @keydown.enter.prevent="toggle('f1')" @keydown.space.prevent="toggle('f1')"
             >
               <h3
-                class="font-bold text-lg flex items-center gap-2 text-cyan-300"
+                class="flex items-center gap-2 font-display text-lg font-bold"
               >
-                <span class="material-symbols-outlined text-cyan-400"
+                <span class="material-symbols-outlined text-a1" aria-hidden="true"
                   >forum</span
                 >
                 Foro 1: Densidad Mineral
               </h3>
               <div class="flex items-center gap-3">
                 <span
-                  class="text-xs px-2 py-1 rounded font-bold border"
+                  class="chip"
                   :class="
                     expediente.foro1
-                      ? 'bg-green-900/30 text-green-300 border-green-700'
-                      : 'bg-red-900/30 text-red-300 border-red-800'
+                      ? '!bg-ok-fondo !text-ok'
+                      : '!bg-error-fondo !text-error'
                   "
                   >{{ expediente.foro1 ? "Completado" : "Sin entregar" }}</span
                 >
                 <span
-                  class="material-symbols-outlined text-gray-400 transition-transform"
+                  class="material-symbols-outlined text-tenue transition-transform"
                   :class="expandido.f1 ? 'rotate-180' : ''"
                   >expand_more</span
                 >
@@ -137,42 +141,42 @@
             </div>
             <div
               v-if="expediente.foro1 && expandido.f1"
-              class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-cyan-500"
+              class="border-t border-linea p-5 text-[0.9375rem] sm:p-6"
             >
               <!-- Respuestas -->
               <div class="grid gap-4 mb-6">
                 <div>
-                  <strong class="text-cyan-200 block mb-1"
+                  <strong class="font-semibold block mb-1"
                     >1. Definición:</strong
                   >
-                  <p class="bg-gray-900/50 p-2 rounded">
+                  <p class="rounded-xl bg-hundido p-3">
                     {{ expediente.foro1.r1 }}
                   </p>
                 </div>
                 <!-- ... resto de preguntas resumidas para no hacer el código gigante ... -->
                 <details>
-                  <summary class="cursor-pointer text-cyan-400 mt-1">
+                  <summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">
                     Ver todas las respuestas...
                   </summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                  <div class="mt-3 space-y-3">
                     <p>
-                      <strong class="text-cyan-200">P2:</strong>
+                      <strong class="font-semibold">P2:</strong>
                       {{ expediente.foro1.r2 }}
                     </p>
                     <p>
-                      <strong class="text-cyan-200">P3:</strong>
+                      <strong class="font-semibold">P3:</strong>
                       {{ expediente.foro1.r3 }}
                     </p>
                     <p>
-                      <strong class="text-cyan-200">P4:</strong>
+                      <strong class="font-semibold">P4:</strong>
                       {{ expediente.foro1.r4 }}
                     </p>
                     <p>
-                      <strong class="text-cyan-200">P5:</strong>
+                      <strong class="font-semibold">P5:</strong>
                       {{ expediente.foro1.r5 }}
                     </p>
                     <p>
-                      <strong class="text-cyan-200">P6:</strong>
+                      <strong class="font-semibold">P6:</strong>
                       {{ expediente.foro1.r6 }}
                     </p>
                   </div>
@@ -180,21 +184,21 @@
               </div>
 
               <!-- ZONA DE FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <label
-                  class="text-xs font-bold text-cyan-500 uppercase mb-2 block"
+                  class="mb-2 block text-sm font-semibold"
                   >Retroalimentación:</label
                 >
                 <div class="flex gap-2">
                   <textarea
                     v-model="feedbackInputs.foro1"
                     rows="1"
-                    class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-cyan-500 outline-none transition-all"
+                    class="campo flex-1"
                     placeholder="Escribe un comentario..."
                   ></textarea>
                   <button
                     @click="enviarFeedback('foro1')"
-                    class="bg-cyan-700 hover:bg-cyan-600 text-white px-4 rounded font-bold text-xs transition-colors"
+                    class="boton boton-primario"
                   >
                     Enviar
                   </button>
@@ -207,32 +211,32 @@
           <!-- TARJETA FORO 2 (SKY)                     -->
           <!-- ========================================== -->
           <div
-            class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+            class="overflow-hidden rounded-2xl border border-linea bg-superficie"
           >
             <div
-              class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group"
-              @click="toggle('f2')"
+              class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0"
+              @click="toggle('f2')" @keydown.enter.prevent="toggle('f2')" @keydown.space.prevent="toggle('f2')"
             >
               <h3
-                class="font-bold text-lg flex items-center gap-2 text-sky-300"
+                class="flex items-center gap-2 font-display text-lg font-bold"
               >
-                <span class="material-symbols-outlined text-sky-400"
+                <span class="material-symbols-outlined text-a1" aria-hidden="true"
                   >bar_chart</span
                 >
                 Foro 2: Gráfico Comparativo
               </h3>
               <div class="flex items-center gap-3">
                 <span
-                  class="text-xs px-2 py-1 rounded font-bold border"
+                  class="chip"
                   :class="
                     expediente.foro2
-                      ? 'bg-green-900/30 text-green-300 border-green-700'
-                      : 'bg-red-900/30 text-red-300 border-red-800'
+                      ? '!bg-ok-fondo !text-ok'
+                      : '!bg-error-fondo !text-error'
                   "
                   >{{ expediente.foro2 ? "Completado" : "Sin entregar" }}</span
                 >
                 <span
-                  class="material-symbols-outlined text-gray-400 transition-transform"
+                  class="material-symbols-outlined text-tenue transition-transform"
                   :class="expandido.f2 ? 'rotate-180' : ''"
                   >expand_more</span
                 >
@@ -240,55 +244,55 @@
             </div>
             <div
               v-if="expediente.foro2 && expandido.f2"
-              class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-sky-500"
+              class="border-t border-linea p-5 text-[0.9375rem] sm:p-6"
             >
               <div class="grid gap-4 mb-6">
                 <div>
-                  <strong class="text-sky-200 block mb-1">1. Análisis:</strong>
-                  <p class="bg-gray-900/50 p-2 rounded">
+                  <strong class="font-semibold block mb-1">1. Análisis:</strong>
+                  <p class="rounded-xl bg-hundido p-3">
                     {{ expediente.foro2.r1 }}
                   </p>
                 </div>
                 <details>
-                  <summary class="cursor-pointer text-sky-400 mt-1">
+                  <summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">
                     Ver más...
                   </summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                  <div class="mt-3 space-y-3">
                     <p>
-                      <strong class="text-sky-200">P2:</strong>
+                      <strong class="font-semibold">P2:</strong>
                       {{ expediente.foro2.r2 }}
                     </p>
                     <p>
-                      <strong class="text-sky-200">P3:</strong>
+                      <strong class="font-semibold">P3:</strong>
                       {{ expediente.foro2.r3 }}
                     </p>
                     <p>
-                      <strong class="text-sky-200">P4:</strong>
+                      <strong class="font-semibold">P4:</strong>
                       {{ expediente.foro2.r4 }}
                     </p>
                     <p>
-                      <strong class="text-sky-200">P5:</strong>
+                      <strong class="font-semibold">P5:</strong>
                       {{ expediente.foro2.r5 }}
                     </p>
                     <p>
-                      <strong class="text-sky-200">P6:</strong>
+                      <strong class="font-semibold">P6:</strong>
                       {{ expediente.foro2.r6 }}
                     </p>
                   </div>
                 </details>
               </div>
               <!-- FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <div class="flex gap-2">
                   <textarea
                     v-model="feedbackInputs.foro2"
                     rows="1"
-                    class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-sky-500 outline-none"
+                    class="campo flex-1"
                     placeholder="Retroalimentación para Foro 2..."
                   ></textarea>
                   <button
                     @click="enviarFeedback('foro2')"
-                    class="bg-sky-700 hover:bg-sky-600 text-white px-4 rounded font-bold text-xs"
+                    class="boton boton-primario"
                   >
                     Enviar
                   </button>
@@ -301,32 +305,32 @@
           <!-- TARJETA FORO 3 (BLUE)                    -->
           <!-- ========================================== -->
           <div
-            class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+            class="overflow-hidden rounded-2xl border border-linea bg-superficie"
           >
             <div
-              class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group"
-              @click="toggle('f3')"
+              class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0"
+              @click="toggle('f3')" @keydown.enter.prevent="toggle('f3')" @keydown.space.prevent="toggle('f3')"
             >
               <h3
-                class="font-bold text-lg flex items-center gap-2 text-blue-300"
+                class="flex items-center gap-2 font-display text-lg font-bold"
               >
-                <span class="material-symbols-outlined text-blue-400"
+                <span class="material-symbols-outlined text-a1" aria-hidden="true"
                   >accessibility_new</span
                 >
                 Foro 3: DMO Cadera
               </h3>
               <div class="flex items-center gap-3">
                 <span
-                  class="text-xs px-2 py-1 rounded font-bold border"
+                  class="chip"
                   :class="
                     expediente.foro3
-                      ? 'bg-green-900/30 text-green-300 border-green-700'
-                      : 'bg-red-900/30 text-red-300 border-red-800'
+                      ? '!bg-ok-fondo !text-ok'
+                      : '!bg-error-fondo !text-error'
                   "
                   >{{ expediente.foro3 ? "Completado" : "Sin entregar" }}</span
                 >
                 <span
-                  class="material-symbols-outlined text-gray-400 transition-transform"
+                  class="material-symbols-outlined text-tenue transition-transform"
                   :class="expandido.f3 ? 'rotate-180' : ''"
                   >expand_more</span
                 >
@@ -334,61 +338,61 @@
             </div>
             <div
               v-if="expediente.foro3 && expandido.f3"
-              class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-blue-500"
+              class="border-t border-linea p-5 text-[0.9375rem] sm:p-6"
             >
               <div class="grid gap-4 mb-6">
                 <div>
-                  <strong class="text-blue-200 block mb-1"
+                  <strong class="font-semibold block mb-1"
                     >1. Cambio DMO:</strong
                   >
-                  <p class="bg-gray-900/50 p-2 rounded">
+                  <p class="rounded-xl bg-hundido p-3">
                     {{ expediente.foro3.r1 }}
                   </p>
                 </div>
                 <details>
-                  <summary class="cursor-pointer text-blue-400 mt-1">
+                  <summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">
                     Ver más...
                   </summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                  <div class="mt-3 space-y-3">
                     <p>
-                      <strong class="text-blue-200">P2:</strong>
+                      <strong class="font-semibold">P2:</strong>
                       {{ expediente.foro3.r2 }}
                     </p>
                     <p>
-                      <strong class="text-blue-200">P3:</strong>
+                      <strong class="font-semibold">P3:</strong>
                       {{ expediente.foro3.r3 }}
                     </p>
                     <p>
-                      <strong class="text-blue-200">P4:</strong>
+                      <strong class="font-semibold">P4:</strong>
                       {{ expediente.foro3.r4 }}
                     </p>
                     <p>
-                      <strong class="text-blue-200">P5:</strong>
+                      <strong class="font-semibold">P5:</strong>
                       {{ expediente.foro3.r5 }}
                     </p>
                     <p>
-                      <strong class="text-blue-200">P7:</strong>
+                      <strong class="font-semibold">P7:</strong>
                       {{ expediente.foro3.r7 }}
                     </p>
                     <p>
-                      <strong class="text-blue-200">P8:</strong>
+                      <strong class="font-semibold">P8:</strong>
                       {{ expediente.foro3.r8 }}
                     </p>
                   </div>
                 </details>
               </div>
               <!-- FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <div class="flex gap-2">
                   <textarea
                     v-model="feedbackInputs.foro3"
                     rows="1"
-                    class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-blue-500 outline-none"
+                    class="campo flex-1"
                     placeholder="Retroalimentación para Foro 3..."
                   ></textarea>
                   <button
                     @click="enviarFeedback('foro3')"
-                    class="bg-blue-700 hover:bg-blue-600 text-white px-4 rounded font-bold text-xs"
+                    class="boton boton-primario"
                   >
                     Enviar
                   </button>
@@ -401,32 +405,32 @@
           <!-- TARJETA FORO 4 (INDIGO)                  -->
           <!-- ========================================== -->
           <div
-            class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+            class="overflow-hidden rounded-2xl border border-linea bg-superficie"
           >
             <div
-              class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group"
-              @click="toggle('f4')"
+              class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0"
+              @click="toggle('f4')" @keydown.enter.prevent="toggle('f4')" @keydown.space.prevent="toggle('f4')"
             >
               <h3
-                class="font-bold text-lg flex items-center gap-2 text-indigo-300"
+                class="flex items-center gap-2 font-display text-lg font-bold"
               >
-                <span class="material-symbols-outlined text-indigo-400"
+                <span class="material-symbols-outlined text-a1" aria-hidden="true"
                   >analytics</span
                 >
                 Foro 4: Análisis DMO
               </h3>
               <div class="flex items-center gap-3">
                 <span
-                  class="text-xs px-2 py-1 rounded font-bold border"
+                  class="chip"
                   :class="
                     expediente.foro4
-                      ? 'bg-green-900/30 text-green-300 border-green-700'
-                      : 'bg-red-900/30 text-red-300 border-red-800'
+                      ? '!bg-ok-fondo !text-ok'
+                      : '!bg-error-fondo !text-error'
                   "
                   >{{ expediente.foro4 ? "Completado" : "Sin entregar" }}</span
                 >
                 <span
-                  class="material-symbols-outlined text-gray-400 transition-transform"
+                  class="material-symbols-outlined text-tenue transition-transform"
                   :class="expandido.f4 ? 'rotate-180' : ''"
                   >expand_more</span
                 >
@@ -434,61 +438,61 @@
             </div>
             <div
               v-if="expediente.foro4 && expandido.f4"
-              class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-indigo-500"
+              class="border-t border-linea p-5 text-[0.9375rem] sm:p-6"
             >
               <div class="grid gap-4 mb-6">
                 <div>
-                  <strong class="text-indigo-200 block mb-1"
+                  <strong class="font-semibold block mb-1"
                     >1. Expresión:</strong
                   >
-                  <p class="bg-gray-900/50 p-2 rounded">
+                  <p class="rounded-xl bg-hundido p-3">
                     {{ expediente.foro4.r1 }}
                   </p>
                 </div>
                 <details>
-                  <summary class="cursor-pointer text-indigo-400 mt-1">
+                  <summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">
                     Ver más...
                   </summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                  <div class="mt-3 space-y-3">
                     <p>
-                      <strong class="text-indigo-200">P2:</strong>
+                      <strong class="font-semibold">P2:</strong>
                       {{ expediente.foro4.r2 }}
                     </p>
                     <p>
-                      <strong class="text-indigo-200">P3:</strong>
+                      <strong class="font-semibold">P3:</strong>
                       {{ expediente.foro4.r3 }}
                     </p>
                     <p>
-                      <strong class="text-indigo-200">P4:</strong>
+                      <strong class="font-semibold">P4:</strong>
                       {{ expediente.foro4.r4 }}
                     </p>
                     <p>
-                      <strong class="text-indigo-200">P5:</strong>
+                      <strong class="font-semibold">P5:</strong>
                       {{ expediente.foro4.r5 }}
                     </p>
                     <p>
-                      <strong class="text-indigo-200">P6:</strong>
+                      <strong class="font-semibold">P6:</strong>
                       {{ expediente.foro4.r6 }}
                     </p>
                     <p>
-                      <strong class="text-indigo-200">P7:</strong>
+                      <strong class="font-semibold">P7:</strong>
                       {{ expediente.foro4.r7 }}
                     </p>
                   </div>
                 </details>
               </div>
               <!-- FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <div class="flex gap-2">
                   <textarea
                     v-model="feedbackInputs.foro4"
                     rows="1"
-                    class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-indigo-500 outline-none"
+                    class="campo flex-1"
                     placeholder="Retroalimentación para Foro 4..."
                   ></textarea>
                   <button
                     @click="enviarFeedback('foro4')"
-                    class="bg-indigo-700 hover:bg-indigo-600 text-white px-4 rounded font-bold text-xs"
+                    class="boton boton-primario"
                   >
                     Enviar
                   </button>
@@ -501,32 +505,32 @@
           <!-- TARJETA FORO 5 (VIOLET)                  -->
           <!-- ========================================== -->
           <div
-            class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+            class="overflow-hidden rounded-2xl border border-linea bg-superficie"
           >
             <div
-              class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group"
-              @click="toggle('f5')"
+              class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0"
+              @click="toggle('f5')" @keydown.enter.prevent="toggle('f5')" @keydown.space.prevent="toggle('f5')"
             >
               <h3
-                class="font-bold text-lg flex items-center gap-2 text-violet-300"
+                class="flex items-center gap-2 font-display text-lg font-bold"
               >
-                <span class="material-symbols-outlined text-violet-400"
+                <span class="material-symbols-outlined text-a1" aria-hidden="true"
                   >trending_up</span
                 >
                 Foro 5: Razón de Cambio
               </h3>
               <div class="flex items-center gap-3">
                 <span
-                  class="text-xs px-2 py-1 rounded font-bold border"
+                  class="chip"
                   :class="
                     expediente.foro5
-                      ? 'bg-green-900/30 text-green-300 border-green-700'
-                      : 'bg-red-900/30 text-red-300 border-red-800'
+                      ? '!bg-ok-fondo !text-ok'
+                      : '!bg-error-fondo !text-error'
                   "
                   >{{ expediente.foro5 ? "Completado" : "Sin entregar" }}</span
                 >
                 <span
-                  class="material-symbols-outlined text-gray-400 transition-transform"
+                  class="material-symbols-outlined text-tenue transition-transform"
                   :class="expandido.f5 ? 'rotate-180' : ''"
                   >expand_more</span
                 >
@@ -534,7 +538,7 @@
             </div>
             <div
               v-if="expediente.foro5 && expandido.f5"
-              class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-violet-600"
+              class="border-t border-linea p-5 text-[0.9375rem] sm:p-6"
             >
               <div class="grid gap-4 mb-6">
                 <!-- Las 3 fotos de la tabla -->
@@ -545,80 +549,80 @@
                     expediente.foro5.imagen_3
                   "
                 >
-                  <strong class="text-violet-200 block mb-2"
+                  <strong class="font-semibold block mb-1"
                     >1. Fotos de la tabla (RPC):</strong
                   >
                   <div class="grid grid-cols-3 gap-2">
                     <img
                       v-if="expediente.foro5.imagen_1"
                       :src="expediente.foro5.imagen_1"
-                      class="rounded border border-gray-600 h-32 w-full object-cover"
+                      class="h-32 w-full rounded-xl border border-linea object-cover"
                     />
                     <img
                       v-if="expediente.foro5.imagen_2"
                       :src="expediente.foro5.imagen_2"
-                      class="rounded border border-gray-600 h-32 w-full object-cover"
+                      class="h-32 w-full rounded-xl border border-linea object-cover"
                     />
                     <img
                       v-if="expediente.foro5.imagen_3"
                       :src="expediente.foro5.imagen_3"
-                      class="rounded border border-gray-600 h-32 w-full object-cover"
+                      class="h-32 w-full rounded-xl border border-linea object-cover"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <strong class="text-violet-200 block mb-1"
+                  <strong class="font-semibold block mb-1"
                     >2. Comportamiento RPC:</strong
                   >
-                  <p class="bg-gray-900/50 p-2 rounded">
+                  <p class="rounded-xl bg-hundido p-3">
                     {{ expediente.foro5.r2 }}
                   </p>
                 </div>
 
                 <!-- Imagen del bosquejo (pregunta 3) -->
                 <div v-if="expediente.foro5.imagen_pregunta_3">
-                  <strong class="text-violet-200 block mb-2"
+                  <strong class="font-semibold block mb-1"
                     >3. Bosquejo de la gráfica:</strong
                   >
                   <img
                     :src="expediente.foro5.imagen_pregunta_3"
-                    class="rounded border border-gray-600 max-h-64 object-contain"
+                    class="max-h-64 rounded-xl border border-linea object-contain"
                   />
                 </div>
 
                 <details>
-                  <summary class="cursor-pointer text-violet-400 mt-1">
+                  <summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">
                     Ver más respuestas...
                   </summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                  <div class="mt-3 space-y-3">
                     <p>
-                      <strong class="text-violet-200">P4:</strong>
+                      <strong class="font-semibold">P4:</strong>
                       {{ expediente.foro5.r4 }}
                     </p>
                     <p>
-                      <strong class="text-violet-200">P5:</strong>
+                      <strong class="font-semibold">P5:</strong>
                       {{ expediente.foro5.r5 }}
                     </p>
                     <p>
-                      <strong class="text-violet-200">P6:</strong>
+                      <strong class="font-semibold">P6:</strong>
                       {{ expediente.foro5.r6 }}
                     </p>
                   </div>
                 </details>
               </div>
               <!-- FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <div class="flex gap-2">
                   <textarea
                     v-model="feedbackInputs.foro5"
                     rows="1"
-                    class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-violet-500 outline-none"
+                    class="campo flex-1"
                     placeholder="Retroalimentación para Foro 5..."
                   ></textarea>
                   <button
                     @click="enviarFeedback('foro5')"
-                    class="bg-violet-700 hover:bg-violet-600 text-white px-4 rounded font-bold text-xs"
+                    class="boton boton-primario"
                   >
                     Enviar
                   </button>
@@ -631,32 +635,32 @@
           <!-- TARJETA FORO 6 (PURPLE)                  -->
           <!-- ========================================== -->
           <div
-            class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+            class="overflow-hidden rounded-2xl border border-linea bg-superficie"
           >
             <div
-              class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group"
-              @click="toggle('f6')"
+              class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0"
+              @click="toggle('f6')" @keydown.enter.prevent="toggle('f6')" @keydown.space.prevent="toggle('f6')"
             >
               <h3
-                class="font-bold text-lg flex items-center gap-2 text-purple-300"
+                class="flex items-center gap-2 font-display text-lg font-bold"
               >
-                <span class="material-symbols-outlined text-purple-400"
+                <span class="material-symbols-outlined text-a1" aria-hidden="true"
                   >swap_horiz</span
                 >
                 Foro 6: Covariación
               </h3>
               <div class="flex items-center gap-3">
                 <span
-                  class="text-xs px-2 py-1 rounded font-bold border"
+                  class="chip"
                   :class="
                     expediente.foro6
-                      ? 'bg-green-900/30 text-green-300 border-green-700'
-                      : 'bg-red-900/30 text-red-300 border-red-800'
+                      ? '!bg-ok-fondo !text-ok'
+                      : '!bg-error-fondo !text-error'
                   "
                   >{{ expediente.foro6 ? "Completado" : "Sin entregar" }}</span
                 >
                 <span
-                  class="material-symbols-outlined text-gray-400 transition-transform"
+                  class="material-symbols-outlined text-tenue transition-transform"
                   :class="expandido.f6 ? 'rotate-180' : ''"
                   >expand_more</span
                 >
@@ -664,65 +668,65 @@
             </div>
             <div
               v-if="expediente.foro6 && expandido.f6"
-              class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-purple-600"
+              class="border-t border-linea p-5 text-[0.9375rem] sm:p-6"
             >
               <div class="grid gap-4 mb-6">
                 <div>
-                  <strong class="text-purple-200 block mb-1"
+                  <strong class="font-semibold block mb-1"
                     >1. Dominio:</strong
                   >
-                  <p class="bg-gray-900/50 p-2 rounded">
+                  <p class="rounded-xl bg-hundido p-3">
                     {{ expediente.foro6.r1 }}
                   </p>
                 </div>
                 <details>
-                  <summary class="cursor-pointer text-purple-400 mt-1">
+                  <summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">
                     Ver más...
                   </summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                  <div class="mt-3 space-y-3">
                     <p>
-                      <strong class="text-purple-200">2. Argumento:</strong>
+                      <strong class="font-semibold">2. Argumento:</strong>
                       {{ expediente.foro6.r2 }}
                     </p>
                     <p>
-                      <strong class="text-purple-200">3. Simulador:</strong>
+                      <strong class="font-semibold">3. Simulador:</strong>
                       {{ expediente.foro6.r3 }}
                     </p>
                     <p>
-                      <strong class="text-purple-200">4. GeoGebra:</strong>
+                      <strong class="font-semibold">4. GeoGebra:</strong>
                       {{ expediente.foro6.r4 }}
                     </p>
                     <p>
-                      <strong class="text-purple-200">5. Pendientes:</strong>
+                      <strong class="font-semibold">5. Pendientes:</strong>
                       {{ expediente.foro6.r5 }}
                     </p>
                     <p>
-                      <strong class="text-purple-200">6. Notas:</strong>
+                      <strong class="font-semibold">6. Notas:</strong>
                       {{ expediente.foro6.r6 }}
                     </p>
                     <p>
-                      <strong class="text-purple-200">7. Óptimo M:</strong>
+                      <strong class="font-semibold">7. Óptimo M:</strong>
                       {{ expediente.foro6.r7 }}
                     </p>
                     <p>
-                      <strong class="text-purple-200">8. Óptimo H:</strong>
+                      <strong class="font-semibold">8. Óptimo H:</strong>
                       {{ expediente.foro6.r8 }}
                     </p>
                   </div>
                 </details>
               </div>
               <!-- FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <div class="flex gap-2">
                   <textarea
                     v-model="feedbackInputs.foro6"
                     rows="1"
-                    class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-purple-500 outline-none"
+                    class="campo flex-1"
                     placeholder="Retroalimentación para Foro 6..."
                   ></textarea>
                   <button
                     @click="enviarFeedback('foro6')"
-                    class="bg-purple-700 hover:bg-purple-600 text-white px-4 rounded font-bold text-xs"
+                    class="boton boton-primario"
                   >
                     Enviar
                   </button>
@@ -735,34 +739,34 @@
           <!-- TARJETA EXAMEN 1 (TEAL)                  -->
           <!-- ========================================== -->
           <div
-            class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+            class="overflow-hidden rounded-2xl border border-linea bg-superficie"
           >
             <div
-              class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group"
-              @click="toggle('e1')"
+              class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0"
+              @click="toggle('e1')" @keydown.enter.prevent="toggle('e1')" @keydown.space.prevent="toggle('e1')"
             >
               <h3
-                class="font-bold text-lg flex items-center gap-2 text-teal-300"
+                class="flex items-center gap-2 font-display text-lg font-bold"
               >
-                <span class="material-symbols-outlined text-teal-400"
+                <span class="material-symbols-outlined text-a1" aria-hidden="true"
                   >assignment_turned_in</span
                 >
                 Examen 1
               </h3>
               <div class="flex items-center gap-3">
                 <span
-                  class="text-xs px-2 py-1 rounded font-bold border"
+                  class="chip"
                   :class="
                     expediente.examen1
-                      ? 'bg-green-900/30 text-green-300 border-green-700'
-                      : 'bg-red-900/30 text-red-300 border-red-800'
+                      ? '!bg-ok-fondo !text-ok'
+                      : '!bg-error-fondo !text-error'
                   "
                   >{{
                     expediente.examen1 ? "Completado" : "Sin entregar"
                   }}</span
                 >
                 <span
-                  class="material-symbols-outlined text-gray-400 transition-transform"
+                  class="material-symbols-outlined text-tenue transition-transform"
                   :class="expandido.e1 ? 'rotate-180' : ''"
                   >expand_more</span
                 >
@@ -770,56 +774,56 @@
             </div>
             <div
               v-if="expediente.examen1 && expandido.e1"
-              class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-teal-500"
+              class="border-t border-linea p-5 text-[0.9375rem] sm:p-6"
             >
               <div class="grid gap-4 mb-6">
                 <div>
-                  <strong class="text-teal-200 block mb-1">Puntaje:</strong>
+                  <strong class="font-semibold block mb-1">Puntaje:</strong>
                   <span
                     class="bg-teal-900/50 text-teal-300 px-2 py-1 rounded font-bold"
                     >{{ expediente.examen1.r6 }}</span
                   >
                 </div>
                 <div>
-                  <strong class="text-teal-200 block mb-1">P1:</strong>
+                  <strong class="font-semibold block mb-1">P1:</strong>
                   {{ expediente.examen1.r1 }}
                 </div>
                 <details>
-                  <summary class="cursor-pointer text-teal-400 mt-1">
+                  <summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">
                     Ver más...
                   </summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
+                  <div class="mt-3 space-y-3">
                     <p>
-                      <strong class="text-teal-200">P2:</strong>
+                      <strong class="font-semibold">P2:</strong>
                       {{ expediente.examen1.r2 }}
                     </p>
                     <p>
-                      <strong class="text-teal-200">P3:</strong>
+                      <strong class="font-semibold">P3:</strong>
                       {{ expediente.examen1.r3 }}
                     </p>
                     <p>
-                      <strong class="text-teal-200">Oración:</strong>
+                      <strong class="font-semibold">Oración:</strong>
                       {{ expediente.examen1.r4 }}
                     </p>
                     <p>
-                      <strong class="text-teal-200">Parejas:</strong>
+                      <strong class="font-semibold">Parejas:</strong>
                       {{ expediente.examen1.r5 }}
                     </p>
                   </div>
                 </details>
               </div>
               <!-- FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <div class="flex gap-2">
                   <textarea
                     v-model="feedbackInputs.examen1"
                     rows="1"
-                    class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-teal-500 outline-none"
+                    class="campo flex-1"
                     placeholder="Retroalimentación para Examen 1..."
                   ></textarea>
                   <button
                     @click="enviarFeedback('examen1')"
-                    class="bg-teal-700 hover:bg-teal-600 text-white px-4 rounded font-bold text-xs"
+                    class="boton boton-primario"
                   >
                     Enviar
                   </button>
@@ -829,36 +833,36 @@
           </div>
 
           <!-- TARJETA EXAMEN 2 (ROSE) -->
-          <div class="bg-[#1e293b] rounded-xl overflow-hidden border border-gray-700 shadow-lg">
-            <div class="bg-gray-800 px-6 py-4 flex justify-between items-center cursor-pointer hover:bg-gray-750 transition-colors group" @click="toggle('e2')">
-              <h3 class="font-bold text-lg flex items-center gap-2 text-rose-300 group-hover:text-rose-200 transition-colors">
-                <span class="material-symbols-outlined text-rose-400">assignment_turned_in</span> Examen 2
+          <div class="overflow-hidden rounded-2xl border border-linea bg-superficie">
+            <div class="group flex cursor-pointer items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-hundido sm:px-6" role="button" tabindex="0" @click="toggle('e2')" @keydown.enter.prevent="toggle('e2')" @keydown.space.prevent="toggle('e2')">
+              <h3 class="flex items-center gap-2 font-display text-lg font-bold">
+                <span class="material-symbols-outlined text-a1" aria-hidden="true">assignment_turned_in</span> Examen 2
               </h3>
               <div class="flex items-center gap-3">
-                <span class="text-xs px-2 py-1 rounded font-bold border" :class="expediente.examen2 ? 'bg-green-900/30 text-green-300 border-green-700' : 'bg-red-900/30 text-red-200 border-red-800'">{{ expediente.examen2 ? 'Completado' : 'Sin entregar' }}</span>
-                <span class="material-symbols-outlined text-gray-400 transition-transform" :class="expandido.e2 ? 'rotate-180' : ''">expand_more</span>
+                <span class="chip" :class="expediente.examen2 ? '!bg-ok-fondo !text-ok' : '!bg-error-fondo !text-error'">{{ expediente.examen2 ? 'Completado' : 'Sin entregar' }}</span>
+                <span class="material-symbols-outlined text-tenue transition-transform" :class="expandido.e2 ? 'rotate-180' : ''">expand_more</span>
               </div>
             </div>
-            <div v-if="expediente.examen2 && expandido.e2" class="p-6 text-sm text-gray-300 border-t border-gray-700 border-l-4 border-l-rose-500">
+            <div v-if="expediente.examen2 && expandido.e2" class="border-t border-linea p-5 text-[0.9375rem] sm:p-6">
               <div class="grid gap-4 mb-6">
                 <!-- Mostramos las 7 preguntas del examen 2 -->
-                <div><strong class="text-rose-200 block mb-1">P1:</strong> {{ expediente.examen2.r1 }}</div>
-                <div><strong class="text-rose-200 block mb-1">P2:</strong> {{ expediente.examen2.r2 }}</div>
-                <details><summary class="cursor-pointer text-rose-400 mt-1">Ver más...</summary>
-                  <div class="mt-2 space-y-2 pl-2 border-l border-gray-700">
-                    <p><strong class="text-rose-200">P3:</strong> {{ expediente.examen2.r3 }}</p>
-                    <p><strong class="text-rose-200">P4:</strong> {{ expediente.examen2.r4 }}</p>
-                    <p><strong class="text-rose-200">P5:</strong> {{ expediente.examen2.r5 }}</p>
-                    <p><strong class="text-rose-200">P6:</strong> {{ expediente.examen2.r6 }}</p>
-                    <p><strong class="text-rose-200">P7:</strong> {{ expediente.examen2.r7 }}</p>
+                <div><strong class="font-semibold block mb-1">P1:</strong> {{ expediente.examen2.r1 }}</div>
+                <div><strong class="font-semibold block mb-1">P2:</strong> {{ expediente.examen2.r2 }}</div>
+                <details><summary class="mt-1 cursor-pointer text-sm font-semibold text-a1">Ver más...</summary>
+                  <div class="mt-3 space-y-3">
+                    <p><strong class="font-semibold">P3:</strong> {{ expediente.examen2.r3 }}</p>
+                    <p><strong class="font-semibold">P4:</strong> {{ expediente.examen2.r4 }}</p>
+                    <p><strong class="font-semibold">P5:</strong> {{ expediente.examen2.r5 }}</p>
+                    <p><strong class="font-semibold">P6:</strong> {{ expediente.examen2.r6 }}</p>
+                    <p><strong class="font-semibold">P7:</strong> {{ expediente.examen2.r7 }}</p>
                   </div>
                 </details>
               </div>
               <!-- FEEDBACK -->
-              <div class="mt-4 pt-4 border-t border-gray-700">
+              <div class="mt-4 border-t border-linea pt-4">
                 <div class="flex gap-2">
-                  <textarea v-model="feedbackInputs.examen2" rows="1" class="flex-1 bg-gray-900 border border-gray-600 rounded p-2 text-white focus:border-rose-500 outline-none" placeholder="Retroalimentación para Examen 2..."></textarea>
-                  <button @click="enviarFeedback('examen2')" class="bg-rose-700 hover:bg-rose-600 text-white px-4 rounded font-bold text-xs">Enviar</button>
+                  <textarea v-model="feedbackInputs.examen2" rows="1" class="campo flex-1" placeholder="Retroalimentación para Examen 2..."></textarea>
+                  <button @click="enviarFeedback('examen2')" class="boton boton-primario">Enviar</button>
                 </div>
               </div>
             </div>
@@ -871,6 +875,7 @@
 </template>
 
 <script setup>
+import EncabezadoPortal from "@/components/EncabezadoPortal.vue";
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
@@ -987,16 +992,3 @@ function cerrarSesion() {
   router.push("/");
 }
 </script>
-
-<style scoped>
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #374151;
-  border-radius: 20px;
-}
-.scrollbar-thin::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-</style>

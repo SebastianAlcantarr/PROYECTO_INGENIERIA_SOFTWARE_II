@@ -1,62 +1,52 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-[#244a76] dark:bg-[rgb(16,22,34)] p-6 font-display relative overflow-hidden">
+  <div class="min-h-dvh bg-fondo text-tinta">
+    <EncabezadoPortal />
 
-    <!-- Fondo decorativo -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl"></div>
-      <div class="absolute top-1/2 right-0 w-64 h-64 rounded-full bg-purple-500/10 blur-3xl"></div>
-    </div>
-
-    <!-- Tarjeta Principal -->
-    <div class="relative z-10 max-w-4xl w-full bg-[#161d2b]/90 backdrop-blur-md border border-gray-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row animate-fade-in-up">
-
-      <!-- Izquierda -->
-      <div class="w-full md:w-1/3 bg-linear-to-br from-blue-600 to-indigo-700 p-8 flex flex-col items-center justify-center text-white text-center">
-        <span class="material-symbols-outlined text-8xl mb-4 text-white/90">school</span>
-        <h2 class="text-2xl font-bold">Cálculo Diferencial</h2>
-        <div class="w-16 h-1 bg-white/30 rounded-full my-4"></div>
-        <p class="text-blue-100 text-sm font-medium">Secuencia Didáctica</p>
-      </div>
-
-      <!-- Derecha -->
-      <div class="w-full md:w-2/3 p-8 md:p-12 flex flex-col justify-center">
-        <h1 class="text-3xl md:text-4xl font-black text-white mb-6">
+    <main class="mx-auto grid max-w-[1240px] gap-12 px-4 pb-20 pt-10 sm:px-6 md:pt-16 lg:grid-cols-[minmax(0,1fr)_440px] lg:gap-16 lg:px-10">
+      <section class="entrada">
+        <p class="text-lg text-tenue">
+          Hola, <span class="font-semibold text-tinta">{{ nombreUsuario }}</span>.
+        </p>
+        <h1 class="mt-4 text-[clamp(2.75rem,7vw,5.5rem)] font-extrabold leading-[0.98] tracking-[-0.015em]">
           ¡Bienvenido/a!
         </h1>
-
-        <div class="space-y-4 text-gray-300 text-lg leading-relaxed mb-8">
-          <p>
-            Hola, <span class="text-blue-400 font-bold text-xl">{{ nombreUsuario }}</span>.
-          </p>
+        <div class="lectura mt-8 text-lg">
           <p>
             Esta plataforma está diseñada para comprender el concepto de
-            <strong class="text-white">derivada</strong> a través de la resolución de una situación contextualizada en la que se analiza la relación existente entre la edad de una persona y la densidad mineral ósea.
+            <strong>derivada</strong> a través de la resolución de una situación contextualizada en la que se analiza la relación existente entre la edad de una persona y la densidad mineral ósea.
           </p>
           <p>
             Estás a punto de iniciar. Sigue las instrucciones de cada foro y actividad.
           </p>
         </div>
+        <button type="button" class="boton boton-curso mt-10 !min-h-14 !px-8 text-base" @click="comenzar">
+          Comenzar
+          <span class="material-symbols-outlined -mr-1" aria-hidden="true">arrow_forward</span>
+        </button>
+      </section>
 
-        <div class="flex justify-end">
-          <button
-              @click="comenzar"
-              class="group flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white text-lg font-bold py-4 px-8 rounded-xl transition-all shadow-lg   active:scale-95"
-          >
-            <span>Comenzar</span>
-            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-
+      <aside aria-labelledby="titulo-secuencia" class="rounded-3xl p-6 sm:p-8" style="background: var(--c-barra); color: var(--c-barra-tinta)">
+        <h2 id="titulo-secuencia" class="text-xl font-bold">Cálculo Diferencial · Secuencia Didáctica</h2>
+        <p class="mt-1 text-sm" style="color: var(--c-barra-tenue)">{{ pasos.length }} pasos en 3 actividades</p>
+        <ol class="mt-6 divide-y divide-white/10">
+          <li v-for="(p, i) in pasos" :key="p.ruta" class="flex items-baseline gap-4 py-3">
+            <span class="font-display numeral w-8 text-lg font-extrabold" :style="{ color: i === 0 ? 'var(--c-curso)' : 'var(--c-barra-tenue)' }">{{ pista(i) }}</span>
+            <span class="min-w-0 flex-1">
+              <span class="block text-sm" style="color: var(--c-barra-tenue)">{{ p.tipo }} · Actividad {{ p.actividad }}</span>
+              <span class="block truncate font-semibold">{{ p.titulo }}</span>
+            </span>
+          </li>
+        </ol>
+      </aside>
+    </main>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import EncabezadoPortal from '@/components/EncabezadoPortal.vue';
+import { pasos, pista } from '@/ruta.js';
 
 const router = useRouter();
 const nombreUsuario = ref("Estudiante");
@@ -83,11 +73,11 @@ function comenzar() {
 </script>
 
 <style scoped>
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.entrada {
+  animation: entrada 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+@keyframes entrada {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
 }
 </style>

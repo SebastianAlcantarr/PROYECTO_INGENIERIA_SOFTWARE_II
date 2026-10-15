@@ -1,344 +1,322 @@
 <template>
-  <div class="flex flex-col md:flex-row">
-    <!-- SIDEBAR -->
-    <Sidebar class="hidden md:block" />
+  <PaginaPaso titulo="Evalúa tu comprensión: Densidad Mineral Ósea y Edad">
+    <template #estado>
+      <span v-if="cargandoEstado" class="chip">Verificando…</span>
+      <span v-else-if="usuarioYaParticipo" class="chip !bg-ok-fondo !text-ok">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check</span>Terminado
+      </span>
+      <span v-else class="chip">Cuestionario y 2 juegos</span>
+    </template>
+    <template #intro>
+      Evaluación de la comprensión de la Situación 1 planteada sobre la Densidad Mineral Ósea y la Edad.
+    </template>
 
-    <!-- Contenido Principal -->
-    <main class="w-full ml-0 md:ml-72 flex flex-col">
-      <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12 min-h-screen bg-[#244a76] dark:bg-[rgb(16,22,34)]">
-        <div class="mx-auto max-w-5xl">
+    <div v-if="cargandoEstado" class="space-y-4 border-t border-linea py-10" aria-live="polite">
+      <p class="text-tenue">Verificando tu participación…</p>
+      <div class="h-4 w-2/3 animate-pulse rounded-full bg-hundido"></div>
+    </div>
 
-          <!-- Header del Examen -->
-          <section class="scroll-mt-20" id="introduction">
-            <div class="@container">
-              <div class="flex flex-col gap-6 py-10 bg-[#161d2b] rounded-2xl p-8 shadow-xl ring-1 ring-white/10">
-                <div class="flex flex-col gap-2 text-left">
-                  <h1 class="text-white text-2xl sm:text-3xl font-semibold leading-tight">
-                    E1. Evalúa tu comprensión: Densidad Mineral Ósea y Edad
-                  </h1>
-                  <p class="text-white/80 text-lg mt-4">
-                    Evaluación de la comprensión de la Situación 1 planteada sobre la Densidad Mineral Ósea y la Edad.
-                  </p>
+    <!-- Ya participó: resultados del grupo -->
+    <template v-else-if="usuarioYaParticipo">
+      <div class="aviso aviso-ok mb-8">
+        <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+        <div>
+          <p class="font-semibold">Examen Terminado</p>
+          <p class="font-normal">Ya has enviado tus respuestas.</p>
+        </div>
+      </div>
+
+      <Seccion titulo="Resultados del grupo" :resumen="`${listaRespuestas.length} respuestas`">
+        <p v-if="listaRespuestas.length === 0" class="py-6 text-tenue">Aún no hay respuestas registradas.</p>
+        <ul v-else class="grid gap-4">
+          <li v-for="(item, index) in listaRespuestas" :key="index" class="ficha">
+            <div class="mb-4 flex items-start justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <span class="avatar">{{ obtenerIniciales(item.nombre, item.apellidos) }}</span>
+                <div>
+                  <p class="font-semibold leading-snug">{{ item.nombre ? `${item.nombre} ${item.apellidos}` : item.email }}</p>
+                  <p class="text-sm text-tenue">{{ formatearFecha(item.fecha) }}</p>
                 </div>
               </div>
+              <span class="chip numeral">Puntaje: {{ item.r6 }}</span>
             </div>
-          </section>
+            <dl class="grid gap-3 text-[0.9375rem] sm:grid-cols-2">
+              <div class="rounded-xl bg-hundido p-3"><dt class="font-semibold">P1</dt><dd class="text-tenue">{{ item.r1 }}</dd></div>
+              <div class="rounded-xl bg-hundido p-3"><dt class="font-semibold">P2</dt><dd class="text-tenue">{{ item.r2 }}</dd></div>
+              <div class="rounded-xl bg-hundido p-3"><dt class="font-semibold">P3</dt><dd class="text-tenue">{{ item.r3 }}</dd></div>
+              <div class="rounded-xl bg-hundido p-3"><dt class="font-semibold">Juego Oración</dt><dd class="text-tenue">{{ item.r4 }}</dd></div>
+              <div class="rounded-xl bg-hundido p-3 sm:col-span-2"><dt class="font-semibold">Juego Parejas</dt><dd class="text-tenue">{{ item.r5 }}</dd></div>
+            </dl>
+          </li>
+        </ul>
+      </Seccion>
+    </template>
 
-          <!-- ESTADO DE CARGA -->
-          <div v-if="cargandoEstado" class="text-center py-10">
-            <p class="text-white text-xl animate-pulse">Verificando tu participación...</p>
+    <!-- Examen activo -->
+    <section v-else class="border-t border-linea pt-8" aria-labelledby="titulo-examen">
+      <!-- Fases del examen -->
+      <ol class="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-4" aria-label="Fases del examen">
+        <li
+          v-for="(f, i) in fasesExamen"
+          :key="f.id"
+          class="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold"
+          :class="
+            i === indiceFase
+              ? 'bg-tinta text-fondo'
+              : i < indiceFase
+                ? 'bg-hundido text-tinta'
+                : 'border border-linea text-tenue'
+          "
+          :aria-current="i === indiceFase ? 'step' : undefined"
+        >
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true">{{ i < indiceFase ? 'check' : f.icono }}</span>
+          {{ f.nombre }}
+        </li>
+      </ol>
+
+      <h2 id="titulo-examen" class="mb-4 text-2xl font-bold tracking-[-0.02em] md:text-3xl">
+        Analiza y responde el siguiente cuestionario
+      </h2>
+
+      <!-- Barra de avance del cuestionario -->
+      <div v-if="faseActual === 'quiz'" class="mb-8 max-w-xl">
+        <div class="h-2 overflow-hidden rounded-full bg-hundido">
+          <div
+            class="h-full rounded-full bg-a1 transition-all duration-500"
+            :style="{ width: (quizFinalizado ? 100 : ((preguntaActual + 1) / preguntas.length) * 100) + '%' }"
+          />
+        </div>
+        <p class="numeral mt-2 text-sm text-tenue">
+          Pregunta {{ quizFinalizado ? preguntas.length : preguntaActual + 1 }} de {{ preguntas.length }}
+        </p>
+      </div>
+
+      <!-- FASE 0: CUESTIONARIO -->
+      <div v-if="!quizFinalizado" class="ficha max-w-3xl !p-6 sm:!p-8">
+        <p class="text-xl font-semibold leading-snug sm:text-2xl">{{ preguntas[preguntaActual].texto }}</p>
+        <figure v-if="preguntaActual === 2" class="figura mt-6">
+          <img src="/src/imagenes/EXAMEN.png" alt="Figuras A, B, C y D de posibles gráficas de la DMO a lo largo de la vida" />
+        </figure>
+
+        <fieldset class="mt-6 space-y-3">
+          <legend class="sr-only">Opciones</legend>
+          <label
+            v-for="op in preguntas[preguntaActual].opciones"
+            :key="op"
+            class="opcion"
+            :class="{
+              '!border-ok !bg-ok-fondo': mostrandoFeedback && op === preguntas[preguntaActual].correcta,
+              '!border-error !bg-error-fondo': mostrandoFeedback && op === respuestaUsuario && op !== preguntas[preguntaActual].correcta,
+              'opacity-50': mostrandoFeedback && op !== preguntas[preguntaActual].correcta && op !== respuestaUsuario,
+            }"
+          >
+            <input type="radio" name="opcion-examen1" v-model="respuestaUsuario" :value="op" :disabled="mostrandoFeedback" />
+            <span class="text-base sm:text-[1.0625rem]">{{ op }}</span>
+          </label>
+        </fieldset>
+
+        <div v-if="mostrandoFeedback" role="status" class="aviso mt-6" :class="esRespuestaCorrecta ? 'aviso-ok' : 'aviso-error'">
+          <span class="material-symbols-outlined" aria-hidden="true">{{ esRespuestaCorrecta ? 'check_circle' : 'cancel' }}</span>
+          <div>
+            <p class="font-semibold">{{ esRespuestaCorrecta ? '¡Correcto!' : 'Respuesta Incorrecta' }}</p>
+            <p v-if="!esRespuestaCorrecta" class="font-normal">
+              La respuesta correcta es: <strong>{{ preguntas[preguntaActual].correcta }}</strong>
+            </p>
           </div>
+        </div>
 
-          <!-- SI YA PARTICIPÓ (Resultados) -->
-          <div v-else-if="usuarioYaParticipo" class="mt-8 animate-fade-in">
-            <div class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200">
-              <span class="material-symbols-outlined text-3xl">check_circle</span>
-              <div>
-                <h3 class="font-bold text-xl">Examen Terminado</h3>
-                <p class="text-base opacity-80">Ya has enviado tus respuestas.</p>
-              </div>
-            </div>
+        <div class="mt-8">
+          <button v-if="!mostrandoFeedback" type="button" class="boton boton-primario" @click="verificarRespuesta">
+            Enviar respuesta
+          </button>
+          <button v-else type="button" class="boton boton-primario" @click="siguientePregunta">
+            {{ preguntaActual < preguntas.length - 1 ? 'Siguiente pregunta' : 'Finalizar quiz' }}
+            <span class="material-symbols-outlined -mr-1 text-[20px]" aria-hidden="true">arrow_forward</span>
+          </button>
+        </div>
+      </div>
 
-            <h2 class="text-white text-xl font-bold mb-6 border-b border-gray-700 pb-2 flex items-center gap-2">
-              <span class="material-symbols-outlined">analytics</span>
-              Resultados del Grupo
-            </h2>
+      <!-- FASE INTERMEDIA: RESULTADO DEL CUESTIONARIO -->
+      <div v-if="quizFinalizado && faseActual === 'quiz'" class="ficha max-w-2xl !p-8">
+        <p class="font-display numeral text-6xl font-extrabold tracking-[-0.04em]">
+          {{ puntajeQuiz }}<span class="text-3xl text-tenue"> / {{ preguntas.length }}</span>
+        </p>
+        <h3 class="mt-3 text-2xl font-bold">Quiz completado</h3>
+        <p class="mt-1 text-tenue">Obtuviste {{ puntajeQuiz }} de {{ preguntas.length }} aciertos.</p>
+        <button type="button" class="boton boton-primario mt-8" @click="avanzarAJuegos">
+          Continuar a juegos didácticos
+          <span class="material-symbols-outlined -mr-1 text-[20px]" aria-hidden="true">arrow_forward</span>
+        </button>
+      </div>
 
-            <div class="space-y-6">
-              <div v-if="listaRespuestas.length === 0" class="text-center text-gray-400 py-8">
-                Aún no hay respuestas registradas.
-              </div>
-              <div v-for="(item, index) in listaRespuestas" :key="index" class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-blue-500 shadow-md">
-                <div class="flex justify-between items-start mb-4">
-                  <div class="flex items-center gap-3">
-                    <div class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
-                      {{ obtenerIniciales(item.nombre, item.apellidos) }}
-                    </div>
-                    <div>
-                      <span class="text-blue-400 font-bold text-base">
-                        {{ item.nombre ? `${item.nombre} ${item.apellidos}` : item.email }}
-                      </span>
-                      <p class="text-gray-500 text-xs">{{ formatearFecha(item.fecha) }}</p>
-                    </div>
-                  </div>
-                  <span class="bg-blue-900/50 text-blue-200 text-sm px-2 py-1 rounded">Puntaje: {{ item.r6 }}</span>
-                </div>
-                <!-- Grid de respuestas -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 mt-4 text-sm">
-                  <div class="bg-white/5 p-3 rounded"><strong class="text-blue-300 block">P1:</strong> {{ item.r1 }}</div>
-                  <div class="bg-white/5 p-3 rounded"><strong class="text-blue-300 block">P2:</strong> {{ item.r2 }}</div>
-                  <div class="bg-white/5 p-3 rounded"><strong class="text-blue-300 block">P3:</strong> {{ item.r3 }}</div>
-                  <div class="bg-white/5 p-3 rounded"><strong class="text-blue-300 block">Juego Oración:</strong> {{ item.r4 }}</div>
-                  <div class="bg-white/5 p-3 rounded"><strong class="text-blue-300 block">Juego Parejas:</strong> {{ item.r5 }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- FASE 1: ORDENA LA FRASE -->
+      <div v-if="faseActual === 'juego1'" class="ficha max-w-3xl !p-6 sm:!p-8">
+        <h3 class="flex items-center gap-2 text-2xl font-bold">
+          <span class="material-symbols-outlined text-a2-texto" aria-hidden="true">format_quote</span> Ordena la frase
+        </h3>
+        <p class="mt-2 text-tenue">Selecciona las palabras en el orden correcto para formar la oración.</p>
 
-          <!-- SI NO HA PARTICIPADO (Juego Activo) -->
+        <div
+          class="mt-6 flex min-h-[84px] flex-wrap gap-2 rounded-2xl border-2 border-dashed p-4 transition-colors"
+          :class="
+            juego1Completado
+              ? juego1Correcto
+                ? 'border-ok bg-ok-fondo'
+                : 'border-error bg-error-fondo'
+              : 'border-linea-fuerte bg-hundido'
+          "
+          aria-live="polite"
+        >
+          <button
+            v-for="palabra in oracionUsuario"
+            :key="palabra"
+            type="button"
+            class="rounded-full bg-tinta px-4 py-2 font-medium text-fondo transition-transform hover:-translate-y-0.5 disabled:cursor-default"
+            :disabled="juego1Completado"
+            @click="moverPalabra(palabra, 'oracion')"
+          >{{ palabra }}</button>
+          <span v-if="oracionUsuario.length === 0" class="self-center text-tenue">Tus palabras aparecerán aquí...</span>
+        </div>
+
+        <div class="mt-4 flex flex-wrap justify-center gap-2.5 p-2">
+          <button
+            v-for="palabra in palabrasDesordenadas"
+            :key="palabra"
+            type="button"
+            class="rounded-full border border-linea-fuerte bg-superficie px-4 py-2 font-medium transition-[transform,background-color] hover:-translate-y-0.5 hover:bg-hundido"
+            :disabled="juego1Completado"
+            @click="moverPalabra(palabra, 'banco')"
+          >{{ palabra }}</button>
+        </div>
+
+        <div v-if="juego1Completado" class="mt-6 rounded-2xl bg-hundido p-6 text-center" role="status">
+          <p v-if="juego1Correcto" class="flex items-center justify-center gap-2 text-xl font-bold text-ok">
+            <span class="material-symbols-outlined" aria-hidden="true">check_circle</span> ¡Respuesta Correcta!
+          </p>
           <div v-else>
-            <section class="scroll-mt-20" id="rules">
-              <h2 class="text-white text-xl sm:text-2xl leading-tight px-4 pb-1 pt-10 font-bold">
-                Analiza y responde el siguiente cuestionario
-              </h2>
+            <p class="flex items-center justify-center gap-2 text-lg font-bold text-error">
+              <span class="material-symbols-outlined" aria-hidden="true">cancel</span> Incorrecto
+            </p>
+            <p class="mt-2 text-sm text-tenue">La correcta era: <br />"{{ oracionCorrecta.join(" ") }}"</p>
+          </div>
+          <button type="button" class="boton boton-primario mt-5" @click="siguienteJuego">Siguiente juego</button>
+        </div>
+        <div v-else class="mt-6 text-center">
+          <button type="button" class="boton boton-primario" :disabled="oracionUsuario.length === 0" @click="verificarOracion">
+            Comprobar
+          </button>
+        </div>
+      </div>
 
-              <!-- Progress bar -->
-              <div class="px-4 mt-4" v-if="faseActual === 'quiz'">
-                <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
-                  <div class="h-full bg-[#2c5a8f] transition-all duration-500"
-                       :style="{ width: (quizFinalizado ? 100 : ((preguntaActual + 1) / preguntas.length) * 100) + '%' }"
-                  />
-                </div>
-                <div class="mt-2 text-white/70 text-sm">
-                  Pregunta {{ quizFinalizado ? preguntas.length : preguntaActual + 1 }} de {{ preguntas.length }}
-                </div>
-              </div>
-            </section>
+      <!-- FASE 2: ENCUENTRA LA PAREJA -->
+      <div v-if="faseActual === 'juego2'" class="ficha !p-6 sm:!p-8">
+        <h3 class="flex items-center gap-2 text-2xl font-bold">
+          <span class="material-symbols-outlined text-a2-texto" aria-hidden="true">extension</span> Encuentra la pareja
+        </h3>
+        <p class="mt-2 text-tenue">Relaciona cada término con su definición correcta.</p>
 
-            <div class="text-white text-base pb-20">
+        <div class="mb-6 mt-6 max-w-md">
+          <div class="mb-2 flex items-center justify-between text-sm text-tenue">
+            <span>Progreso</span>
+            <span class="numeral">{{ parejasEncontradas }} / {{ parejas.length }}</span>
+          </div>
+          <div class="h-2 rounded-full bg-hundido">
+            <div class="h-2 rounded-full bg-a1 transition-all duration-500" :style="{ width: `${(parejasEncontradas / parejas.length) * 100}%` }"></div>
+          </div>
+        </div>
 
-              <!-- FASE 0: QUIZ (Primeras 3 preguntas) -->
-              <div class="mt-10" v-if="!quizFinalizado">
-                <div class="bg-[#161d2b] rounded-2xl p-6 sm:p-8 shadow-lg ring-1 ring-white/10">
-                  <h2 class="text-xl sm:text-2xl font-semibold leading-snug mb-6">
-                    {{ preguntas[preguntaActual].texto }}
-                    <img v-if="preguntaActual === 2" src="/src/imagenes/EXAMEN.png" alt="Gráfico DMO" class="w-full sm:w-2/3 mx-auto mt-4 rounded-lg border border-white/20"/>
-                  </h2>
-
-                  <!-- Opciones -->
-                  <div class="space-y-3">
-                    <div v-for="op in preguntas[preguntaActual].opciones" :key="op"
-                         class="group rounded-xl border transition-all duration-200"
-                         :class="{
-                        'bg-white/5 border-white/10 hover:border-[#2c5a8f]': !mostrandoFeedback,
-                        'bg-green-900/30 border-green-500': mostrandoFeedback && op === preguntas[preguntaActual].correcta,
-                        'bg-red-900/30 border-red-500': mostrandoFeedback && op === respuestaUsuario && op !== preguntas[preguntaActual].correcta,
-                        'opacity-50': mostrandoFeedback && op !== preguntas[preguntaActual].correcta && op !== respuestaUsuario
-                      }"
-                    >
-                      <label class="flex items-start gap-3 p-4 cursor-pointer w-full">
-                        <input type="radio" class="mt-1 h-4 w-4 text-[#2c5a8f] bg-transparent focus:ring-0"
-                               v-model="respuestaUsuario" :value="op" :disabled="mostrandoFeedback"
-                        />
-                        <span class="text-base sm:text-lg">{{ op }}</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  <!-- Retroalimentación Inmediata -->
-                  <div v-if="mostrandoFeedback" class="mt-6 p-4 rounded-xl animate-fade-in"
-                       :class="esRespuestaCorrecta ? 'bg-green-900/20 border border-green-500/30 text-green-200' : 'bg-red-900/20 border border-red-500/30 text-red-200'">
-                    <div class="flex items-center gap-3 mb-2">
-                      <span class="material-symbols-outlined text-2xl">
-                        {{ esRespuestaCorrecta ? 'check_circle' : 'cancel' }}
-                      </span>
-                      <h3 class="font-bold text-lg">
-                        {{ esRespuestaCorrecta ? '¡Correcto!' : 'Respuesta Incorrecta' }}
-                      </h3>
-                    </div>
-                    <p v-if="!esRespuestaCorrecta">
-                      La respuesta correcta es: <strong class="underline">{{ preguntas[preguntaActual].correcta }}</strong>
-                    </p>
-                  </div>
-
-                  <!-- Botones de Acción -->
-                  <div class="mt-8">
-                    <button v-if="!mostrandoFeedback"
-                            @click="verificarRespuesta"
-                            class="bg-[#2c5a8f] hover:bg-[#2b4f7b] text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform hover:scale-105"
-                    >
-                      Enviar Respuesta
-                    </button>
-
-                    <button v-else
-                            @click="siguientePregunta"
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform hover:scale-105 flex items-center gap-2"
-                    >
-                      <span>{{ preguntaActual < preguntas.length - 1 ? 'Siguiente Pregunta' : 'Finalizar Quiz' }}</span>
-                      <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- FASE INTERMEDIA: RESULTADO QUIZ -->
-              <div v-if="quizFinalizado && faseActual === 'quiz'" class="mt-10 animate-in zoom-in duration-300">
-                <div class="bg-[#161d2b] rounded-2xl p-8 shadow-lg ring-1 ring-white/10 text-center max-w-2xl mx-auto">
-                  <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-500/20 mb-6">
-                    <span class="material-symbols-outlined text-5xl text-blue-400">quiz</span>
-                  </div>
-                  <h2 class="text-white text-3xl font-bold mb-2">Quiz Completado</h2>
-                  <p class="text-xl text-white/60 mb-8">Obtuviste <span class="text-white font-bold">{{ puntajeQuiz }}</span> de {{ preguntas.length }} aciertos.</p>
-
-                  <button @click="avanzarAJuegos" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl text-lg shadow-lg hover:shadow-green-500/20 transition-all w-full sm:w-auto">
-                    Continuar a Juegos Didácticos
-                  </button>
-                </div>
-              </div>
-
-              <!-- FASE 1: JUEGO ORDENAR ORACIÓN -->
-              <div v-if="faseActual === 'juego1'" class="mt-10">
-                <div class="bg-[#161d2b] rounded-2xl p-8 shadow-lg ring-1 ring-white/10">
-                  <h2 class="text-2xl font-bold mb-4 text-orange-400 flex items-center gap-2">
-                    <span class="material-symbols-outlined">format_quote</span> Ordena la frase
-                  </h2>
-                  <p class="text-white/70 mb-8">Selecciona las palabras en el orden correcto para formar la oración.</p>
-
-                  <!-- Zona de respuesta -->
-                  <div class="min-h-[80px] border-2 border-dashed border-white/20 mb-8 flex flex-wrap gap-2 p-4 bg-white/5 rounded-xl transition-colors"
-                       :class="{'border-green-500/50 bg-green-500/10': juego1Completado && juego1Correcto, 'border-red-500/50 bg-red-500/10': juego1Completado && !juego1Correcto}">
-                    <button v-for="palabra in oracionUsuario" :key="palabra" @click="moverPalabra(palabra, 'oracion')"
-                            class="bg-[#2c5a8f] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#3d6ca3] transition-all"
-                            :disabled="juego1Completado">
-                      {{ palabra }}
-                    </button>
-                    <span v-if="oracionUsuario.length === 0" class="text-white/30 self-center">Tus palabras aparecerán aquí...</span>
-                  </div>
-
-                  <!-- Banco de palabras -->
-                  <div class="flex flex-wrap gap-3 justify-center mb-8 p-4 bg-[#0f172a] rounded-xl">
-                    <button v-for="palabra in palabrasDesordenadas" :key="palabra" @click="moverPalabra(palabra, 'banco')"
-                            class="bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/20 transition-all hover:-translate-y-1"
-                            :disabled="juego1Completado">
-                      {{ palabra }}
-                    </button>
-                  </div>
-
-                  <!-- Feedback y Botón -->
-                  <div v-if="juego1Completado" class="text-center animate-in slide-in-from-bottom-4 bg-black/20 p-6 rounded-xl">
-                    <div v-if="juego1Correcto" class="text-green-400 text-xl font-bold mb-4 flex items-center justify-center gap-2">
-                      <span class="material-symbols-outlined">check_circle</span> ¡Respuesta Correcta!
-                    </div>
-                    <div v-else class="text-red-400 text-lg font-bold mb-4">
-                      <div class="flex items-center justify-center gap-2 mb-2"><span class="material-symbols-outlined">cancel</span> Incorrecto</div>
-                      <p class="text-white/70 text-sm font-normal">La correcta era: <br>"{{ oracionCorrecta.join(" ") }}"</p>
-                    </div>
-                    <button @click="siguienteJuego" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg">
-                      Siguiente Juego
-                    </button>
-                  </div>
-                  <div v-else class="text-center">
-                    <button @click="verificarOracion" class="bg-[#2c5a8f] hover:bg-[#2b4f7b] text-white font-bold py-3 px-10 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                            :disabled="oracionUsuario.length === 0">
-                      Comprobar
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- FASE 2: JUEGO PAREJAS -->
-              <div v-if="faseActual === 'juego2'" class="mt-10">
-                <div class="bg-[#161d2b] rounded-2xl p-8 shadow-lg ring-1 ring-white/10">
-                  <h2 class="text-2xl font-bold mb-4 text-purple-400 flex items-center gap-2">
-                    <span class="material-symbols-outlined">extension</span> Encuentra la pareja
-                  </h2>
-                  <p class="text-white/70 mb-8">Relaciona cada término con su definición correcta.</p>
-
-                  <div class="relative">
-                    <!-- Progress Bar -->
-                    <div class="mb-6">
-                      <div class="flex justify-between items-center mb-2 text-sm text-white/70">
-                        <span>Progreso</span>
-                        <span>{{ parejasEncontradas }} / {{ parejas.length }}</span>
-                      </div>
-                      <div class="w-full bg-white/10 rounded-full h-2">
-                        <div class="bg-purple-500 h-2 rounded-full transition-all duration-500"
-                             :style="{ width: `${(parejasEncontradas / parejas.length) * 100}%` }"></div>
-                      </div>
-                    </div>
-
-                    <!-- Game Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div class="space-y-3">
-                        <h3 class="text-sm font-bold text-white/50 uppercase tracking-wider text-center mb-2">Términos</h3>
-                        <button v-for="item in terminos" :key="'term-' + item.id" @click="seleccionarItem(item)"
-                                class="w-full p-4 rounded-xl transition-all duration-200 text-left relative border border-white/5"
-                                :class="{
-                            'bg-green-500/20 border-green-500/50 text-green-200': item.matched,
-                            'bg-purple-500/20 border-purple-500 text-white scale-[1.02] shadow-lg': !item.matched && seleccionActual === item,
-                            'bg-[#1e293b] hover:bg-white/5': !item.matched && seleccionActual !== item,
-                            'opacity-50 cursor-not-allowed': item.matched
-                          }" :disabled="item.matched">
-                          {{ item.text }}
-                        </button>
-                      </div>
-
-                      <div class="space-y-3">
-                        <h3 class="text-sm font-bold text-white/50 uppercase tracking-wider text-center mb-2">Definiciones</h3>
-                        <button v-for="item in definiciones" :key="'def-' + item.id" @click="seleccionarItem(item)"
-                                class="w-full p-4 rounded-xl transition-all duration-200 text-left relative border border-white/5"
-                                :class="{
-                            'bg-green-500/20 border-green-500/50 text-green-200': item.matched,
-                            'bg-purple-500/20 border-purple-500 text-white scale-[1.02] shadow-lg': !item.matched && seleccionActual === item,
-                            'bg-[#1e293b] hover:bg-white/5': !item.matched && seleccionActual !== item,
-                            'opacity-50 cursor-not-allowed': item.matched
-                          }" :disabled="item.matched">
-                          {{ item.text }}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Feedback Flotante -->
-                  <div v-if="mostrarFeedback" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full shadow-2xl font-bold animate-in fade-in slide-in-from-bottom-4 z-50"
-                       :class="feedbackTipo === 'exito' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'">
-                    {{ feedbackMensaje }}
-                  </div>
-
-                  <div v-if="parejasEncontradas === parejas.length" class="mt-8 text-center animate-in zoom-in">
-                    <button @click="finalizarTodo" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-xl shadow-lg transition-transform hover:scale-105">
-                      Ver Calificación Final
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- FASE FINAL: RESULTADOS TOTALES -->
-              <div v-if="faseActual === 'final'" class="mt-10 animate-in fade-in duration-500">
-                <div class="bg-[#161d2b] rounded-2xl p-8 shadow-2xl ring-1 ring-white/10 text-center max-w-3xl mx-auto border-t-4 border-blue-500">
-                  <h2 class="text-white text-3xl font-bold mb-2">Resumen de Actividades</h2>
-                  <p class="text-gray-400 mb-8">Has completado todas las secciones del Examen 1.</p>
-
-                  <div class="flex justify-center items-baseline gap-2 mb-8">
-                    <span class="text-6xl font-black text-blue-400">{{ puntajeTotal }}</span>
-                    <span class="text-2xl text-gray-500">/ {{ totalPosible }} pts</span>
-                  </div>
-
-                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                    <div class="bg-[#0f172a] p-4 rounded-xl border border-white/5">
-                      <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Cuestionario</div>
-                      <div class="text-2xl font-bold text-white">{{ puntajeQuiz }} / {{ preguntas.length }}</div>
-                    </div>
-                    <div class="bg-[#0f172a] p-4 rounded-xl border border-white/5">
-                      <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Frase</div>
-                      <div class="text-2xl font-bold text-white">{{ juego1Correcto ? 1 : 0 }} / 1</div>
-                    </div>
-                    <div class="bg-[#0f172a] p-4 rounded-xl border border-white/5">
-                      <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Parejas</div>
-                      <div class="text-2xl font-bold text-white">{{ parejasEncontradas }} / {{ parejas.length }}</div>
-                    </div>
-                  </div>
-
-                  <button @click="enviarExamen" :disabled="enviando"
-                          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-xl shadow-lg transition-transform hover:scale-105 disabled:opacity-50 flex items-center justify-center gap-3">
-                    <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
-                    {{ enviando ? "Guardando..." : "Guardar y Finalizar" }}
-                  </button>
-                </div>
-              </div>
-
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h4 class="mb-3 text-sm font-semibold text-tenue">Términos</h4>
+            <div class="space-y-3">
+              <button
+                v-for="item in terminos"
+                :key="'term-' + item.id"
+                type="button"
+                class="opcion w-full text-left"
+                :class="{
+                  '!border-ok !bg-ok-fondo text-ok opacity-70': item.matched,
+                  '!border-a1 !bg-[color-mix(in_srgb,var(--c-a1)_12%,var(--c-superficie))]': !item.matched && seleccionActual === item,
+                }"
+                :aria-pressed="seleccionActual === item"
+                :disabled="item.matched"
+                @click="seleccionarItem(item)"
+              >{{ item.text }}</button>
+            </div>
+          </div>
+          <div>
+            <h4 class="mb-3 text-sm font-semibold text-tenue">Definiciones</h4>
+            <div class="space-y-3">
+              <button
+                v-for="item in definiciones"
+                :key="'def-' + item.id"
+                type="button"
+                class="opcion w-full text-left"
+                :class="{
+                  '!border-ok !bg-ok-fondo text-ok opacity-70': item.matched,
+                  '!border-a1 !bg-[color-mix(in_srgb,var(--c-a1)_12%,var(--c-superficie))]': !item.matched && seleccionActual === item,
+                }"
+                :aria-pressed="seleccionActual === item"
+                :disabled="item.matched"
+                @click="seleccionarItem(item)"
+              >{{ item.text }}</button>
             </div>
           </div>
         </div>
+
+        <div
+          v-if="mostrarFeedback"
+          role="status"
+          class="fixed bottom-28 left-1/2 z-50 -translate-x-1/2 rounded-full px-6 py-3 font-semibold shadow-[var(--sombra-elevada)]"
+          :class="feedbackTipo === 'exito' ? 'bg-ok text-white dark:text-[#0e1420]' : 'bg-error text-white dark:text-[#0e1420]'"
+        >
+          {{ feedbackMensaje }}
+        </div>
+
+        <div v-if="parejasEncontradas === parejas.length" class="mt-8">
+          <button type="button" class="boton boton-primario" @click="finalizarTodo">Ver calificación final</button>
+        </div>
       </div>
-    </main>
-  </div>
+
+      <!-- FASE FINAL: RESUMEN -->
+      <div v-if="faseActual === 'final'" class="ficha max-w-3xl !p-8">
+        <h3 class="text-3xl font-bold">Resumen de Actividades</h3>
+        <p class="mt-1 text-tenue">Has completado todas las secciones del Examen 1.</p>
+
+        <p class="font-display numeral mt-8 text-7xl font-extrabold tracking-[-0.04em]">
+          {{ puntajeTotal }}<span class="text-3xl text-tenue"> / {{ totalPosible }} pts</span>
+        </p>
+
+        <dl class="mt-8 grid gap-3 sm:grid-cols-3">
+          <div class="rounded-2xl bg-hundido p-4">
+            <dt class="text-sm text-tenue">Cuestionario</dt>
+            <dd class="numeral text-2xl font-bold">{{ puntajeQuiz }} / {{ preguntas.length }}</dd>
+          </div>
+          <div class="rounded-2xl bg-hundido p-4">
+            <dt class="text-sm text-tenue">Frase</dt>
+            <dd class="numeral text-2xl font-bold">{{ juego1Correcto ? 1 : 0 }} / 1</dd>
+          </div>
+          <div class="rounded-2xl bg-hundido p-4">
+            <dt class="text-sm text-tenue">Parejas</dt>
+            <dd class="numeral text-2xl font-bold">{{ parejasEncontradas }} / {{ parejas.length }}</dd>
+          </div>
+        </dl>
+
+        <button type="button" class="boton boton-primario mt-8" :disabled="enviando" @click="enviarExamen">
+          <span v-if="enviando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
+          {{ enviando ? "Guardando…" : "Guardar y finalizar" }}
+        </button>
+      </div>
+    </section>
+  </PaginaPaso>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import axios from 'axios'; // Asegúrate de tener axios importado si no lo usas global
-import Sidebar from "@/views/sidebar.vue";
+import PaginaPaso from "@/components/PaginaPaso.vue";
+import Seccion from "@/components/Seccion.vue";
+import Pregunta from "@/components/Pregunta.vue";
 
 const preguntas = ref([
   {
@@ -632,12 +610,12 @@ const puntajeTotal = computed(() => {
 });
 
 const totalPosible = computed(() => preguntas.value.length + 1 + parejas.length);
+// Fases del examen (solo para mostrar el avance en la interfaz)
+const fasesExamen = [
+  { id: "quiz", nombre: "Cuestionario", icono: "quiz" },
+  { id: "juego1", nombre: "Ordena la frase", icono: "format_quote" },
+  { id: "juego2", nombre: "Parejas", icono: "extension" },
+  { id: "final", nombre: "Resumen", icono: "flag" },
+];
+const indiceFase = computed(() => fasesExamen.findIndex((f) => f.id === faseActual.value));
 </script>
-
-<style scoped>
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-</style>

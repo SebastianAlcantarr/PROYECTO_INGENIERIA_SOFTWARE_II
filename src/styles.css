@@ -1,28 +1,418 @@
 @import "tailwindcss";
 
+/*
+  Portal de Derivadas · Universidad de Sonora
+  Dirección: «Lista de reproducción». La secuencia didáctica es la playlist del
+  semestre: cada foro es una pista, y el coral se reserva SOLO para lo que está
+  «en curso» (el paso actual). Ver DESIGN.md.
+*/
 
+:root {
+    --c-fondo: #f4f1ea;
+    --c-superficie: #ffffff;
+    --c-hundido: #ebe6da;
+    --c-tinta: #0e1420;
+    --c-tenue: #4a5262;
+    --c-linea: #dcd6c8;
+    --c-linea-fuerte: #c4bcaa;
 
-html,
-body {
-    min-height: 100%;
-    background-color: #244a76;
+    --c-a1: #2f6fd6;
+    --c-a2: #f2b33d;
+    --c-a2-texto: #8a5a00;
+    --c-a3: #1f8a5c;
 
-    font-family: 'Poppins', sans-serif;
+    --c-curso: #ff6b4a;
+    --c-curso-texto: #c23d1d;
+
+    --c-ok: #1f7a4d;
+    --c-ok-fondo: #e3f2e9;
+    --c-error: #b42318;
+    --c-error-fondo: #fdecea;
+
+    --c-barra: #0e1420;
+    --c-barra-tinta: #f4f1ea;
+    --c-barra-tenue: #a3abba;
+    --c-barra-pista: #2a3346;
+
+    --sombra-elevada: 0 1px 2px rgb(14 20 32 / .06), 0 18px 40px -22px rgb(14 20 32 / .35);
+
+    color-scheme: light;
 }
+
 @media (prefers-color-scheme: dark) {
-    html,
-    body {
-        background-color: rgb(16, 22, 34);
+    :root {
+        --c-fondo: #0e1420;
+        --c-superficie: #161e2e;
+        --c-hundido: #1c2638;
+        --c-tinta: #f1ede4;
+        --c-tenue: #a3abba;
+        --c-linea: #2a3346;
+        --c-linea-fuerte: #3a4560;
+
+        --c-a1: #6b9fff;
+        --c-a2: #f2b33d;
+        --c-a2-texto: #f2b33d;
+        --c-a3: #44c48c;
+
+        --c-curso: #ff7a5c;
+        --c-curso-texto: #ff8f75;
+
+        --c-ok: #5fd39a;
+        --c-ok-fondo: #12301f;
+        --c-error: #ff8a80;
+        --c-error-fondo: #3a1515;
+
+        --c-barra: #070b13;
+        --c-barra-pista: #24304a;
+
+        --sombra-elevada: 0 1px 2px rgb(0 0 0 / .4), 0 18px 40px -22px rgb(0 0 0 / .8);
+
+        color-scheme: dark;
     }
 }
 
+@theme inline {
+    --color-fondo: var(--c-fondo);
+    --color-superficie: var(--c-superficie);
+    --color-hundido: var(--c-hundido);
+    --color-tinta: var(--c-tinta);
+    --color-tenue: var(--c-tenue);
+    --color-linea: var(--c-linea);
+    --color-linea-fuerte: var(--c-linea-fuerte);
+    --color-a1: var(--c-a1);
+    --color-a2: var(--c-a2);
+    --color-a2-texto: var(--c-a2-texto);
+    --color-a3: var(--c-a3);
+    --color-curso: var(--c-curso);
+    --color-curso-texto: var(--c-curso-texto);
+    --color-ok: var(--c-ok);
+    --color-ok-fondo: var(--c-ok-fondo);
+    --color-error: var(--c-error);
+    --color-error-fondo: var(--c-error-fondo);
+    --color-barra: var(--c-barra);
 
-p {
-    color:white;
+    --font-display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+    --font-sans: "Figtree", system-ui, sans-serif;
 }
 
-.pregunta-texto {
-    font-family: 'Roboto Slab', serif;
-    font-weight: 400;
-    letter-spacing: 0.5px;
+/* ---------- Base ---------- */
+
+html {
+    background: var(--c-fondo);
+    color: var(--c-tinta);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--c-fondo);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+}
+
+::selection {
+    background: var(--c-a2);
+    color: #0e1420;
+}
+
+:focus-visible {
+    outline: 2px solid var(--c-a1);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-linea-fuerte) transparent;
+}
+
+input, textarea, select, button {
+    font: inherit;
+}
+
+input, textarea {
+    caret-color: var(--c-a1);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---------- Piezas del sistema ---------- */
+
+@layer components {
+    /* Texto de lectura de los foros (contenido pedagógico) */
+    .lectura {
+        max-width: 68ch;
+        font-size: 1.0625rem;
+        line-height: 1.7;
+        color: var(--c-tinta);
+    }
+    .lectura > * + * {
+        margin-top: 1.1em;
+    }
+    .lectura a,
+    a.enlace {
+        color: var(--c-a1);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+    }
+    .lectura a:hover,
+    a.enlace:hover {
+        text-decoration-thickness: 2px;
+    }
+
+    /* La figura de un foro: imagen sobre blanco, siempre legible en ambos temas */
+    .figura {
+        background: #fff;
+        border-radius: 14px;
+        padding: clamp(0.75rem, 2vw, 1.5rem);
+        box-shadow: var(--sombra-elevada);
+    }
+    .figura img {
+        display: block;
+        margin-inline: auto;
+    }
+    .figura figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        color: #4a5262;
+        text-align: center;
+    }
+
+    /* Campos */
+    .campo {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 1px solid var(--c-linea-fuerte);
+        border-radius: 10px;
+        background: var(--c-superficie);
+        color: var(--c-tinta);
+        line-height: 1.6;
+        resize: vertical;
+        transition: border-color .2s, box-shadow .2s;
+    }
+    .campo::placeholder {
+        color: var(--c-tenue);
+        opacity: .8;
+    }
+    .campo:hover {
+        border-color: var(--c-tenue);
+    }
+    .campo:focus {
+        outline: none;
+        border-color: var(--c-a1);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-a1) 25%, transparent);
+    }
+    /* Autocompletado del navegador: mismo fondo y tinta del sistema */
+    .campo:-webkit-autofill,
+    .campo:-webkit-autofill:hover {
+        -webkit-text-fill-color: var(--c-tinta);
+        caret-color: var(--c-a1);
+        box-shadow: 0 0 0 1000px var(--c-superficie) inset;
+        transition: background-color 9999s ease-out 0s;
+    }
+    .campo:-webkit-autofill:focus {
+        -webkit-text-fill-color: var(--c-tinta);
+        box-shadow:
+            0 0 0 1000px var(--c-superficie) inset,
+            0 0 0 3px color-mix(in srgb, var(--c-a1) 25%, transparent);
+    }
+    .campo:disabled {
+        background: var(--c-hundido);
+        cursor: not-allowed;
+    }
+
+    /* Botones */
+    .boton {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 2.75rem;
+        padding: 0.625rem 1.25rem;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        line-height: 1.2;
+        cursor: pointer;
+        transition: background-color .2s, color .2s, border-color .2s, transform .15s;
+        border: 1px solid transparent;
+        text-decoration: none;
+    }
+    .boton:active:not(:disabled) {
+        transform: scale(.97);
+    }
+    .boton:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+    }
+    .boton-primario {
+        background: var(--c-tinta);
+        color: var(--c-fondo);
+    }
+    .boton-primario:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--c-tinta) 85%, var(--c-a1));
+    }
+    .boton-secundario {
+        background: transparent;
+        color: var(--c-tinta);
+        border-color: var(--c-linea-fuerte);
+    }
+    .boton-secundario:hover:not(:disabled) {
+        background: var(--c-hundido);
+    }
+    .boton-curso {
+        background: var(--c-curso);
+        color: #0e1420;
+    }
+    .boton-curso:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--c-curso) 85%, #ffffff);
+    }
+
+    /* Avisos de estado */
+    .aviso {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+        padding: 0.875rem 1rem;
+        border-radius: 12px;
+        font-size: 0.9375rem;
+        font-weight: 500;
+    }
+    .aviso-ok {
+        background: var(--c-ok-fondo);
+        color: var(--c-ok);
+    }
+    .aviso-error {
+        background: var(--c-error-fondo);
+        color: var(--c-error);
+    }
+    .aviso-info {
+        background: var(--c-hundido);
+        color: var(--c-tinta);
+    }
+
+    /* Ficha de una participación del grupo */
+    .ficha {
+        background: var(--c-superficie);
+        border: 1px solid var(--c-linea);
+        border-radius: 16px;
+        padding: clamp(1rem, 2.5vw, 1.5rem);
+    }
+
+    /* Iniciales */
+    .avatar {
+        display: inline-grid;
+        place-items: center;
+        flex: none;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 999px;
+        background: var(--c-a1);
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    /* Etiqueta pequeña de estado */
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.25rem 0.625rem;
+        border-radius: 999px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        background: var(--c-hundido);
+        color: var(--c-tenue);
+        white-space: nowrap;
+    }
+
+    /* Opción de opción múltiple (exámenes) */
+    .opcion {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.875rem;
+        padding: 0.875rem 1rem;
+        border: 1px solid var(--c-linea);
+        border-radius: 12px;
+        background: var(--c-superficie);
+        cursor: pointer;
+        transition: border-color .15s, background-color .15s;
+    }
+    .opcion:hover {
+        border-color: var(--c-linea-fuerte);
+        background: var(--c-hundido);
+    }
+    .opcion:has(input:checked) {
+        border-color: var(--c-a1);
+        background: color-mix(in srgb, var(--c-a1) 10%, var(--c-superficie));
+    }
+    .opcion input {
+        margin-top: 0.3rem;
+        accent-color: var(--c-a1);
+        width: 1.05rem;
+        height: 1.05rem;
+        flex: none;
+    }
+
+    /* Enlace a un recurso externo (video, hoja de cálculo, simulador) */
+    .recurso {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 2.5rem;
+        padding: 0.5rem 1rem 0.5rem 0.75rem;
+        border-radius: 999px;
+        background: var(--c-hundido);
+        color: var(--c-tinta);
+        font-size: 0.9375rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color .2s;
+    }
+    .recurso:hover {
+        background: var(--c-linea);
+    }
+    .recurso .material-symbols-outlined {
+        font-size: 1.25rem;
+        color: var(--c-a1);
+    }
+
+    /* Afirmación citada dentro de un enunciado */
+    .cita {
+        display: block;
+        margin-top: 0.75rem;
+        padding: 1rem 1.25rem;
+        border-radius: 14px;
+        background: var(--c-hundido);
+        font-style: italic;
+        font-weight: 400;
+        color: var(--c-tinta);
+    }
+
+    .numeral {
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

@@ -1,418 +1,172 @@
 <template>
-  <div
-    class="flex flex-col md:flex-row min-h-screen bg-[#244a76] dark:bg-[rgb(16,22,34)]"
-  >
-    <!-- Sidebar -->
-    <Sidebar class="hidden md:block" />
+  <PaginaPaso titulo="Covariación de las magnitudes">
+    <template #estado>
+      <span v-if="cargandoEstado" class="chip">Cargando actividad…</span>
+      <span v-else-if="usuarioYaParticipo" class="chip !bg-ok-fondo !text-ok">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check</span>Completado
+      </span>
+      <span v-else class="chip">Pendiente · 8 preguntas</span>
+    </template>
 
-    <main class="w-full ml-0 md:ml-72 flex flex-col">
-      <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-5xl">
-          <!-- TÍTULO -->
-          <section class="scroll-mt-20 mb-8">
-            <div
-              class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-600"
-            >
-              <h1
-                class="text-white text-3xl md:text-3xl font-black text-center"
-              >
-                Foro 6: Covariación de las magnitudes
-              </h1>
-            </div>
-          </section>
-
-          <!-- CARGANDO -->
-          <div v-if="cargandoEstado" class="text-center py-10">
-            <p class="text-blue-200 text-xl animate-pulse">
-              Cargando actividad...
-            </p>
-          </div>
-
-          <!-- MODO FORMULARIO: Si no ha participado -->
-          <section v-else-if="!usuarioYaParticipo" class="animate-fade-in">
-            <!-- SECCIÓN GEOGEBRA -->
-            <div
-              class="bg-[#161d2b] p-6 rounded-xl shadow-xl mb-8 border border-gray-700"
-            >
-              <h2
-                class="text-white text-lg font-bold mb-4 flex items-center gap-2"
-              >
-                <span class="material-symbols-outlined text-blue-500"
-                  >function</span
-                >
-                Gráficas Geogebra
-              </h2>
-              <p class="text-gray-300 mb-6 text-base leading-relaxed">
-                Manipula el Applet para observar el comportamiento de la recta
-                secante cuando <span class="math-tex">$\Delta x \to 0$</span>.
-              </p>
-
-              <!-- Contenedor GeoGebra -->
-              <div
-                class="bg-white rounded-lg p-1 overflow-hidden flex justify-center mb-6 border-4 border-blue-900/30 shadow-inner"
-              >
-                <div id="geogebra-container" class="w-full h-[550px]"></div>
-              </div>
-
-              <div class="text-center">
-                <a
-                  href="https://docs.google.com/spreadsheets/d/1Rqp6bml35xrT-5UkAyB3Qlx_c5nKijIqD6apvLbN4y4/edit?usp=sharing"
-                  target="_blank"
-                  class="inline-flex items-center gap-2 text-sm bg-blue-900/30 text-blue-300 px-4 py-2 rounded-full hover:bg-blue-900/50 transition-colors border border-blue-800"
-                >
-                  <span class="material-symbols-outlined text-lg"
-                    >table_view</span
-                  >
-                  Abrir Simulador de Google Sheets
-                </a>
-              </div>
-            </div>
-
-            <!-- CUESTIONARIO -->
-            <div
-              class="bg-[#161d2b] p-8 rounded-xl shadow-xl space-y-10 border border-gray-700"
-            >
-              <!-- P1 -->
-              <div>
-                <h3
-                  class="text-lg text-white/95 mb-3 font-medium leading-relaxed"
-                >
-                  1. ¿Qué valores puede tomar la variable
-                  <span class="math-tex">$x$</span> (Edad de una persona)? Es
-                  decir, ¿Cuál es el dominio real de esta variable? Justifica.
-                </h3>
-                <p
-                  class="text-blue-300/80 text-sm mb-3 italic bg-blue-900/20 p-3 rounded-lg border-l-4 border-blue-500/50"
-                >
-                  Nota: Observa qué pasa con la pendiente cuando el intervalo
-                  <span class="math-tex">$\Delta x$</span> se hace cada vez más
-                  pequeño (<span class="math-tex">$\Delta x \to 0$</span>).
-                </p>
-                <textarea
-                  v-model="form.r1"
-                  rows="3"
-                  placeholder="Escribe tu justificación..."
-                  class="input-foro"
-                ></textarea>
-              </div>
-
-              <!-- P2 -->
-              <div>
-                <h3
-                  class="text-lg text-white/95 mb-3 font-medium leading-relaxed"
-                >
-                  2. Argumenta con ejemplos la siguiente afirmación: Cuando los
-                  extremos del intervalo son iguales (<span class="math-tex"
-                    >$\Delta x \to 0$</span
-                  >), la recta secante se convierte en recta tangente.
-                </h3>
-                <textarea
-                  v-model="form.r2"
-                  rows="3"
-                  placeholder="Tu argumento..."
-                  class="input-foro"
-                ></textarea>
-              </div>
-
-              <!-- P3 -->
-              <div>
-                <h3
-                  class="text-lg text-white/95 mb-4 font-medium leading-relaxed"
-                >
-                  3. Utiliza el simulador para observar la razón promedio cuando
-                  elegimos dos edades muy próximas (<span class="math-tex"
-                    >$\Delta x \to 0$</span
-                  >). Responde:
-                </h3>
-                <div class="space-y-3 pl-5 border-l-2 border-blue-700/50 mb-4">
-                  <p class="text-gray-300 text-base">
-                    <strong class="text-blue-300">a)</strong> ¿DMO y razón
-                    instantánea a los 19 años?
-                  </p>
-                  <p class="text-gray-300 text-base">
-                    <strong class="text-blue-300">b)</strong> ¿DMO y razón
-                    instantánea a los 31 años?
-                  </p>
-                  <p class="text-gray-300 text-base">
-                    <strong class="text-blue-300">c)</strong> ¿DMO y razón
-                    instantánea a los 84 años?
-                  </p>
-                </div>
-                <textarea
-                  v-model="form.r3"
-                  rows="5"
-                  placeholder="a) ...&#10;b) ...&#10;c) ..."
-                  class="input-foro font-mono text-sm"
-                ></textarea>
-              </div>
-
-              <!-- P4 -->
-              <div>
-                <h3
-                  class="text-lg text-white/95 mb-3 font-medium leading-relaxed"
-                >
-                  4. Manipula el Applet de Geogebra. Verifica que los resultados
-                  coinciden. ¿Cuánto vale la pendiente de la recta tangente en
-                  el valor máximo? ¿Y en el mínimo?
-                </h3>
-                <textarea
-                  v-model="form.r4"
-                  rows="3"
-                  placeholder="Tu respuesta..."
-                  class="input-foro"
-                ></textarea>
-              </div>
-
-              <!-- P5 -->
-              <div>
-                <h3
-                  class="text-lg text-white/95 mb-3 font-medium leading-relaxed"
-                >
-                  5. Argumenta con ejemplos: ¿Cómo cambia el valor de la
-                  pendiente cuando es un máximo vs cuando es un mínimo?
-                </h3>
-                <textarea
-                  v-model="form.r5"
-                  rows="3"
-                  placeholder="Tu respuesta..."
-                  class="input-foro"
-                ></textarea>
-              </div>
-
-              <!-- P6 (Definición Formal) -->
-              <div
-                class="bg-blue-900/10 border-l-4 border-blue-500 p-6 rounded-r-xl shadow-sm"
-              >
-                <h3
-                  class="text-white font-bold mb-4 text-lg flex items-center gap-2"
-                >
-                  <span class="material-symbols-outlined text-blue-400"
-                    >menu_book</span
-                  >
-                  6. Definición Formal de Derivada
-                </h3>
-                <div
-                  class="text-2xl text-center text-blue-200 tracking-wider my-6 bg-[#0f172a] p-6 rounded-lg border border-blue-900/50 shadow-inner overflow-x-auto math-tex"
-                >
-                  $$ f'(x) = \lim_{\Delta x \to 0} \frac{f(x+\Delta x) -
-                  f(x)}{\Delta x} $$
-                </div>
-                <label class="block text-gray-400 text-sm mb-2 font-medium"
-                  >Tus notas sobre esta definición (Opcional):</label
-                >
-                <textarea
-                  v-model="form.r6"
-                  rows="2"
-                  class="input-foro"
-                  placeholder="Escribe aquí..."
-                ></textarea>
-              </div>
-
-              <!-- P7 -->
-              <div>
-                <h3
-                  class="text-lg text-white/95 mb-4 font-medium leading-relaxed"
-                >
-                  7. Dada la función que describe el comportamiento de la DMO:
-                </h3>
-
-                <div
-                  class="bg-[#0f172a] p-4 rounded-lg border border-gray-600 mb-5 text-xl text-center text-blue-300 tracking-wide shadow-md math-tex"
-                >
-                  $$ DMO(x) = -0.0001x^2 + 0.0075x + 0.768 $$
-                </div>
-
-                <div
-                  class="mb-4 text-base text-gray-300 pl-4 border-l-2 border-gray-600"
-                >
-                  <p class="mb-2">
-                    <strong>a)</strong> Obtén la edad del óptimo usando la
-                    definición formal de derivada.
-                  </p>
-                  <p>
-                    <strong>b)</strong> Lista los pasos que se deben realizar
-                    como si estuvieras dando una receta.
-                  </p>
-                </div>
-                <textarea
-                  v-model="form.r7"
-                  rows="6"
-                  placeholder="Desarrollo y pasos..."
-                  class="input-foro font-mono text-sm"
-                ></textarea>
-              </div>
-
-              <!-- P8 -->
-              <div>
-                <h3
-                  class="text-lg text-white/95 mb-3 font-medium leading-relaxed"
-                >
-                  8. Siguiendo los pasos descritos anteriormente, obtén la edad
-                  en que se obtiene la DMO óptima para la cadera de los hombres
-                  dados los datos.
-                </h3>
-                <textarea
-                  v-model="form.r8"
-                  rows="3"
-                  placeholder="Tu respuesta..."
-                  class="input-foro"
-                ></textarea>
-              </div>
-
-              <!-- BOTÓN DE ENVÍO  -->
-              <div
-                class="pt-6 border-t border-gray-700 flex flex-col items-end gap-2"
-              >
-                <p
-                  v-if="mensaje"
-                  :class="`text-sm font-bold ${
-                    tipoMensaje === 'error' ? 'text-red-400' : 'text-green-400'
-                  }`"
-                >
-                  {{ mensaje }}
-                </p>
-                <button
-                  @click="enviar"
-                  :disabled="enviando"
-                  class="bg-blue-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2"
-                >
-                  <span
-                    v-if="enviando"
-                    class="material-symbols-outlined animate-spin"
-                    >refresh</span
-                  >
-                  {{ enviando ? "Guardando..." : "Enviar Respuestas" }}
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <!-- si ya participo -->
-          <section v-else class="animate-fade-in">
-            <div
-              class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200"
-            >
-              <span class="material-symbols-outlined text-3xl"
-                >check_circle</span
-              >
-              <div>
-                <h3 class="font-bold text-base">Actividad Completada</h3>
-                <p class="text-sm opacity-80">
-                  Gracias por tu aporte. Aquí están las respuestas de tus
-                  compañeros.
-                </p>
-              </div>
-            </div>
-
-            <!-- MURO DE RESPUESTAS -->
-            <div class="space-y-6">
-              <div
-                v-if="listaRespuestas.length === 0"
-                class="text-center text-gray-400 py-8"
-              >
-                Aún no hay respuestas de otros estudiantes.
-              </div>
-
-              <div
-                v-for="(item, index) in listaRespuestas"
-                :key="index"
-                class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-blue-600 shadow-md"
-              >
-                <div class="flex justify-between items-start mb-4">
-                  <div class="flex items-center gap-3">
-                    <div
-                      class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold"
-                    >
-                      {{ obtenerIniciales(item.nombre, item.email) }}
-                    </div>
-                    <div>
-                      <span class="text-indigo-400 font-bold text-base">
-                        {{
-                          item.nombre
-                            ? `${item.nombre} ${item.apellidos}`
-                            : item.email
-                        }}
-                      </span>
-                      <p class="text-gray-500 text-xs">
-                        {{ formatearFecha(item.fecha) }}
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    class="bg-indigo-900/50 text-indigo-200 text-xs px-2 py-1 rounded"
-                    >#{{ listaRespuestas.length - index }}</span
-                  >
-                </div>
-
-                <div
-                  class="space-y-5 text-gray-300 text-base pl-6 border-l-2 border-gray-700/50"
-                >
-                  <p>
-                    <strong class="text-blue-200 block mb-2"
-                      >1. Dominio:</strong
-                    >
-                    {{ item.r1 }}
-                  </p>
-
-                  <details class="group text-sm text-gray-400">
-                    <summary
-                      class="cursor-pointer hover:text-white mt-4 flex items-center gap-2 py-3 px-4 bg-gray-800/50 rounded-lg transition-colors"
-                    >
-                      <span
-                        class="material-symbols-outlined text-lg group-open:rotate-180 transition-transform"
-                        >expand_more</span
-                      >
-                      Ver todo
-                    </summary>
-                    <div class="pt-6 space-y-6 mt-4 px-2">
-                      <p>
-                        <strong class="text-blue-200">2. Argumento:</strong>
-                        {{ item.r2 }}
-                      </p>
-                      <div class="text-blue-200 ">
-                        3.Utiliza el simulador para
-                      </div>
-                      <pre
-                        class="bg-gray-900/30 p-2 rounded whitespace-pre-wrap font-sans"
-                        >
-                        {{ item.r3 }}</pre
-                      >
-                      <p>
-                        <strong class="text-blue-200">4. GeoGebra:</strong>
-                        {{ item.r4 }}
-                      </p>
-                      <p>
-                        <strong class="text-blue-200">5. Pendientes:</strong>
-                        {{ item.r5 }}
-                      </p>
-                      <p>
-                        <strong class="text-blue-200">6. Notas:</strong>
-                        {{ item.r6 }}
-                      </p>
-                      <p>
-                        <strong class="text-blue-200">7. Dada la función :</strong>
-                        {{ item.r7 }}
-                      </p>
-
-                      <p>
-                        <strong class="text-blue-200">8. Hombres:</strong>
-                        {{ item.r8 }}
-                      </p>
-                    </div>
-                  </details>
-                </div>
-              </div>
-            </div>
-          </section>
+    <template #figura>
+      <div class="rounded-2xl p-6 sm:p-8" style="background: var(--c-barra); color: var(--c-barra-tinta)">
+        <p class="text-sm font-semibold" style="color: var(--c-barra-tenue)">Definición Formal de Derivada</p>
+        <div class="math-tex mt-2 overflow-x-auto text-xl sm:text-2xl">
+          $$ f'(x) = \lim_{\Delta x \to 0} \frac{f(x+\Delta x) -
+          f(x)}{\Delta x} $$
         </div>
       </div>
-    </main>
-  </div>
+    </template>
+
+    <div v-if="cargandoEstado" class="space-y-4 border-t border-linea py-10" aria-live="polite">
+      <p class="text-tenue">Cargando actividad…</p>
+      <div class="h-4 w-2/3 animate-pulse rounded-full bg-hundido"></div>
+    </div>
+
+    <template v-else-if="!usuarioYaParticipo">
+      <Seccion titulo="Gráficas Geogebra" resumen="Applet interactivo">
+        <p class="lectura">
+          Manipula el Applet para observar el comportamiento de la recta
+          secante cuando <span class="math-tex">$\Delta x \to 0$</span>.
+        </p>
+        <div class="mt-6 overflow-x-auto rounded-2xl border border-linea bg-white p-1">
+          <div id="geogebra-container" class="h-[550px] w-full"></div>
+        </div>
+        <a
+          href="https://docs.google.com/spreadsheets/d/1Rqp6bml35xrT-5UkAyB3Qlx_c5nKijIqD6apvLbN4y4/edit?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="recurso mt-5"
+        ><span class="material-symbols-outlined" aria-hidden="true">table_view</span>Abrir Simulador de Google Sheets</a>
+      </Seccion>
+
+      <Seccion titulo="Cuestionario" resumen="8 preguntas">
+        <div class="space-y-10">
+          <Pregunta :numero="1" v-model="form.r1" :rows="3" placeholder="Escribe tu justificación...">
+            ¿Qué valores puede tomar la variable
+            <span class="math-tex">$x$</span> (Edad de una persona)? Es
+            decir, ¿Cuál es el dominio real de esta variable? Justifica.
+            <span class="cita text-[0.9375rem]">
+              Nota: Observa qué pasa con la pendiente cuando el intervalo
+              <span class="math-tex">$\Delta x$</span> se hace cada vez más
+              pequeño (<span class="math-tex">$\Delta x \to 0$</span>).
+            </span>
+          </Pregunta>
+          <Pregunta :numero="2" v-model="form.r2" :rows="3" placeholder="Tu argumento...">
+            Argumenta con ejemplos la siguiente afirmación: Cuando los
+            extremos del intervalo son iguales (<span class="math-tex">$\Delta x \to 0$</span>), la recta secante se convierte en recta tangente.
+          </Pregunta>
+          <Pregunta :numero="3" v-model="form.r3" :rows="5" placeholder="a) ...&#10;b) ...&#10;c) ...">
+            Utiliza el simulador para observar la razón promedio cuando
+            elegimos dos edades muy próximas (<span class="math-tex">$\Delta x \to 0$</span>). Responde:
+            <ol class="mt-3 space-y-1.5 font-normal">
+              <li><strong>a)</strong> ¿DMO y razón instantánea a los 19 años?</li>
+              <li><strong>b)</strong> ¿DMO y razón instantánea a los 31 años?</li>
+              <li><strong>c)</strong> ¿DMO y razón instantánea a los 84 años?</li>
+            </ol>
+          </Pregunta>
+          <Pregunta :numero="4" v-model="form.r4" :rows="3" placeholder="Tu respuesta...">
+            Manipula el Applet de Geogebra. Verifica que los resultados
+            coinciden. ¿Cuánto vale la pendiente de la recta tangente en
+            el valor máximo? ¿Y en el mínimo?
+          </Pregunta>
+          <Pregunta :numero="5" v-model="form.r5" :rows="3" placeholder="Tu respuesta...">
+            Argumenta con ejemplos: ¿Cómo cambia el valor de la
+            pendiente cuando es un máximo vs cuando es un mínimo?
+          </Pregunta>
+          <Pregunta :numero="6" v-model="form.r6" :rows="2" placeholder="Escribe aquí...">
+            Definición Formal de Derivada
+            <span class="math-tex mt-3 block overflow-x-auto rounded-2xl bg-hundido p-4 text-center text-xl font-normal">
+              $$ f'(x) = \lim_{\Delta x \to 0} \frac{f(x+\Delta x) -
+              f(x)}{\Delta x} $$
+            </span>
+            <span class="mt-3 block text-sm font-normal text-tenue">Tus notas sobre esta definición (Opcional):</span>
+          </Pregunta>
+          <Pregunta :numero="7" v-model="form.r7" :rows="6" placeholder="Desarrollo y pasos...">
+            Dada la función que describe el comportamiento de la DMO:
+            <span class="math-tex mt-3 block overflow-x-auto rounded-2xl bg-hundido p-4 text-center text-xl font-normal">
+              $$ DMO(x) = -0.0001x^2 + 0.0075x + 0.768 $$
+            </span>
+            <ol class="mt-3 space-y-1.5 font-normal">
+              <li><strong>a)</strong> Obtén la edad del óptimo usando la definición formal de derivada.</li>
+              <li><strong>b)</strong> Lista los pasos que se deben realizar como si estuvieras dando una receta.</li>
+            </ol>
+          </Pregunta>
+          <Pregunta :numero="8" v-model="form.r8" :rows="3" placeholder="Tu respuesta...">
+            Siguiendo los pasos descritos anteriormente, obtén la edad
+            en que se obtiene la DMO óptima para la cadera de los hombres
+            dados los datos.
+          </Pregunta>
+
+          <div class="flex flex-col gap-4 border-t border-linea pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <p v-if="mensaje" role="status" class="aviso" :class="tipoMensaje === 'error' ? 'aviso-error' : 'aviso-info'">
+              {{ mensaje }}
+            </p>
+            <p v-else class="text-sm text-tenue">Al enviar verás las respuestas de tus compañeros.</p>
+            <button type="button" class="boton boton-primario sm:ml-auto" :disabled="enviando" @click="enviar">
+              <span v-if="enviando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
+              {{ enviando ? "Guardando…" : "Enviar respuestas" }}
+            </button>
+          </div>
+        </div>
+      </Seccion>
+    </template>
+
+    <template v-else>
+      <div class="aviso aviso-ok mb-8">
+        <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+        <div>
+          <p class="font-semibold">Actividad Completada</p>
+          <p class="font-normal">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
+        </div>
+      </div>
+
+      <Seccion titulo="Participaciones del grupo" :resumen="`${listaRespuestas.length} respuestas`">
+        <p v-if="listaRespuestas.length === 0" class="py-6 text-tenue">
+          Aún no hay respuestas de otros estudiantes.
+        </p>
+        <ul v-else class="grid gap-4">
+          <li v-for="(item, index) in listaRespuestas" :key="index" class="ficha">
+            <div class="mb-4 flex items-start justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <span class="avatar">{{ obtenerIniciales(item.nombre, item.email) }}</span>
+                <div>
+                  <p class="font-semibold leading-snug">{{ item.nombre ? `${item.nombre} ${item.apellidos}` : item.email }}</p>
+                  <p class="text-sm text-tenue">{{ formatearFecha(item.fecha) }}</p>
+                </div>
+              </div>
+              <span class="chip numeral">#{{ listaRespuestas.length - index }}</span>
+            </div>
+            <dl class="space-y-4 text-[0.9375rem]">
+              <div><dt class="font-semibold">1. Dominio</dt><dd class="mt-1 text-tenue">{{ item.r1 }}</dd></div>
+            </dl>
+            <details class="group mt-4 border-t border-linea pt-3">
+              <summary class="flex cursor-pointer list-none items-center gap-2 py-1 text-sm font-semibold text-a1">
+                <span class="material-symbols-outlined text-[20px] transition-transform group-open:rotate-180" aria-hidden="true">expand_more</span>
+                Ver todo
+              </summary>
+              <dl class="mt-3 space-y-4 text-[0.9375rem]">
+                <div><dt class="font-semibold">2. Argumento</dt><dd class="mt-1 text-tenue">{{ item.r2 }}</dd></div>
+                <div><dt class="font-semibold">3. Utiliza el simulador</dt><dd class="mt-1 whitespace-pre-wrap text-tenue">{{ item.r3 }}</dd></div>
+                <div><dt class="font-semibold">4. GeoGebra</dt><dd class="mt-1 text-tenue">{{ item.r4 }}</dd></div>
+                <div><dt class="font-semibold">5. Pendientes</dt><dd class="mt-1 text-tenue">{{ item.r5 }}</dd></div>
+                <div><dt class="font-semibold">6. Notas</dt><dd class="mt-1 text-tenue">{{ item.r6 }}</dd></div>
+                <div><dt class="font-semibold">7. Dada la función</dt><dd class="mt-1 text-tenue">{{ item.r7 }}</dd></div>
+                <div><dt class="font-semibold">8. Hombres</dt><dd class="mt-1 text-tenue">{{ item.r8 }}</dd></div>
+              </dl>
+            </details>
+          </li>
+        </ul>
+      </Seccion>
+    </template>
+  </PaginaPaso>
 </template>
 
 <script setup>
 import { ref, reactive, onMounted, nextTick } from "vue";
-import Sidebar from "@/views/sidebar.vue";
+import PaginaPaso from "@/components/PaginaPaso.vue";
+import Seccion from "@/components/Seccion.vue";
+import Pregunta from "@/components/Pregunta.vue";
 
 const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
@@ -568,36 +322,3 @@ function formatearFecha(f) {
   });
 }
 </script>
-
-<style scoped>
-.input-foro {
-  width: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  background-color: #1e293b;
-  border: 1px solid #475569;
-  color: #f1f5f9;
-  resize: vertical;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-.input-foro:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-</style>

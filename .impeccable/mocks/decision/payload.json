@@ -1,0 +1,56 @@
+{
+  "title": "Elige la dirección visual del Portal de Derivadas",
+  "question": "El sorteo asignó «Carta topográfica». Quédate con ella, elige otra o vuelve a sortear.",
+  "options": [
+    {
+      "id": "assigned", "kind": "assigned", "label": "Carta topográfica", "kicker": "THE ROLL",
+      "lineage": "cartas topográficas con curvas de nivel",
+      "thesis": "La derivada es la pendiente: el avance del alumno se lee como relieve.",
+      "palette": ["#16304e", "#244a76", "#5b86b8", "#f3f0e6", "#c9a24b"],
+      "materials": ["papel cartográfico", "curvas de nivel"],
+      "viewport": "Barra lateral azul marino, título serif y tu avance como perfil de elevación con una tangente dorada.",
+      "risk": "Las curvas pueden volverse adorno si no marcan datos reales.",
+      "html": ".impeccable/mocks/decision/assigned.html",
+      "raised": [{"from": "Crouwel", "raise": "Las curvas de fondo siguen una retícula estricta, no un adorno suelto."}]
+    },
+    {
+      "id": "model-pick", "kind": "pick", "label": "Libro de texto con márgenes de color", "kicker": "IMPECCABLE’S PICK",
+      "lineage": "libros de cálculo con recuadros de definición",
+      "thesis": "Se lee como el mejor libro de texto: definiciones, notas al margen y mucho aire.",
+      "palette": ["#fbf9f4", "#1b2430", "#244a76", "#d9822b"],
+      "materials": ["papel crema", "recuadros con filo de color"],
+      "viewport": "Texto serif a 62 caracteres, recuadro de definición y notas del profesor en el margen derecho.",
+      "risk": "Es lo que muchos portales educativos ya hacen; poca sorpresa.",
+      "html": ".impeccable/mocks/decision/pick.html"
+    },
+    {
+      "id": "challenger-crouwel", "kind": "challenger", "catalogId": "crouwel-grid-specimen", "verdict": "competitive",
+      "label": "Retícula Crouwel",
+      "lineage": "Wim Crouwel, especímenes tipográficos en retícula",
+      "thesis": "Letras gigantes sobre una retícula visible: matemática hecha cartel.",
+      "palette": ["#ffffff", "#cfe0f5", "#244a76", "#ffd24a"],
+      "materials": ["papel milimétrico", "hairlines azules"],
+      "viewport": "«dy/dx» monumental sobre papel cuadriculado y tarjetas de datos pegadas a la retícula.",
+      "case": "Identifica bien a estudiantes de cálculo; pierde en claridad si el título compite con la tarea.",
+      "risk": "En pantallas de trabajo puede leerse como cartel, no como portal.",
+      "html": ".impeccable/mocks/decision/challenger-crouwel.html"
+    },
+    {"id": "challenger-splitflap", "kind": "challenger", "catalogId": "signals-instruments-split-flap-concourse", "verdict": "declined", "label": "Tablero de estación", "palette": ["#111111", "#ffffff", "#e0a526"], "materials": ["placas", "lámparas ámbar"], "case": "Un tablero de salidas no dice nada sobre derivadas.", "kept": "Estados que cambian sin romper la retícula."},
+    {"id": "challenger-boardingpass", "kind": "challenger", "catalogId": "vernacular-ephemera-boarding-pass-and-gate-board", "verdict": "declined", "label": "Pase de abordar", "palette": ["#f2f2f2", "#222222", "#e5484d"], "materials": ["papel térmico"], "case": "Metáfora de viaje sin relación con el curso.", "kept": "Un solo color reservado para los cambios."},
+    {"id": "challenger-acetate", "kind": "challenger", "catalogId": "rw-manual-acetate-tab-board", "verdict": "declined", "label": "Manual con pestañas", "palette": ["#e8c21a", "#f3f1e6", "#2a4d9c"], "materials": ["acetato", "tabs"], "case": "Complejo y poco legible en celular.", "kept": "Pestañas de color por actividad."},
+    {"id": "challenger-timetable", "kind": "challenger", "catalogId": "rw-timetable-slide-rack", "verdict": "declined", "label": "Horario de aerolínea", "palette": ["#d9a521", "#f5efe0", "#9c2f1d"], "materials": ["vidrio tintado"], "case": "Texto de un solo tamaño perjudica la jerarquía del foro.", "kept": "Estado marcado con símbolos fijos."},
+    {"id": "challenger-metro", "kind": "challenger", "catalogId": "digital-design-canon-metro-typographic-tiles", "verdict": "declined", "label": "Mosaicos tipográficos", "palette": ["#000000", "#00aeef", "#e3008c"], "materials": ["mosaicos planos"], "case": "Es poco institucional y choca con el tema formal.", "kept": "Tipografía grande como protagonista."}
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Un portal educativo limpio, azul y blanco, hecho con oficio.",
+    "palette": ["#ffffff", "#0f172a", "#244a76"],
+    "materials": ["tarjetas", "rejilla limpia"],
+    "viewport": "Barra lateral, tarjetas de progreso y lista de actividades.",
+    "risk": "No se distingue de otros portales por diseño."
+  },
+  "steer": true
+}

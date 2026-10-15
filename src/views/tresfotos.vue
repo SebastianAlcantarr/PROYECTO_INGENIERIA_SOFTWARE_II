@@ -1,68 +1,37 @@
 <template>
-  <div class="mt-6">
-    <label class="block text-sm font-medium text-gray-300 mb-3">
-      Subir fotos de la tabla (max 3 imagenes)
-    </label>
+  <div class="mt-4">
+    <p class="mb-2 text-sm font-semibold text-tinta">Subir fotos de la tabla (max 3 imagenes)</p>
     <div
+      role="button"
+      tabindex="0"
+      aria-label="Subir fotos de la tabla, máximo 3 imágenes"
       @dragover.prevent="isDragging = true"
       @dragleave.prevent="isDragging = false"
       @drop.prevent="handleDrop"
       @click="fileInput && fileInput.click()"
-      :class="[
-        'border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer',
-        isDragging
-          ? 'border-blue-500 bg-blue-500/10'
-          : 'border-gray-600 hover:border-blue-400',
-      ]"
+      @keydown.enter.prevent="fileInput && fileInput.click()"
+      @keydown.space.prevent="fileInput && fileInput.click()"
+      class="cursor-pointer rounded-2xl border-2 border-dashed p-6 text-center transition-colors"
+      :class="isDragging ? 'border-a1 bg-[color-mix(in_srgb,var(--c-a1)_10%,transparent)]' : 'border-linea-fuerte bg-superficie hover:border-a1'"
     >
-      <!-- Estado vacío -->
-      <div v-if="previews.length === 0" class="space-y-2">
-        <div class="flex justify-center">
-          <svg
-            class="w-12 h-12 text-blue-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-            />
-          </svg>
-        </div>
-        <p class="text-sm text-gray-300">
-          <span class="text-blue-400 font-medium">
-            Subir imágenes (máx. 3)
-          </span>
-        </p>
+      <div v-if="previews.length === 0" class="flex flex-col items-center gap-2 py-2">
+        <span class="material-symbols-outlined text-4xl text-a1" aria-hidden="true">add_photo_alternate</span>
+        <p class="font-semibold">Subir imágenes (máx. 3)</p>
+        <p class="text-sm text-tenue">Arrastra aquí o haz clic · JPG o PNG</p>
       </div>
-      <!-- Vista previa -->
-      <div v-else class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div v-for="(img, index) in previews" :key="index" class="relative">
-          <img
-            :src="img"
-            class="h-40 w-full object-cover rounded-lg border border-gray-600 shadow"
-          />
+          <img :src="img" :alt="`Foto ${index + 1} de la tabla`" class="h-40 w-full rounded-xl border border-linea object-cover" />
           <button
+            type="button"
+            class="absolute -right-2 -top-2 grid h-8 w-8 place-items-center rounded-full bg-tinta text-fondo shadow"
+            :aria-label="`Eliminar foto ${index + 1}`"
             @click.stop="removePhoto(index)"
-            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow hover:bg-red-600"
-            title="Eliminar imagen"
-          >
-            ✕
-          </button>
+          ><span class="material-symbols-outlined text-[18px]" aria-hidden="true">close</span></button>
         </div>
       </div>
     </div>
-    <input
-      type="file"
-      ref="fileInput"
-      class="hidden"
-      accept="image/jpeg,image/png"
-      multiple
-      @change="onFileChange"
-    />
+    <input type="file" ref="fileInput" class="hidden" accept="image/jpeg,image/png" multiple @change="onFileChange" />
   </div>
 </template>
 

@@ -1,393 +1,166 @@
 <template>
-  <div class="flex flex-col md:flex-row">
-    <!-- SIDEBAR -->
-    <Sidebar class="hidden md:block" />
+  <PaginaPaso titulo="Evalúa tu comprensión sobre el modelo">
+    <template #estado>
+      <span v-if="cargandoEstado" class="chip">Verificando…</span>
+      <span v-else-if="usuarioYaParticipo" class="chip !bg-ok-fondo !text-ok">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check</span>Terminado
+      </span>
+      <span v-else class="chip numeral">{{ preguntas.length }} preguntas</span>
+    </template>
+    <template #intro>
+      Evalúa tu comprensión sobre el modelo que representa la
+      covariación entre la densidad mineral ósea y la edad.
+    </template>
 
-    <!-- Foro preguntas -->
-    <main class="w-full ml-0 md:ml-72 flex flex-col">
-      <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12 min-h-screen">
-        <div class="mx-auto max-w-5xl">
-          <section class="scroll-mt-20" id="introduction">
-            <div class="@container">
-              <div
-                class="flex flex-col gap-6 py-10 @[480px]:gap-8 @[864px]:flex-row bg-[#161d2b] rounded-2xl p-8 shadow-xl ring-1 ring-white/10"
-              >
-                <div
-                  class="flex flex-col gap-6 @[480px]:min-w-[400px] @[480px]:gap-8 @[864px]:justify-center"
-                >
-                  <div class="flex flex-col gap-2 text-left">
-                    <h1
-                      class="text-white text-2xl @[480px]:text-3xl font-semibold leading-tight tracking-tight"
-                    >
-                      E2. Evalúa tu comprensión sobre el modelo
-                    </h1>
-                    <p class="text-white/80 text-lg @[480px]:text-xl mt-7">
-                      Evalúa tu comprensión sobre el modelo que representa la
-                      covariación entre la densidad mineral ósea y la edad.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+    <div v-if="cargandoEstado" class="space-y-4 border-t border-linea py-10" aria-live="polite">
+      <p class="text-tenue">Verificando tu participación…</p>
+      <div class="h-4 w-2/3 animate-pulse rounded-full bg-hundido"></div>
+    </div>
 
-          <div v-if="cargandoEstado" class="text-center py-10">
-            <p class="text-white text-xl animate-pulse">
-              Verificando tu participación...
-            </p>
-          </div>
+    <template v-else-if="usuarioYaParticipo">
+      <div class="aviso aviso-ok mb-8">
+        <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+        <div>
+          <p class="font-semibold">Examen Terminado</p>
+          <p class="font-normal">Ya has enviado tus respuestas.</p>
+        </div>
+      </div>
 
-          <div v-else-if="usuarioYaParticipo" class="mt-8 animate-fade-in">
-            <div
-              class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200"
-            >
-              <span class="material-symbols-outlined text-3xl"
-                >check_circle</span
-              >
+      <Seccion titulo="Resultados del grupo" :resumen="`${listaRespuestas.length} respuestas`">
+        <p v-if="listaRespuestas.length === 0" class="py-6 text-tenue">Aún no hay respuestas registradas.</p>
+        <ul v-else class="grid gap-4">
+          <li v-for="(item, index) in listaRespuestas" :key="index" class="ficha">
+            <div class="mb-4 flex items-center gap-3">
+              <span class="avatar">{{ obtenerIniciales(item.nombre, item.apellidos) }}</span>
               <div>
-                <h3 class="font-bold text-xl">Examen Terminado</h3>
-                <p class="text-base opacity-80">
-                  Ya has enviado tus respuestas.
-                </p>
+                <p class="font-semibold leading-snug">{{ item.nombre ? `${item.nombre} ${item.apellidos}` : item.email }}</p>
+                <p class="text-sm text-tenue">{{ formatearFecha(item.fecha) }}</p>
               </div>
             </div>
+            <dl class="grid gap-3 text-[0.9375rem] sm:grid-cols-2">
+              <div v-for="n in 7" :key="n" class="rounded-xl bg-hundido p-3">
+                <dt class="font-semibold">Pregunta {{ n }}</dt>
+                <dd class="text-tenue">{{ item['r' + n] }}</dd>
+              </div>
+            </dl>
+          </li>
+        </ul>
+      </Seccion>
+    </template>
 
-            <h2
-              class="text-white text-xl font-bold mb-6 border-b border-gray-700 pb-2 flex items-center gap-2"
+    <section v-else class="border-t border-linea pt-8" aria-labelledby="titulo-examen2">
+      <h2 id="titulo-examen2" class="mb-4 text-2xl font-bold tracking-[-0.02em] md:text-3xl">
+        Analiza y responde el siguiente cuestionario
+      </h2>
+
+      <!-- Avance por pregunta -->
+      <div v-if="faseActual === 'quiz'" class="mb-8">
+        <ol class="flex max-w-xl gap-1.5" aria-label="Avance del examen">
+          <li
+            v-for="(p, i) in preguntas"
+            :key="i"
+            class="h-2 flex-1 rounded-full transition-colors duration-500"
+            :class="quizFinalizado || i < preguntaActual ? 'bg-tinta' : i === preguntaActual ? 'bg-a1' : 'bg-hundido'"
+          ></li>
+        </ol>
+        <p class="numeral mt-2 text-sm text-tenue">
+          Pregunta {{ quizFinalizado ? preguntas.length : preguntaActual + 1 }} de {{ preguntas.length }}
+        </p>
+      </div>
+
+      <!-- CUESTIONARIO -->
+      <div v-if="!quizFinalizado" class="ficha max-w-3xl !p-6 sm:!p-8">
+        <p class="text-xl font-semibold leading-snug sm:text-2xl">{{ preguntas[preguntaActual].texto }}</p>
+
+        <template v-if="preguntaActual === 2">
+          <figure class="figura mt-6">
+            <img src="/src/imagenes/Grafico.jpg" alt="Gráfico de Densidad Mineral Ósea" />
+          </figure>
+          <p class="mt-6 font-medium">
+            ¿Cómo se relaciona esto con los datos de la tabla? ¿Por
+            qué la DMO no comienza en cero? Escribe tú respuesta.
+          </p>
+          <textarea v-model="respuestasGuardadas.r3" rows="3" placeholder="Respuesta" aria-label="Tu respuesta" class="campo mt-3"></textarea>
+        </template>
+        <textarea v-if="preguntaActual === 3" v-model="respuestasGuardadas.r4" rows="3" placeholder="Respuesta" aria-label="Tu respuesta" class="campo mt-6"></textarea>
+        <textarea v-if="preguntaActual === 5" v-model="respuestasGuardadas.r6" rows="3" placeholder="Respuesta" aria-label="Tu respuesta" class="campo mt-6"></textarea>
+        <textarea v-if="preguntaActual === 6" v-model="respuestasGuardadas.r7" rows="3" placeholder="Respuesta" aria-label="Tu respuesta" class="campo mt-6"></textarea>
+
+        <div class="mt-6 space-y-3">
+          <fieldset v-if="!preguntas[preguntaActual].tipo || preguntas[preguntaActual].tipo === 'standard'" class="space-y-3">
+            <legend class="sr-only">Opciones</legend>
+            <label v-for="op in preguntas[preguntaActual].opciones" :key="op" class="opcion">
+              <input type="radio" name="opcion-examen2" v-model="respuestaUsuario" :value="op" />
+              <span class="text-base sm:text-[1.0625rem]">{{ op }}</span>
+            </label>
+          </fieldset>
+
+          <template v-else-if="preguntas[preguntaActual].tipo === 'match'">
+            <div
+              v-for="(item, index) in preguntas[preguntaActual].items"
+              :key="index"
+              class="rounded-2xl border border-linea bg-superficie p-4"
             >
-              <span class="material-symbols-outlined">analytics</span>
-              Resultados del Grupo
-            </h2>
-
-            <div class="space-y-6">
-              <div
-                v-if="listaRespuestas.length === 0"
-                class="text-center text-gray-400 py-8"
-              >
-                Aún no hay respuestas registradas.
-              </div>
-              <div
-                v-for="(item, index) in listaRespuestas"
-                :key="index"
-                class="bg-[#1e2736] p-6 rounded-xl border-l-4 border-blue-500 shadow-md"
-              >
-                <div class="flex justify-between items-start mb-4">
-                  <div class="flex items-center gap-3">
-                    <div
-                      class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold"
-                    >
-                      {{ obtenerIniciales(item.nombre, item.apellidos) }}
-                    </div>
-                    <div>
-                      <span class="text-blue-400 font-bold text-base">
-                        {{
-                          item.nombre
-                            ? `${item.nombre} ${item.apellidos}`
-                            : item.email
-                        }}
-                      </span>
-                      <p class="text-gray-500 text-xs">
-                        {{ formatearFecha(item.fecha) }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300 mt-4"
-                >
-                  <div class="bg-white/5 p-3 rounded">
-                    <span class="text-blue-300 text-sm block">Pregunta 1</span>
-                    {{ item.r1 }}
-                  </div>
-                  <div class="bg-white/5 p-3 rounded">
-                    <span class="text-blue-300 text-sm block">Pregunta 2</span>
-                    {{ item.r2 }}
-                  </div>
-                  <div class="bg-white/5 p-3 rounded">
-                    <span class="text-blue-300 text-sm block">Pregunta 3</span>
-                    {{ item.r3 }}
-                  </div>
-                  <div class="bg-white/5 p-3 rounded">
-                    <span class="text-blue-300 text-sm block">Pregunta 4</span>
-                    {{ item.r4 }}
-                  </div>
-                  <div class="bg-white/5 p-3 rounded">
-                    <span class="text-blue-300 text-sm block">Pregunta 5</span>
-                    {{ item.r5 }}
-                  </div>
-                  <div class="bg-white/5 p-3 rounded">
-                    <span class="text-blue-300 text-sm block">Pregunta 6</span>
-                    {{ item.r6 }}
-                  </div>
-                  <div class="bg-white/5 p-3 rounded">
-                    <span class="text-blue-300 text-sm block">Pregunta 7</span>
-                    {{ item.r7 }}
-                  </div>
-                </div>
-              </div>
+              <label :for="`match-${index}`" class="mb-2 block font-medium">{{ item.pregunta }}</label>
+              <select :id="`match-${index}`" v-model="respuestasMatch[index]" class="campo">
+                <option :value="undefined" disabled selected>Elegir...</option>
+                <option v-for="op in preguntas[preguntaActual].opciones" :key="op" :value="op">{{ op }}</option>
+              </select>
             </div>
-          </div>
+          </template>
+        </div>
 
-          <div v-else>
-            <section class="scroll-mt-20" id="rules">
-              <h2
-                class="text-white text-xl sm:text-2xl leading-tight tracking-[-0.015em] px-4 pb-1 pt-10"
-              >
-                Analiza y responde el siguiente cuestionario
-              </h2>
-
-              <!-- Progress bar -->
-              <div class="px-4 mt-4" v-if="faseActual === 'quiz'">
-                <div
-                  class="h-2 w-full rounded-full bg-white/10 overflow-hidden"
-                >
-                  <div
-                    class="h-full bg-[#2c5a8f] transition-all duration-500"
-                    :style="{
-                      width:
-                        (quizFinalizado
-                          ? 100
-                          : ((preguntaActual + 1) / preguntas.length) * 100) +
-                        '%',
-                    }"
-                  />
-                </div>
-                <div class="mt-2 text-white/70 text-sm">
-                  Pregunta
-                  {{ quizFinalizado ? preguntas.length : preguntaActual + 1 }}
-                  de
-                  {{ preguntas.length }}
-                </div>
-              </div>
-            </section>
-
-            <div class="text-white text-base">
-              <!-- FASE 0: QUIZ -->
-              <div class="mt-10" v-if="!quizFinalizado">
-                <div
-                  class="bg-[#161d2b] rounded-2xl p-6 sm:p-8 shadow-lg ring-1 ring-white/10"
-                >
-                  <h2 class="text-2xl sm:text-xl font-semibold leading-snug">
-                    {{ preguntas[preguntaActual].texto }}
-                    <img
-                      v-if="preguntaActual === 2"
-                      src="/src/imagenes/Grafico.jpg"
-                      alt="Gráfico de Densidad Mineral Ósea"
-                      class="mx-auto w-auto p-10"
-                    />
-                    <p v-if="preguntaActual === 2">
-                      ¿Cómo se relaciona esto con los datos de la tabla? ¿Por
-                      qué la DMO no comienza en cero? Escribe tú respuesta.
-                    </p>
-                    <textarea
-                      v-if="preguntaActual === 2"
-                      v-model="respuestasGuardadas.r3"
-                      rows="3"
-                      placeholder="Respuesta"
-                      class="input-foro"
-                    ></textarea>
-                  </h2>
-
-                  <textarea
-                    v-if="preguntaActual === 3"
-                    v-model="respuestasGuardadas.r4"
-                    rows="3"
-                    placeholder="Respuesta"
-                    class="input-foro"
-                  ></textarea>
-
-                  <textarea
-                    v-if="preguntaActual === 5"
-                    v-model="respuestasGuardadas.r6"
-                    rows="3"
-                    placeholder="Respuesta"
-                    class="input-foro"
-                  ></textarea>
-                  <textarea
-                    v-if="preguntaActual === 6"
-                    v-model="respuestasGuardadas.r7"
-                    rows="3"
-                    placeholder="Respuesta"
-                    class="input-foro"
-                  ></textarea>
-                  <div class="mt-8 space-y-3">
-                    <template
-                      v-if="
-                        !preguntas[preguntaActual].tipo ||
-                        preguntas[preguntaActual].tipo === 'standard'
-                      "
-                    >
-                      <div
-                        v-for="op in preguntas[preguntaActual].opciones"
-                        :key="op"
-                        class="group rounded-xl border border-white/10 hover:border-[#2c5a8f] bg-white/5 hover:bg-white/10 transition-colors duration-200"
-                      >
-                        <label
-                          class="flex items-start gap-3 p-4 cursor-pointer"
-                        >
-                          <input
-                            type="radio"
-                            class="mt-1 h-4 w-4 text-[#2c5a8f] focus:ring-[#2c5a8f] border-white/20 bg-transparent"
-                            v-model="respuestaUsuario"
-                            :value="op"
-                          />
-                          <span class="text-base sm:text-lg">{{ op }}</span>
-                        </label>
-                      </div>
-                    </template>
-
-                    <template
-                      v-else-if="preguntas[preguntaActual].tipo === 'match'"
-                    >
-                      <div
-                        v-for="(item, index) in preguntas[preguntaActual].items"
-                        :key="index"
-                        class="flex flex-col gap-2 mb-4 bg-white/5 p-4 rounded-xl border border-white/10"
-                      >
-                        <p class="text-white font-medium">
-                          {{ item.pregunta }}
-                        </p>
-                        <select
-                          v-model="respuestasMatch[index]"
-                          class="bg-[#161d2b] text-white border border-white/20 rounded-lg p-3 w-full focus:ring-[#2c5a8f] focus:border-[#2c5a8f] outline-none"
-                        >
-                          <option :value="undefined" disabled selected>
-                            Elegir...
-                          </option>
-                          <option
-                            v-for="op in preguntas[preguntaActual].opciones"
-                            :key="op"
-                            :value="op"
-                          >
-                            {{ op }}
-                          </option>
-                        </select>
-                      </div>
-                    </template>
-                  </div>
-
-                  <!-- Retroalimentación Inmediata -->
-                  <div
-                    v-if="mostrandoFeedback"
-                    class="mt-6 p-4 rounded-xl animate-fade-in"
-                    :class="
-                      esRespuestaCorrecta
-                        ? 'bg-green-900/20 border border-green-500/30 text-green-200'
-                        : 'bg-red-900/20 border border-red-500/30 text-red-200'
-                    "
-                  >
-                    <div class="flex items-center gap-3 mb-2">
-                      <span class="material-symbols-outlined text-2xl">
-                        {{ esRespuestaCorrecta ? "check_circle" : "cancel" }}
-                      </span>
-                      <h3 class="font-bold text-lg">
-                        {{
-                          esRespuestaCorrecta
-                            ? "¡Correcto!"
-                            : "Respuesta Incorrecta"
-                        }}
-                      </h3>
-                    </div>
-                    <p
-                      v-if="
-                        !esRespuestaCorrecta &&
-                        preguntas[preguntaActual].tipo !== 'match' &&
-                        preguntas[preguntaActual].correcta
-                      "
-                    >
-                      La respuesta correcta es:
-                      <strong class="underline">{{
-                        preguntas[preguntaActual].correcta
-                      }}</strong>
-                    </p>
-
-                    <div
-                      v-else-if="
-                        !esRespuestaCorrecta &&
-                        preguntas[preguntaActual].tipo === 'match'
-                      "
-                      class="mt-3"
-                    >
-                      <p class="font-bold mb-2">Solución correcta:</p>
-                      <ul class="list-disc list-inside text-sm space-y-1">
-                        <li
-                          v-for="(item, idx) in preguntas[preguntaActual].items"
-                          :key="idx"
-                        >
-                          {{ item.pregunta }}:
-                          <strong>{{ item.correcta }}</strong>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <!-- Botones -->
-                  <div class="mt-8">
-                    <button
-                      v-if="!mostrandoFeedback"
-                      class="inline-flex items-center justify-center bg-[#2c5a8f] hover:bg-[#2b4f7b] text-white font-medium rounded-xl px-6 sm:px-8 py-3 sm:py-3.5 transition duration-300 shadow-md"
-                      type="button"
-                      @click="verificarRespuesta"
-                    >
-                      Comprobar
-                    </button>
-
-                    <button
-                      v-else
-                      class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl px-6 sm:px-8 py-3 sm:py-3.5 transition duration-300 shadow-md flex items-center gap-2"
-                      type="button"
-                      @click="siguientePregunta"
-                    >
-                      <span>{{
-                        preguntaActual < preguntas.length - 1
-                          ? "Siguiente"
-                          : "Finalizar"
-                      }}</span>
-                      <span class="material-symbols-outlined"
-                        >arrow_forward</span
-                      >
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- FASE FINAL: RESULTADOS TOTALES -->
-              <div v-if="faseActual === 'final'" class="mt-10">
-                <div
-                  class="bg-[#161d2b] rounded-2xl p-8 shadow-lg ring-1 ring-white/10 text-center"
-                >
-                  <h2 class="text-white text-3xl font-bold">
-                    Examen Terminado
-                  </h2>
-
-                  <div
-                    class="mt-8 h-4 w-full rounded-full bg-white/10 overflow-hidden"
-                  >
-                    <div
-                      class="h-full bg-green-500 transition-all duration-1000"
-                    />
-                  </div>
-
-                  <div class="mt-10 flex flex-col items-center gap-4">
-                    <button @click="enviarExamen" :disabled="enviando"
-                          class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-12 rounded-xl shadow-lg transition-transform hover:scale-105 disabled:opacity-50 flex items-center justify-center gap-3">
-                    <span v-if="enviando" class="material-symbols-outlined animate-spin">refresh</span>
-                    {{ enviando ? "Guardando..." : "Guardar y Finalizar" }}
-                  </button>
-                  </div>
-                </div>
-              </div>
+        <div v-if="mostrandoFeedback" role="status" class="aviso mt-6" :class="esRespuestaCorrecta ? 'aviso-ok' : 'aviso-error'">
+          <span class="material-symbols-outlined" aria-hidden="true">{{ esRespuestaCorrecta ? "check_circle" : "cancel" }}</span>
+          <div>
+            <p class="font-semibold">{{ esRespuestaCorrecta ? "¡Correcto!" : "Respuesta Incorrecta" }}</p>
+            <p
+              v-if="!esRespuestaCorrecta && preguntas[preguntaActual].tipo !== 'match' && preguntas[preguntaActual].correcta"
+              class="font-normal"
+            >
+              La respuesta correcta es: <strong>{{ preguntas[preguntaActual].correcta }}</strong>
+            </p>
+            <div v-else-if="!esRespuestaCorrecta && preguntas[preguntaActual].tipo === 'match'" class="mt-2 font-normal">
+              <p class="font-semibold">Solución correcta:</p>
+              <ul class="mt-1 list-inside list-disc space-y-1 text-sm">
+                <li v-for="(item, idx) in preguntas[preguntaActual].items" :key="idx">
+                  {{ item.pregunta }}: <strong>{{ item.correcta }}</strong>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
+
+        <div class="mt-8">
+          <button v-if="!mostrandoFeedback" type="button" class="boton boton-primario" @click="verificarRespuesta">
+            Comprobar
+          </button>
+          <button v-else type="button" class="boton boton-primario" @click="siguientePregunta">
+            {{ preguntaActual < preguntas.length - 1 ? "Siguiente" : "Finalizar" }}
+            <span class="material-symbols-outlined -mr-1 text-[20px]" aria-hidden="true">arrow_forward</span>
+          </button>
+        </div>
       </div>
-    </main>
-  </div>
+
+      <!-- FINAL -->
+      <div v-if="faseActual === 'final'" class="ficha max-w-2xl !p-8">
+        <span class="material-symbols-outlined text-5xl text-ok" aria-hidden="true">task_alt</span>
+        <h3 class="mt-3 text-3xl font-bold">Examen Terminado</h3>
+        <p class="mt-1 text-tenue">Guarda tus respuestas para que el profesor pueda revisarlas.</p>
+        <button type="button" class="boton boton-primario mt-8" :disabled="enviando" @click="enviarExamen">
+          <span v-if="enviando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
+          {{ enviando ? "Guardando…" : "Guardar y finalizar" }}
+        </button>
+      </div>
+    </section>
+  </PaginaPaso>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import Sidebar from "@/views/sidebar.vue";
+import PaginaPaso from "@/components/PaginaPaso.vue";
+import Seccion from "@/components/Seccion.vue";
+import Pregunta from "@/components/Pregunta.vue";
 
 const preguntas = ref([
   {
@@ -685,34 +458,3 @@ const totalPosible = computed(() => {
   return preguntas.value.length + 1 + parejas.length;
 });
 </script>
-
-<style scoped>
-.input-foro {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  background-color: #222d3e;
-  border: 1px solid #b2bfd1;
-  color: #cfd1de;
-  resize: vertical;
-}
-.input-foro:focus {
-  outline: none;
-  border-color: #1c398e;
-  box-shadow: 0 0 0 3px rgb(5, 40, 95);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-</style>

@@ -34,3 +34,8 @@ coverage
 
 # Vitest
 __screenshots__/
+
+# Credenciales del backend
+back/.env
+.env
+__pycache__/

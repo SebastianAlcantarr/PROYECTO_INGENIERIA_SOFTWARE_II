@@ -1,221 +1,125 @@
 <template>
-  <div class="min-h-screen flex bg-gray-50 dark:bg-[rgb(16,22,34)] font-display">
-    <!-- Panel Izquierdo (Decorativo) - Sin cambios -->
-    <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#244a76] dark:bg-slate-900 items-center justify-center">
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/40 mix-blend-overlay"></div>
-      <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-blue-500/10 blur-3xl"></div>
-      <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-purple-500/10 blur-3xl"></div>
+  <div class="grid min-h-dvh bg-fondo text-tinta lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <!-- Panel institucional -->
+    <aside class="relative hidden flex-col overflow-hidden p-12 lg:flex xl:p-16" style="background: var(--c-barra); color: var(--c-barra-tinta)">
+      <div class="flex items-center gap-4">
+        <LogoUniversidad :size="56" />
+        <div class="leading-tight">
+          <p class="text-lg font-semibold">Universidad de Sonora</p>
+          <p class="text-sm" style="color: var(--c-barra-tenue)">Cálculo Diferencial I</p>
+        </div>
+      </div>
 
-      <div class="relative z-10 p-12 text-center">
-        <h1 class="text-4xl font-bold text-white mb-4 tracking-tight">Portal de Derivadas</h1>
-        <p class="text-blue-100 text-lg max-w-md mx-auto">
-          Ingresa o crea una cuenta para guardar tu progreso.
+      <div class="my-auto py-16">
+        <h1 class="text-[clamp(3.5rem,6.2vw,6.5rem)] font-extrabold leading-[0.92] tracking-[-0.02em]">
+          Portal de<br />Derivadas
+        </h1>
+        <p class="mt-8 max-w-md text-lg leading-relaxed" style="color: var(--c-barra-tenue)">
+          La derivada como razón de cambio, a partir de la relación entre la edad y la densidad mineral ósea.
         </p>
       </div>
-    </div>
 
-    <!-- Panel Derecho (Formulario Funcional) -->
-    <div
-      class="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 sm:p-12 relative"
-    >
-      <div class="w-full max-w-md space-y-8">
-        <div class="text-center lg:text-left">
-          <h2
-            class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            {{ esRegistro ? "Crear Cuenta" : "Iniciar Sesión" }}
-          </h2>
-          <p class="mt-2 text-sm text-gray-600 dark:text-slate-400">
-            {{
-              esRegistro
-                ? "Registra tus datos para comenzar"
-                : "Ingresa tus credenciales"
-            }}
-          </p>
+
+    </aside>
+
+    <!-- Formulario -->
+    <main class="flex flex-col justify-center px-5 py-10 sm:px-10 lg:px-16">
+      <div class="mx-auto w-full max-w-[440px]">
+        <div class="mb-10 flex items-center gap-3 lg:hidden">
+          <LogoUniversidad :size="44" />
+          <div class="leading-tight">
+            <p class="text-sm text-tenue">Universidad de Sonora</p>
+            <p class="font-display text-xl font-extrabold tracking-[-0.02em]">Portal de Derivadas</p>
+          </div>
         </div>
 
-        <div class="mt-8 space-y-6">
-          <div class="space-y-5">
-            <div v-if="esRegistro">
-              <label
-                class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
-                >Nombre </label
-              >
-              <div class="relative">
-                <div
-                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                >
-                  <span class="material-symbols-outlined text-gray-400 text-xl"
-                    >person</span
-                  >
-                </div>
-                <!-- v-model conectado a variable 'email' -->
-                <input
-                  v-model="nombre"
-                  type="text"
-                  required
-                  class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                  placeholder="Nombre"
-                  @keyup.enter="procesarFormulario"
-                />
-              </div>
+        <h2 class="text-4xl font-extrabold tracking-[-0.015em]">
+          {{ esRegistro ? "Crear cuenta" : "Iniciar sesión" }}
+        </h2>
+        <p class="mt-2 text-tenue">
+          {{ esRegistro ? "Registra tus datos para comenzar la secuencia." : "Ingresa con tu correo para continuar donde te quedaste." }}
+        </p>
 
-            </div>
-
-            <div v-if="esRegistro">
-              <label
-                class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
-                >Apellidos</label
-              >
-              <div class="relative">
-                <div
-                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                >
-                  <span class="material-symbols-outlined text-gray-400 text-xl"
-                    >person</span
-                  >
-                </div>
-                <!-- v-model conectado a variable 'email' -->
-                <input
-                  v-model="apellido"
-                  type="text"
-                  required
-                  class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                  placeholder="Apellidos"
-                  @keyup.enter="procesarFormulario"
-                />
-              </div>
-
-            </div>
-
-            <!-- Email Input -->
+        <form class="mt-8 space-y-5" novalidate @submit.prevent="procesarFormulario">
+          <div v-if="esRegistro" class="grid gap-5 sm:grid-cols-2">
             <div>
-              <label
-                class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
-                >Correo Electrónico</label
-              >
+              <label for="nombre" class="mb-1.5 block text-sm font-semibold">Nombre</label>
               <div class="relative">
-                <div
-                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                >
-                  <span class="material-symbols-outlined text-gray-400 text-xl"
-                    >person</span
-                  >
-                </div>
-                <!-- v-model conectado a variable 'email' -->
-                <input
-                  v-model="email"
-                  type="email"
-                  required
-                  class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                  placeholder="Correo electrónico"
-                  @keyup.enter="procesarFormulario"
-                />
+                <span class="material-symbols-outlined pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px] text-tenue" aria-hidden="true">person</span>
+                <input id="nombre" v-model="nombre" type="text" required autocomplete="given-name" placeholder="Nombre" class="campo !pl-11" />
               </div>
             </div>
-
-            <!-- Password Input -->
             <div>
-              <label
-                class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
-                >Contraseña</label
-              >
+              <label for="apellido" class="mb-1.5 block text-sm font-semibold">Apellidos</label>
               <div class="relative">
-                <div
-                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                >
-                  <span class="material-symbols-outlined text-gray-400 text-xl"
-                    >lock</span
-                  >
-                </div>
-                <!-- v-model conectado a variable 'password' -->
+                <span class="material-symbols-outlined pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px] text-tenue" aria-hidden="true">badge</span>
+                <input id="apellido" v-model="apellido" type="text" required autocomplete="family-name" placeholder="Apellidos" class="campo !pl-11" />
+              </div>
+            </div>
+          </div>
+            <div>
+              <label for="email" class="mb-1.5 block text-sm font-semibold">Correo electrónico</label>
+              <div class="relative">
+                <span class="material-symbols-outlined pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px] text-tenue" aria-hidden="true">mail</span>
+                <input id="email" v-model="email" type="email" required autocomplete="email" placeholder="correo@ejemplo.com" class="campo !pl-11" />
+              </div>
+            </div>
+            <div>
+              <label for="password" class="mb-1.5 block text-sm font-semibold">Contraseña</label>
+              <div class="relative">
+                <span class="material-symbols-outlined pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px] text-tenue" aria-hidden="true">lock</span>
                 <input
+                  id="password"
                   v-model="password"
                   :type="mostrarContrasena ? 'text' : 'password'"
                   required
-                  class="block w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                  :placeholder="esRegistro ? 'Crea una contraseña' : 'Contraseña'"
-                  @keyup.enter="procesarFormulario"
+                  :autocomplete="esRegistro ? 'new-password' : 'current-password'"
+                  :placeholder="esRegistro ? 'Crea una contraseña' : 'Tu contraseña'"
+                  class="campo !pl-11 !pr-12"
                 />
-
                 <button
-                  @click="mostrarContrasena = !mostrarContrasena"
                   type="button"
-                  class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                  class="absolute inset-y-0 right-0 grid w-12 place-items-center rounded-r-[10px] text-tenue hover:text-tinta"
+                  :aria-label="mostrarContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                  @click="mostrarContrasena = !mostrarContrasena"
                 >
-                  <span class="material-symbols-outlined text-xl">
-                    {{ mostrarContrasena ? "visibility" : "visibility_off" }}
-                  </span>
+                  <span class="material-symbols-outlined text-[20px]" aria-hidden="true">{{ mostrarContrasena ? "visibility" : "visibility_off" }}</span>
                 </button>
               </div>
             </div>
-          </div>
 
-          <!-- Botones -->
-          <div class="space-y-4">
-            <button
-              @click="procesarFormulario"
-              class="w-full flex justify-center py-3.5 px-4 rounded-xl shadow-sm text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200"
-              :disabled="procesando"
-              :class="{'opacity-70 cursor-not-allowed': procesando}"
-            >
-              <span v-if="!procesando">
-                {{ esRegistro ? "Registrarse" : "Entrar" }}
-              </span>
-              <span v-else class="flex items-center">
-                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Procesando...
-              </span>
-            </button>
-
-            <!-- Mensajes de Error/Éxito -->
-            <div
+            <p
               v-if="mensaje"
-              :class="`p-3 rounded-lg text-sm text-center font-medium ${
-                tipoMensaje === 'error'
-                  ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                  : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-              }`"
+              role="status"
+              class="aviso"
+              :class="tipoMensaje === 'error' ? 'aviso-error' : tipoMensaje === 'exito' ? 'aviso-ok' : 'aviso-info'"
             >
               {{ mensaje }}
-            </div>
-
-            <div class="relative py-2">
-              <div class="absolute inset-0 flex items-center">
-                <div
-                  class="w-full border-t border-gray-300 dark:border-slate-700"
-                ></div>
-              </div>
-              <div class="relative flex justify-center text-sm">
-                <span
-                  class="px-2 bg-gray-50 dark:bg-[rgb(16,22,34)] text-gray-500"
-                  >O</span
-                >
-              </div>
-            </div>
-
-            <p class="text-center text-sm text-gray-600 dark:text-slate-400">
-              {{ esRegistro ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?" }}
-              <button
-                @click="cambiarModo"
-                class="font-semibold text-blue-600 hover:text-blue-500 ml-1"
-              >
-                {{ esRegistro ? "Inicia Sesión" : "Regístrate aquí" }}
-              </button>
             </p>
-          </div>
-        </div>
+
+            <button type="submit" class="boton boton-primario w-full !min-h-12 text-base" :disabled="procesando">
+              <span v-if="procesando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
+              {{ procesando ? "Procesando…" : esRegistro ? "Registrarse" : "Entrar" }}
+            </button>
+        </form>
+
+        <p class="mt-8 border-t border-linea pt-6 text-center text-tenue">
+          {{ esRegistro ? "¿Ya tienes cuenta?" : "¿Aún no tienes cuenta?" }}
+          <button type="button" class="ml-1 font-semibold text-tinta underline underline-offset-4 hover:text-a1" @click="cambiarModo">
+            {{ esRegistro ? "Inicia sesión" : "Regístrate aquí" }}
+          </button>
+        </p>
+
+        <p class="mt-10 text-center text-xs text-tenue lg:hidden">Universidad de Sonora </p>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import LogoUniversidad from "@/components/LogoUniversidad.vue";
 
 const router = useRouter();
 
@@ -352,13 +256,3 @@ async function procesarFormulario() {
 }
 
 </script>
-
-<style scoped>
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
-}
-</style>

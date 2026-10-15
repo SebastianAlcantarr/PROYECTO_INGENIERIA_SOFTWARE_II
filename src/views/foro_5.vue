@@ -1,523 +1,201 @@
 <template>
-  <div
-    class="flex flex-col md:flex-row min-h-screen bg-[#244a76] dark:bg-[rgb(16,22,34)]"
-  >
-    <!-- sidebar -->
-    <Sidebar class="hidden md:block" />
+  <PaginaPaso titulo="Razón promedio de cambio">
+    <template #estado>
+      <span v-if="cargandoEstado" class="chip">Verificando…</span>
+      <span v-else-if="usuarioYaParticipo" class="chip !bg-ok-fondo !text-ok">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check</span>Completado
+      </span>
+      <span v-else class="chip">Pendiente · 6 preguntas</span>
+    </template>
 
-    <main class="w-full ml-0 md:ml-72 flex flex-col">
-      <div class="flex-1 p-4 sm:p-6 md:p-8 lg:p-12">
-        <div class="mx-auto max-w-5xl">
-          <!-- titulo -->
-          <section class="scroll-mt-20 mb-8">
-            <div
-              class="bg-[#161d2b] rounded-xl p-6 shadow-lg border-l-8 border-blue-500"
-            >
-              <h1
-                class="text-white text-3xl md:text-3xl font-black text-center"
-              >
-                Foro 5. Razón promedio de cambio
-              </h1>
-            </div>
-          </section>
+    <template #figura>
+      <div class="rounded-2xl p-6 text-center sm:p-8" style="background: var(--c-barra); color: var(--c-barra-tinta)">
+        <p class="text-sm font-semibold" style="color: var(--c-barra-tenue)">Modelo de la DMO de la cadera</p>
+        <p class="math-tex mt-4 overflow-x-auto font-display text-2xl font-bold tracking-[-0.01em] sm:text-[1.75rem]">
+          (DMO = −0.0001 (edad<sup>2</sup>) + 0.0076 (edad) + 0.7652)
+        </p>
+      </div>
+    </template>
 
-          <!-- contexto -->
-          <section class="mb-8 animate-fade-in">
-            <div class="">
-              <div v-if="cargandoEstado" class="text-center py-10">
-                <p class="text-blue-200 text-xl animate-pulse">
-                  Verificando tu participación...
-                </p>
-              </div>
+    <div v-if="cargandoEstado" class="space-y-4 border-t border-linea py-10" aria-live="polite">
+      <p class="text-tenue">Verificando tu participación…</p>
+      <div class="h-4 w-2/3 animate-pulse rounded-full bg-hundido"></div>
+    </div>
 
-              <section
-                v-else-if="!usuarioYaParticipo"
-                class="space-y-6 animate-fade-in"
-              >
-                <h2
-                  class="text-white text-sm font-bold px-2 flex items-center gap-2"
-                >
-                  <span class="material-symbols-outlined">quiz</span>
-                  Cuestionario
-                </h2>
-                <p class="text-gray-300 text-base mb-6 leading-relaxed">
-                  1. A la tabla de año en año, que se construyó en el
-                  <a
-                      href="https://docs.google.com/spreadsheets/d/1VQdNrfdddTFhpdlPhecQD_QeMs1hLk3dhHyn3iUlkFg/edit?gid=1382532865#gid=1382532865"
-                      class="text-blue-400 hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                  >DRIVE (foro 4)</a
-                  >, le vamos a agregar una tercera columna (como se muestra en la tabla de abajo) para obtener la
-                  razón promedio de cambio (RPC) para puntos consecutivos.
-                  <tresfotos @updateFotos="recibirTresFotos" />
-                </p>
-
-
-                <div class="flex justify-center w-full my-6">
-                  <!-- tabla1 -->
-                  <div
-                    class="w-full max-w-4xl bg-[#1a2232] rounded-xl overflow-hidden shadow-2xl"
-                  >
-                    <table class="w-full text-base text-center text-gray-300">
-                      <thead class="text-base text-white uppercase bg-blue-700">
-                        <tr>
-                          <th
-                            scope="col"
-                            class="px-8 py-4 border-b-2 border-blue-600"
-                          >
-                            Edad Promedio
-                          </th>
-                          <th
-                            scope="col"
-                            class="px-8 py-4 border-b-2 border-blue-600"
-                          >
-                            DMO Cadera Segun el modelo
-                          </th>
-                          <th
-                            scope="col"
-                            class="px-8 py-4 border-b-2 border-blue-600"
-                          >
-                            Razón promedio de cambio
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          class="bg-[#222d3e] border-b border-gray-700 hover:bg-[#2a3649] transition-colors duration-200"
-                        >
-                          <td
-                            class="px-8 py-4 text-lg font-semibold text-white"
-                          >
-                            1
-                          </td>
-                          <td class="px-8 py-4 text-lg">0.775400</td>
-                          <td
-                            class="px-8 py-4 text-lg font-medium text-blue-300"
-                          ></td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            2
-                          </td>
-                          <td class="px-6 py-3 text-center">0.782600</td>
-                        </tr>
-                        <tr
-                          class="bg-[#222d3e] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            3
-                          </td>
-                          <td class="px-6 py-3 text-center">0.789600</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            4
-                          </td>
-                          <td class="px-6 py-3 text-center">0.796400</td>
-                        </tr>
-                        <tr
-                          class="bg-[#222d3e] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            5
-                          </td>
-                          <td class="px-6 py-3 text-center">0.803000</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            6
-                          </td>
-                          <td class="px-6 py-3 text-center">0.809400</td>
-                        </tr>
-                        <tr
-                          class="bg-[#222d3e] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            7
-                          </td>
-                          <td class="px-6 py-3 text-center">0.815600</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            8
-                          </td>
-
-                          <td class="px-6 py-3 text-center">0.821600</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            9
-                          </td>
-
-                          <td class="px-6 py-3 text-center">0.827400</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            10
-                          </td>
-
-                          <td class="px-6 py-3 text-center">0.833000</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            ...
-                          </td>
-
-                          <td class="px-6 py-3 text-center">0.838400</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            89
-                          </td>
-
-                          <td class="px-6 py-3 text-center">0.643400</td>
-                        </tr>
-                        <tr
-                          class="bg-[#1e2837] border-b border-gray-700 hover:bg-[#2a3649]"
-                        >
-                          <td
-                            class="px-6 py-3 text-center font-bold text-white"
-                          >
-                            90
-                          </td>
-
-                          <td class="px-6 py-3 text-center">0.633000</td>
-                        </tr>
-                      </tbody>
-                    </table>
-
-                  </div>
+    <template v-else-if="!usuarioYaParticipo">
+      <Seccion titulo="La tabla de año en año" resumen="Pregunta 1">
+        <div class="space-y-6">
+          <Pregunta :numero="1" sin-campo>
+            A la tabla de año en año, que se construyó en el
+            <a
+              class="enlace"
+              href="https://docs.google.com/spreadsheets/d/1VQdNrfdddTFhpdlPhecQD_QeMs1hLk3dhHyn3iUlkFg/edit?gid=1382532865#gid=1382532865"
+              target="_blank"
+              rel="noopener noreferrer"
+            >DRIVE (foro 4)</a>, le vamos a agregar una tercera columna (como se muestra en la tabla de abajo) para obtener la
+            razón promedio de cambio (RPC) para puntos consecutivos.
+            <template #campo>
+              <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                <div class="overflow-x-auto rounded-2xl border border-linea bg-superficie">
+                  <table class="numeral w-full text-center text-[0.9375rem]">
+                    <thead class="bg-hundido text-sm">
+                      <tr>
+                        <th scope="col" class="px-4 py-2.5 font-semibold">Edad Promedio</th>
+                        <th scope="col" class="px-4 py-2.5 font-semibold">DMO Cadera Segun el modelo</th>
+                        <th scope="col" class="px-4 py-2.5 font-semibold">Razón promedio de cambio</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">1</th><td class="px-4 py-2">0.775400</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">2</th><td class="px-4 py-2">0.782600</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">3</th><td class="px-4 py-2">0.789600</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">4</th><td class="px-4 py-2">0.796400</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">5</th><td class="px-4 py-2">0.803000</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">6</th><td class="px-4 py-2">0.809400</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">7</th><td class="px-4 py-2">0.815600</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">8</th><td class="px-4 py-2">0.821600</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">9</th><td class="px-4 py-2">0.827400</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">10</th><td class="px-4 py-2">0.833000</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">...</th><td class="px-4 py-2">0.838400</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">89</th><td class="px-4 py-2">0.643400</td><td class="px-4 py-2 text-tenue"></td></tr>
+                <tr class="border-t border-linea"><th scope="row" class="px-4 py-2 font-semibold">90</th><td class="px-4 py-2">0.633000</td><td class="px-4 py-2 text-tenue"></td></tr>
+                    </tbody>
+                  </table>
                 </div>
-
                 <div>
-                  <em
-                    class="block mt-2 pl-4 border-l-2 border-blue-600 text-gray-400"
-                  >
+                  <p class="cita !mt-0 text-[0.9375rem]">
                     NOTA: En la tabla, que se muestra, la Absorbancia se obtuvo
                     con la expresión algebraica del modelo que aproxima el
                     fenómeno
-                  </em>
-
-                  <div class="bg-blue-900/10 p-6 rounded-r-xl shadow-sm mt-6">
-                    <div
-                      class="text-2xl text-center text-blue-200 tracking-wider my-6 bg-[#0f172a] p-6 rounded-lg border border-blue-900/50 shadow-inner overflow-x-auto math-tex font-style: italic"
-                    >
-                      (DMO = −0.0001 (edad<sup>2</sup>) + 0.0076 (edad) +
-                      0.7652)
-                    </div>
-                  </div>
-                </div>
-
-
-                <section
-                  class="space-y-6 animate-fade-in"
-                  style="animation-delay: 0.2s"
-                >
-                  <div
-                    class="bg-[#161d2b] p-6 rounded-xl shadow-xl space-y-8 border border-gray-700"
-                  >
-                    <!-- P2 -->
-                    <div>
-                      <h3 class="text-base text-white/90 mb-3 font-medium">
-                        2. Observa y describe el comportamiento de la RPC
-                        conforme avanza la edad (crece cada vez más / crece cada
-                        vez menos /decrece cada vez más/ decrece cada vez
-                        menos).
-                      </h3>
-                      <textarea
-                        v-model="respuestas.r2"
-                        rows="2"
-                        placeholder="Respuesta..."
-                        class="input-foro"
-                      ></textarea>
-                    </div>
-
-                    <!-- P3 -->
-                    <div>
-                      <h3 class="text-base text-white/90 mb-3 font-medium pb-5">
-                        3. Realiza un bosquejo de la gráfica en tu cuaderno
-                        usando los valores de la razón promedio de cambio
-                        (rectas secantes) observando cómo cambian sus
-                        pendientes. Sube tu bosquejo y responde si ¿coincide con
-                        la forma en cómo varía la DMO a lo largo de la vida?
-                        ¿Qué elementos de la razón promedio de cambio permiten
-                        asegurar que este problema tiene un valor máximo y no un
-                        valor mínimo? Argumenta.
-                      </h3>
-                      <!-- FOTO (Opcional) Mejorado -->
-                      <div class="mt-6">
-                        <Unafoto @updateFoto="recibirFoto" />
-                      </div>
-
-                      <!-- P3 -->
-                      <div>
-                        <h3
-                          class="text-base text-white/90 mb-3 font-medium mt-10"
-                        >
-                          4. Ubica en la tabla el valor óptimo de la DMO de la
-                          cadera de las mujeres ¿cómo podemos argumentar usando
-                          la razón promedio de cambio, que el valor es máximo y
-                          no mínimo?
-                        </h3>
-                        <textarea
-                          v-model="respuestas.r4"
-                          rows="2"
-                          placeholder="Respuesta..."
-                          class="input-foro"
-                        ></textarea>
-                      </div>
-
-                      <!-- P4 -->
-                      <div>
-                        <h3 class="text-base text-white/90 mb-3 font-medium">
-                          5. ¿El valor máximo de la DMO es igual al que habías
-                          dado en la pregunta #4 del foro 2? Explica ampliamente
-                          qué otras herramientas tienes ahora que te permiten
-                          reafirmar o modificar el resultado anterior.
-                        </h3>
-                        <textarea
-                          v-model="respuestas.r5"
-                          rows="3"
-                          placeholder="Respuesta..."
-                          class="input-foro"
-                        ></textarea>
-                      </div>
-
-                      <!-- P6 -->
-                      <div>
-                        <h3 class="text-base text-white/90 mb-3 font-medium">
-                          6. Argumenta, utilizando rectas secantes, la siguiente
-                          afirmación: La razón promedio de cambio (RPC) puede
-                          describir el comportamiento de una función, por
-                          ejemplo, aquella que es siempre creciente o aquella
-                          que crece cada vez menos o una que sea constante, es
-                          decir que no crece ni decrece, o una función que
-                          decrece cada vez más.
-                        </h3>
-                        <textarea
-                          v-model="respuestas.r6"
-                          rows="3"
-                          placeholder="Respuesta..."
-                          class="input-foro"
-                        ></textarea>
-                      </div>
-
-                      <div
-                        class="pt-6 border-t border-gray-700 flex justify-end"
-                      >
-                        <button
-                          @click="enviarRespuestas"
-                          :disabled="enviando"
-                          class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                        >
-                          <span
-                            v-if="enviando"
-                            class="material-symbols-outlined animate-spin"
-                            >refresh</span
-                          >
-                          {{ enviando ? "Guardando..." : "Enviar Respuestas" }}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </section>
-            </div>
-
-            <!-- preguntas -->
-            <section v-if="usuarioYaParticipo" class="animate-fade-in mt-12">
-              <div
-                class="bg-green-900/30 border border-green-500/50 p-4 rounded-xl mb-8 flex items-center gap-4 text-green-200"
-              >
-                <span class="material-symbols-outlined text-3xl"
-                  >check_circle</span
-                >
-                <div>
-                  <h3 class="font-bold text-base">Actividad Completada</h3>
-                  <p class="text-sm opacity-80">
-                    Gracias por tu aporte. Aquí están las respuestas de tus
-                    compañeros.
                   </p>
+                  <Tresfotos @updateFotos="recibirTresFotos" />
                 </div>
               </div>
+            </template>
+          </Pregunta>
+        </div>
+      </Seccion>
 
-              <div
-                v-for="(item, index) in listaRespuestas"
-                :key="index"
-                class="bg-[#161d2b] p-6 rounded-xl border border-gray-700 shadow-lg hover:border-blue-500/50 transition-colors"
-              >
-                <!-- 🔹 Encabezado -->
-                <div
-                  class="flex items-center gap-4 mb-4 border-b border-gray-700 pb-4"
-                >
-                  <div
-                    class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg"
-                  >
-                    {{ obtenerIniciales(item.nombre, item.email) }}
-                  </div>
-                  <div>
-                    <h3 class="text-white font-bold text-lg">
-                      {{ item.nombre }} {{ item.apellidos }}
-                    </h3>
-                    <p class="text-blue-300 text-sm">
-                      {{ formatearFecha(item.fecha) }}
-                    </p>
-                  </div>
-                </div>
+      <Seccion titulo="Cuestionario" resumen="Preguntas 2 a 6">
+        <div class="space-y-10">
+          <Pregunta :numero="2" v-model="respuestas.r2" :rows="2" placeholder="Respuesta...">
+            Observa y describe el comportamiento de la RPC
+            conforme avanza la edad (crece cada vez más / crece cada
+            vez menos /decrece cada vez más/ decrece cada vez
+            menos).
+          </Pregunta>
+          <Pregunta :numero="3" sin-campo>
+            Realiza un bosquejo de la gráfica en tu cuaderno
+            usando los valores de la razón promedio de cambio
+            (rectas secantes) observando cómo cambian sus
+            pendientes. Sube tu bosquejo y responde si ¿coincide con
+            la forma en cómo varía la DMO a lo largo de la vida?
+            ¿Qué elementos de la razón promedio de cambio permiten
+            asegurar que este problema tiene un valor máximo y no un
+            valor mínimo? Argumenta.
+            <template #campo>
+              <Unafoto @updateFoto="recibirFoto" />
+            </template>
+          </Pregunta>
+          <Pregunta :numero="4" v-model="respuestas.r4" :rows="2" placeholder="Respuesta...">
+            Ubica en la tabla el valor óptimo de la DMO de la
+            cadera de las mujeres ¿cómo podemos argumentar usando
+            la razón promedio de cambio, que el valor es máximo y
+            no mínimo?
+          </Pregunta>
+          <Pregunta :numero="5" v-model="respuestas.r5" :rows="3" placeholder="Respuesta...">
+            ¿El valor máximo de la DMO es igual al que habías
+            dado en la pregunta #4 del foro 2? Explica ampliamente
+            qué otras herramientas tienes ahora que te permiten
+            reafirmar o modificar el resultado anterior.
+          </Pregunta>
+          <Pregunta :numero="6" v-model="respuestas.r6" :rows="3" placeholder="Respuesta...">
+            Argumenta, utilizando rectas secantes, la siguiente
+            afirmación: La razón promedio de cambio (RPC) puede
+            describir el comportamiento de una función, por
+            ejemplo, aquella que es siempre creciente o aquella
+            que crece cada vez menos o una que sea constante, es
+            decir que no crece ni decrece, o una función que
+            decrece cada vez más.
+          </Pregunta>
 
-                <!-- 🔹 Contenido de respuestas -->
-                <div class="space-y-4 text-gray-300">
-                  <!-- Las 3 fotos de la tabla (pregunta 1) -->
-                  <div
-                    v-if="
-                      item.imagen_1_url ||
-                      item.imagen_2_url ||
-                      item.imagen_3_url
-                    "
-                  >
-                    <p class="text-sm text-gray-500 mb-2">
-                      1. Fotos de la tabla con Razón Promedio de Cambio
-                    </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <img
-                        v-if="item.imagen_1_url"
-                        :src="item.imagen_1_url"
-                        class="rounded-lg shadow-md max-w-full h-50 object-cover border border-gray-700"
-                      />
-                      <img
-                        v-if="item.imagen_2_url"
-                        :src="item.imagen_2_url"
-                        class="rounded-lg shadow-md max-w-full h-50 object-cover border  border-gray-700"
-                      />
-                      <img
-                        v-if="item.imagen_3_url"
-                        :src="item.imagen_3_url"
-                        class="rounded-lg shadow-md max-w-full h-50 object-cover border border-gray-700"
-                      />
-                    </div>
-                  </div>
+          <div class="flex flex-col gap-4 border-t border-linea pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <p class="text-sm text-tenue">Al enviar verás las respuestas de tus compañeros.</p>
+            <button type="button" class="boton boton-primario sm:ml-auto" :disabled="enviando" @click="enviarRespuestas">
+              <span v-if="enviando" class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span>
+              {{ enviando ? "Guardando…" : "Enviar respuestas" }}
+            </button>
+          </div>
+        </div>
+      </Seccion>
+    </template>
 
-                  <!-- Siempre visibles -->
-                  <div v-if="item.r2">
-                    <p class="text-sm text-gray-500 mb-1">
-                      2. Observa y describe el comportamiento de la RPC
-                    </p>
-                    <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r2 }}</p>
-                  </div>
-
-                  <div v-if="item.imagen_pregunta_3_url">
-                    <p class="text-sm text-gray-500 mb-1">
-                      3. Bosquejo de la gráfica
-                    </p>
-                    <img
-                      :src="item.imagen_pregunta_3_url"
-                      class="rounded-lg shadow-md max-w-full h-30 border border-gray-700"
-                    />
-                  </div>
-
-                  <!-- Expandibles -->
-                  <details
-                    class="text-gray-400 cursor-pointer group"
-                    v-if="item.r3 || item.r4 || item.r5 || item.r6"
-                  >
-                    <summary
-                      class="hover:text-white list-none flex items-center gap-2 py-2"
-                    >
-                      <span
-                        class="material-symbols-outlined text-sm group-open:rotate-180 transition-transform"
-                        >expand_more</span
-                      >
-                      Ver respuestas completas...
-                    </summary>
-
-                    <div
-                      class="mt-2 space-y-4 pt-2 border-t border-gray-700/50 animate-fade-in"
-                    >
-                      <div v-if="item.r4">
-                        <p class="text-sm text-gray-500 mb-1">
-                          4. Ubica en la tabla el valor óptimo de la DMO de la
-                          cadera de las mujeres
-                        </p>
-                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r4 }}</p>
-                      </div>
-
-                      <div v-if="item.r5">
-                        <p class="text-sm text-gray-500 mb-1">
-                          5. ¿El valor máximo de la DMO es igual al que habías
-                          dado en Foro 2?
-                        </p>
-                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r5 }}</p>
-                      </div>
-
-                      <div v-if="item.r6">
-                        <p class="text-sm text-gray-500 mb-1">
-                          6. Argumenta utilizando rectas secantes:
-                        </p>
-                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r6 }}</p>
-                      </div>
-
-                      <div v-if="item.r7">
-                        <p class="text-sm text-gray-500 mb-1">
-                          7. ¿Cómo encontrar la edad donde se alcanza el valor
-                          óptimo?
-                        </p>
-                        <p class="bg-[#0f172a] p-3 rounded-lg">{{ item.r7 }}</p>
-                      </div>
-                    </div>
-                  </details>
-                </div>
-              </div>
-              <!-- fin de cada tarjeta -->
-            </section>
-          </section>
+    <template v-else>
+      <div class="aviso aviso-ok mb-8">
+        <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+        <div>
+          <p class="font-semibold">Actividad Completada</p>
+          <p class="font-normal">Gracias por tu aporte. Aquí están las respuestas de tus compañeros.</p>
         </div>
       </div>
-    </main>
-  </div>
+
+      <Seccion titulo="Participaciones del grupo" :resumen="`${listaRespuestas.length} respuestas`">
+        <p v-if="listaRespuestas.length === 0" class="py-6 text-tenue">
+          Aún no hay respuestas de otros estudiantes.
+        </p>
+        <ul v-else class="grid gap-4">
+          <li v-for="(item, index) in listaRespuestas" :key="index" class="ficha">
+            <div class="mb-4 flex items-center gap-3">
+              <span class="avatar">{{ obtenerIniciales(item.nombre, item.email) }}</span>
+              <div>
+                <p class="font-semibold leading-snug">{{ item.nombre }} {{ item.apellidos }}</p>
+                <p class="text-sm text-tenue">{{ formatearFecha(item.fecha) }}</p>
+              </div>
+            </div>
+
+            <div class="space-y-5 text-[0.9375rem]">
+              <div v-if="item.imagen_1_url || item.imagen_2_url || item.imagen_3_url">
+                <p class="mb-2 font-semibold">1. Fotos de la tabla con Razón Promedio de Cambio</p>
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  <a v-if="item.imagen_1_url" :href="item.imagen_1_url" target="_blank" rel="noopener noreferrer"><img :src="item.imagen_1_url" alt="Foto 1 de la tabla" class="h-44 w-full rounded-xl border border-linea object-cover" /></a>
+                  <a v-if="item.imagen_2_url" :href="item.imagen_2_url" target="_blank" rel="noopener noreferrer"><img :src="item.imagen_2_url" alt="Foto 2 de la tabla" class="h-44 w-full rounded-xl border border-linea object-cover" /></a>
+                  <a v-if="item.imagen_3_url" :href="item.imagen_3_url" target="_blank" rel="noopener noreferrer"><img :src="item.imagen_3_url" alt="Foto 3 de la tabla" class="h-44 w-full rounded-xl border border-linea object-cover" /></a>
+                </div>
+              </div>
+              <div v-if="item.r2">
+                <p class="font-semibold">2. Observa y describe el comportamiento de la RPC</p>
+                <p class="mt-1 text-tenue">{{ item.r2 }}</p>
+              </div>
+              <div v-if="item.imagen_pregunta_3_url">
+                <p class="mb-2 font-semibold">3. Bosquejo de la gráfica</p>
+                <a :href="item.imagen_pregunta_3_url" target="_blank" rel="noopener noreferrer"><img :src="item.imagen_pregunta_3_url" alt="Bosquejo de la gráfica" class="max-h-56 rounded-xl border border-linea" /></a>
+              </div>
+            </div>
+
+            <details v-if="item.r3 || item.r4 || item.r5 || item.r6" class="group mt-4 border-t border-linea pt-3">
+              <summary class="flex cursor-pointer list-none items-center gap-2 py-1 text-sm font-semibold text-a1">
+                <span class="material-symbols-outlined text-[20px] transition-transform group-open:rotate-180" aria-hidden="true">expand_more</span>
+                Ver respuestas completas
+              </summary>
+              <dl class="mt-3 space-y-4 text-[0.9375rem]">
+                <div v-if="item.r4"><dt class="font-semibold">4. Ubica en la tabla el valor óptimo de la DMO de la cadera de las mujeres</dt><dd class="mt-1 text-tenue">{{ item.r4 }}</dd></div>
+                <div v-if="item.r5"><dt class="font-semibold">5. ¿El valor máximo de la DMO es igual al que habías dado en Foro 2?</dt><dd class="mt-1 text-tenue">{{ item.r5 }}</dd></div>
+                <div v-if="item.r6"><dt class="font-semibold">6. Argumenta utilizando rectas secantes</dt><dd class="mt-1 text-tenue">{{ item.r6 }}</dd></div>
+                <div v-if="item.r7"><dt class="font-semibold">7. ¿Cómo encontrar la edad donde se alcanza el valor óptimo?</dt><dd class="mt-1 text-tenue">{{ item.r7 }}</dd></div>
+              </dl>
+            </details>
+          </li>
+        </ul>
+      </Seccion>
+    </template>
+  </PaginaPaso>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref } from "vue";
-import Sidebar from "@/views/sidebar.vue";
+import PaginaPaso from "@/components/PaginaPaso.vue";
+import Seccion from "@/components/Seccion.vue";
+import Pregunta from "@/components/Pregunta.vue";
 import Unafoto from "./unafoto.vue";
 import Tresfotos from "@/views/tresfotos.vue";
 
@@ -642,48 +320,3 @@ function formatearFecha(fechaString) {
   return fecha.toLocaleString("es-MX", opciones);
 }
 </script>
-
-<style scoped>
-.input-foro {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  background-color: #222d3e;
-  border: 1px solid #4b5563;
-  color: white;
-  resize: vertical;
-}
-.input-foro:focus {
-  outline: none;
-  border-color: #1447e6; /* Color morado para diferenciar este foro */
-  box-shadow: 0 0 0 2px rgba(20, 70, 226);
-}
-
-.input-celda {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  color: white;
-  padding: 8px;
-  text-align: center;
-}
-.input-celda:focus {
-  outline: none;
-  background-color: #2f3e55;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-</style>

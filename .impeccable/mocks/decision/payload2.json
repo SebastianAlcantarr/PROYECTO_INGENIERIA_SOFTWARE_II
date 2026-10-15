@@ -1,0 +1,60 @@
+{
+  "title": "Rediseño total del Portal de Derivadas",
+  "question": "El sorteo asignó «Lista de reproducción». Quédate con ella, elige otra dirección o vuelve a sortear.",
+  "options": [
+    {
+      "id": "assigned", "kind": "assigned", "label": "Lista de reproducción", "kicker": "THE ROLL",
+      "lineage": "cultura de playlists y resúmenes anuales de música",
+      "thesis": "La secuencia es tu playlist del semestre: cada foro es una pista y siempre sabes cuál suena.",
+      "palette": ["#0e1420", "#f4f1ea", "#2f6fd6", "#f2b33d", "#ff6b4a"],
+      "materials": ["bloques de color plano", "tipografía grotesca enorme"],
+      "viewport": "Sin barra lateral: barra superior con las 3 actividades; cabecera grande del foro con número de pista; secciones colapsables; barra inferior fija «En curso» con avance y anterior/siguiente.",
+      "risk": "Si se copian los gestos de una app de música, parece clon y no sitio universitario.",
+      "html": ".impeccable/mocks/decision/r2-assigned.html",
+      "raised": [
+        {"from": "Mapa de orientación", "raise": "Un solo color se reserva para el paso actual; nada más lo usa."},
+        {"from": "Catálogo de convención", "raise": "Lo completado se marca con un trazo, no solo con una etiqueta."},
+        {"from": "Edición con margen anotado", "raise": "La nota del profesor vive en un margen propio junto a tu respuesta."}
+      ]
+    },
+    {
+      "id": "model-pick", "kind": "pick", "label": "Revista de divulgación", "kicker": "IMPECCABLE’S PICK",
+      "lineage": "revistas de ciencia para jóvenes (¿Cómo ves?, Quo)",
+      "thesis": "Cada foro es un reportaje: portada, infografía, preguntas destacadas.",
+      "palette": ["#fffdf8", "#151515", "#e2462b", "#1d4fa3"],
+      "materials": ["papel couché", "infografías"],
+      "viewport": "Portada del foro con título enorme y la gráfica de DMO como imagen principal; texto en columnas cortas con destacados; preguntas en recuadros.",
+      "risk": "Es la ruta editorial que muchos sitios educativos ya toman; la sorpresa depende de las infografías.",
+      "html": ".impeccable/mocks/decision/r2-pick.html"
+    },
+    {
+      "id": "challenger-transit", "kind": "challenger", "catalogId": "wayfinding-cartography-signage-midnight-transit-diagram", "verdict": "competitive",
+      "label": "Línea de metro",
+      "lineage": "diagramas de metro y señalética de transporte",
+      "thesis": "El curso es una línea de metro: cada actividad es una línea de color y cada foro una estación.",
+      "palette": ["#101a33", "#f5f5f0", "#e23d3d", "#2f6fd6", "#f2b33d"],
+      "materials": ["esmalte azul noche", "porcelana blanca"],
+      "viewport": "Barra superior con el diagrama de la ruta y estaciones; la estación actual brilla; el foro se lee abajo con secciones plegables.",
+      "case": "Gana en claridad para una ruta guiada; pierde en identificación: en Hermosillo no hay metro.",
+      "risk": "Si el diagrama crece, compite con el contenido del foro.",
+      "html": ".impeccable/mocks/decision/r2-transit.html"
+    },
+    {"id": "challenger-orienteering", "kind": "challenger", "catalogId": "notation-diagram-systems-orienteering-map", "verdict": "declined", "label": "Mapa de orientación", "palette": ["#ffffff", "#8a5a2b", "#b43fd1"], "materials": ["curvas de nivel"], "thesis": "Ruta morada de control a control.", "viewport": "Mapa con la ruta del curso.", "risk": "Poco familiar para estudiantes.", "case": "Pocos alumnos conocen la orientación deportiva.", "kept": "Un color exclusivo para el paso actual."},
+    {"id": "challenger-splitflap", "kind": "challenger", "catalogId": "signals-instruments-split-flap-concourse", "verdict": "declined", "label": "Tablero de estación", "palette": ["#111111", "#ffffff", "#e0a526"], "materials": ["placas"], "thesis": "Salidas como filas.", "viewport": "Tablero de foros.", "risk": "Frío y sin relación con el curso.", "case": "No comunica aprendizaje.", "kept": "Los estados cambian en su lugar sin romper la retícula."},
+    {"id": "challenger-japanese", "kind": "challenger", "catalogId": "japanese-high-density-web", "verdict": "declined", "label": "Web japonesa densa", "palette": ["#ffffff", "#111111", "#d7261e"], "materials": ["módulos con filete"], "thesis": "Todo en una pantalla.", "viewport": "Mosaico de módulos.", "risk": "Densidad contraria a «nada de paredes de texto».", "case": "Choca con la petición de evitar saturación.", "kept": "Acordeones con encabezado claro para colapsar secciones."},
+    {"id": "challenger-doujin", "kind": "challenger", "catalogId": "pop-culture-shelf-doujin-event-catalog", "verdict": "declined", "label": "Catálogo de convención", "palette": ["#e9e6df", "#111111", "#2b6cff"], "materials": ["papel periódico"], "thesis": "Miniaturas numeradas.", "viewport": "Retícula de miniaturas.", "risk": "Ilegible para contenido largo.", "case": "No sirve para leer y responder.", "kept": "Lo visitado se marca a mano."},
+    {"id": "challenger-centrerail", "kind": "challenger", "catalogId": "rw-centre-rail-reference-setting", "verdict": "declined", "label": "Edición con margen anotado", "palette": ["#f1ead8", "#1a1a1a", "#c0392b"], "materials": ["papel hueso"], "thesis": "Columnas con margen de notas.", "viewport": "Texto con apparatus al margen.", "risk": "Demasiado académico y serio.", "case": "Se siente aburrido para 18 a 20 años.", "kept": "Un margen propio para las anotaciones."}
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Una plataforma de cursos en línea limpia, hecha con oficio.",
+    "palette": ["#ffffff", "#0f172a", "#2563eb"],
+    "materials": ["tarjetas", "rejilla limpia"],
+    "viewport": "Encabezado, índice del curso, lección y botón siguiente.",
+    "risk": "Se ve como cualquier LMS."
+  },
+  "steer": true
+}

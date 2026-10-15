@@ -1,153 +1,99 @@
 <template>
-  <div class="flex flex-col md:flex-row min-h-screen bg-slate-900 text-slate-200 font-display">
+  <div class="min-h-dvh bg-fondo text-tinta">
+    <EncabezadoPortal />
 
-    <Sidebar class="hidden md:block" />
-
-    <div class="flex-1 p-6 md:p-12 ml-0 md:ml-72 transition-all duration-300">
-      <div class="max-w-5xl mx-auto space-y-8">
-
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <h1 class="text-4xl font-bold text-white">Panel de Alumno</h1>
-          </div>
-          <div class="flex items-center gap-4 p-4 rounded-xl shadow-lg border-2 border-blue-700 bg-slate-800">
-            <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-xl font-bold text-white shadow-inner">
-              {{ userInitials }}
-            </div>
-            <div>
-              <h2 class="text-lg font-semibold text-white">
-                {{ userData.nombre }} {{ userData.apellidos }}
-              </h2>
-              <p class="text-sm text-blue-400 font-semibold">{{ userData.email }}</p>
-            </div>
-          </div>
+    <main class="mx-auto max-w-[1240px] px-4 pb-24 sm:px-6 lg:px-10">
+      <!-- Resumen -->
+      <header class="grid gap-10 pb-12 pt-10 md:pt-14 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
+        <div>
+          <p v-if="userData.nombre" class="text-lg text-tenue">Hola, <span class="font-semibold text-tinta">{{ userData.nombre }}</span></p>
+          <h1 class="mt-3 text-[clamp(2.5rem,6vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.012em]">
+            Tu semestre de derivadas
+          </h1>
+          <p v-if="userData.email" class="mt-4 text-tenue">{{ userData.nombre }} {{ userData.apellidos }} · {{ userData.email }}</p>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          <!-- Card: Foros -->
-          <div class="bg-slate-800 p-6 rounded-xl border-3 border-slate-700 shadow-lg hover:border-blue-500/50 transition-colors">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="p-3 bg-blue-700 rounded-lg">
-                <span class="material-symbols-outlined text-2xl">forum</span>
-              </div>
-              <h3 class="text-lg text-white font-bold">Foros</h3>
-            </div>
-            <div class="space-y-3">
-              <div v-for="foro in forosStatus" :key="foro.id"
-                   class="flex flex-col p-3 rounded bg-slate-900/50 border border-slate-700/50">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="text-sm text-slate-300 font-medium">{{ foro.name }}</span>
-                  <span class="px-2 py-1 text-xs font-bold rounded-full"
-                        :class="foro.completed ? 'bg-green-900 text-green-300' : 'bg-slate-700 text-slate-500'">
-                    {{ foro.completed ? "Completado" : "Pendiente" }}
-                  </span>
-                </div>
-
-                <button
-                    v-if="feedbacks[foro.code]"
-                    @click="verFeedback(foro.name, feedbacks[foro.code])"
-                    class="text-xs flex items-center gap-1 text-yellow-400 hover:text-yellow-300 transition-colors self-end bg-yellow-400/10 px-2 py-1 rounded"
-                >
-                  <span class="material-symbols-outlined text-sm">mail</span>
-                  Ver nota del maestro
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card: Exámenes -->
-          <div class="bg-slate-800 p-6 rounded-xl border-3 border-slate-700 shadow-lg hover:border-blue-500/50 transition-colors">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="p-3 bg-blue-700 rounded-lg">
-                <span class="material-symbols-outlined text-2xl">assignment</span>
-              </div>
-              <h3 class="text-lg text-white font-bold">Exámenes</h3>
-            </div>
-            <div class="space-y-3">
-              <div v-for="examen in examenesStatus" :key="examen.id"
-                   class="flex flex-col p-3 rounded bg-slate-900/50 border border-slate-700/50">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="text-sm text-slate-300 font-medium">{{ examen.name }}</span>
-                  <span class="px-2 py-1 text-xs font-bold rounded-full"
-                        :class="examen.completed ? 'bg-green-900 text-green-300' : 'bg-slate-700 text-slate-500'">
-                    {{ examen.completed ? "Completado" : "Pendiente" }}
-                  </span>
-                </div>
-
-                <!-- boton dwe feedback -->
-                <button
-                    v-if="feedbacks[examen.code]"
-                    @click="verFeedback(examen.name, feedbacks[examen.code])"
-                    class="text-xs flex items-center gap-1 text-yellow-400 hover:text-yellow-300 transition-colors self-end bg-yellow-400/10 px-2 py-1 rounded"
-                >
-                  <span class="material-symbols-outlined text-sm">mail</span>
-                  Ver nota del profe
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card: Progreso -->
-          <div class="bg-slate-800 p-6 rounded-xl border-3 border-slate-700 shadow-lg hover:border-blue-500/50 transition-colors">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="p-3 bg-blue-700 rounded-lg">
-                <span class="material-symbols-outlined text-2xl">analytics</span>
-              </div>
-              <h3 class="text-lg text-white font-bold">Progreso General</h3>
-            </div>
-            <div class="flex flex-col items-center justify-center h-48">
-              <div class="relative w-32 h-32">
-                <svg class="w-full h-full" viewBox="0 0 36 36">
-                  <path class="text-slate-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
-                  <path class="text-blue-500 transition-all duration-1000 ease-out" :stroke-dasharray="`${progressPercentage}, 100`" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-                </svg>
-                <div class="absolute inset-0 flex items-center justify-center flex-col">
-                  <span class="text-2xl font-bold text-white">{{ Math.round(progressPercentage) }}%</span>
-                </div>
-              </div>
-              <p class="mt-4 text-sm text-slate-400 text-center">Actividades completadas</p>
-            </div>
-          </div>
-
+        <div class="rounded-3xl p-6 sm:p-7" style="background: var(--c-barra); color: var(--c-barra-tinta)">
+          <p class="font-display numeral text-6xl font-extrabold tracking-[-0.04em]">
+            {{ completados }}<span class="text-3xl" style="color: var(--c-barra-tenue)"> / {{ pasos.length }}</span>
+          </p>
+          <p class="mt-1 text-sm" style="color: var(--c-barra-tenue)">Actividades completadas · {{ Math.round(progressPercentage) }}%</p>
+          <ol class="mt-5 flex gap-1.5" aria-hidden="true">
+            <li
+              v-for="p in estadoPasos"
+              :key="p.ruta"
+              class="h-2 flex-1 rounded-full"
+              :style="{ background: p.completado ? colorDeActividad(p.actividad) : 'var(--c-barra-pista)' }"
+            ></li>
+          </ol>
+          <RouterLink v-if="siguientePaso" :to="siguientePaso.ruta" class="boton boton-curso mt-6 w-full">
+            Continuar: {{ siguientePaso.tipo }} · {{ siguientePaso.corto }}
+            <span class="material-symbols-outlined -mr-1 text-[20px]" aria-hidden="true">arrow_forward</span>
+          </RouterLink>
+          <p v-else class="mt-6 flex items-center gap-2 font-semibold">
+            <span class="material-symbols-outlined" aria-hidden="true">task_alt</span>Completaste toda la secuencia
+          </p>
         </div>
-      </div>
-    </div>
+      </header>
 
-    <!-- ventana de feedback -->
-    <div v-if="modalOpen" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 animate-fade-in">
-      <div class="bg-[#1e293b] w-full max-w-md rounded-2xl shadow-2xl border border-gray-700 overflow-hidden transform transition-all scale-100">
-        <div class="bg-blue-900/50 p-4 border-b border-gray-700 flex justify-between items-center">
-          <h3 class="font-bold text-white text-lg flex items-center gap-2">
-            <span class="material-symbols-outlined text-yellow-400">rate_review</span>
-            Retroalimentación
-          </h3>
-          <button @click="modalOpen = false" class="text-gray-400 hover:text-white transition-colors">
-            <span class="material-symbols-outlined">close</span>
-          </button>
-        </div>
-        <div class="p-6">
-          <p class="text-xs text-blue-300 font-bold uppercase tracking-wider mb-2">{{ feedbackActual.titulo }}</p>
-          <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700 text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
-            {{ feedbackActual.texto }}
-          </div>
-        </div>
-        <div class="p-4 bg-gray-800/30 flex justify-end">
-          <button @click="modalOpen = false" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors">
-            Entendido
-          </button>
-        </div>
-      </div>
-    </div>
-
+      <!-- Lista de pistas por actividad -->
+      <section v-for="act in actividades" :key="act.numero" class="border-t border-linea pb-6 pt-8" :aria-labelledby="`act-${act.numero}`">
+        <h2 :id="`act-${act.numero}`" class="mb-4 flex items-center gap-3 text-2xl font-bold tracking-[-0.02em]">
+          <span class="h-3 w-3 rounded-full" :style="{ background: act.color }" aria-hidden="true"></span>
+          {{ act.nombre }}
+        </h2>
+        <ol class="divide-y divide-linea">
+          <li v-for="p in pasosDeActividad(act.numero)" :key="p.ruta" class="py-1">
+            <div class="grid grid-cols-[3rem_1fr_auto] items-center gap-x-4 gap-y-2 py-3 sm:grid-cols-[3.5rem_1fr_auto_auto]">
+              <span
+                class="font-display numeral text-2xl font-extrabold tracking-[-0.03em]"
+                :class="p.completado ? 'line-through decoration-2' : ''"
+                :style="{ color: colorTextoDeActividad(p.actividad), textDecorationColor: 'var(--c-tinta)' }"
+              >{{ pista(p.indice) }}</span>
+              <RouterLink :to="p.ruta" class="min-w-0 rounded-md hover:underline hover:underline-offset-4">
+                <span class="block text-sm text-tenue">{{ p.tipo }}</span>
+                <span class="block truncate text-lg font-semibold">{{ p.titulo }}</span>
+              </RouterLink>
+              <span
+                class="chip justify-self-end"
+                :class="p.completado ? '!bg-ok-fondo !text-ok' : ''"
+              >
+                <span class="material-symbols-outlined text-[16px]" aria-hidden="true">{{ p.completado ? 'check' : 'schedule' }}</span>
+                {{ p.completado ? "Completado" : "Pendiente" }}
+              </span>
+              <button
+                v-if="p.nota"
+                type="button"
+                class="boton boton-secundario col-span-3 !min-h-10 justify-self-start !px-4 text-sm sm:col-span-1 sm:justify-self-end"
+                :aria-expanded="notaAbierta === p.codigo"
+                :aria-controls="`nota-${p.codigo}`"
+                @click="notaAbierta = notaAbierta === p.codigo ? null : p.codigo"
+              >
+                <span class="material-symbols-outlined text-[18px] text-a2-texto" aria-hidden="true">rate_review</span>
+                Nota del profesor
+              </button>
+              <span v-else class="hidden sm:block"></span>
+            </div>
+            <div
+              v-if="p.nota && notaAbierta === p.codigo"
+              :id="`nota-${p.codigo}`"
+              class="mb-4 grid gap-2 sm:ml-[4.5rem] sm:grid-cols-[180px_1fr]"
+            >
+              <p class="text-sm font-semibold text-tenue">Retroalimentación · {{ p.tipo }}</p>
+              <p class="whitespace-pre-wrap rounded-2xl bg-hundido p-4 text-[0.9375rem] leading-relaxed">{{ p.nota }}</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+    </main>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import Sidebar from "@/views/sidebar.vue";
+import { RouterLink } from "vue-router";
+import EncabezadoPortal from "@/components/EncabezadoPortal.vue";
+import { pasos, actividades, pista, colorDeActividad, colorTextoDeActividad } from "@/ruta.js";
 
 const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
@@ -212,12 +158,18 @@ function verFeedback(tituloActividad, mensaje) {
 onMounted(() => {
   fetchData();
 });
-</script>
 
-<style scoped>
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-.animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
-</style>
+// --- Vista de la ruta (solo interfaz) ---
+const estadoPasos = computed(() =>
+  pasos.map((p, i) => ({
+    ...p,
+    indice: i,
+    completado: !!expediente.value[p.codigo],
+    nota: feedbacks.value[p.codigo] || "",
+  }))
+);
+const completados = computed(() => estadoPasos.value.filter((p) => p.completado).length);
+const siguientePaso = computed(() => estadoPasos.value.find((p) => !p.completado) || null);
+const notaAbierta = ref(null);
+const pasosDeActividad = (n) => estadoPasos.value.filter((p) => p.actividad === n);
+</script>
