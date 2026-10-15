@@ -90,12 +90,12 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import { ref, onMounted, computed } from "vue";
 import { RouterLink } from "vue-router";
 import EncabezadoPortal from "@/components/EncabezadoPortal.vue";
 import { pasos, actividades, pista, colorDeActividad, colorTextoDeActividad } from "@/ruta.js";
 
-const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
 const userData = ref({ nombre: "", apellidos: "", email: "" });
 const expediente = ref({});

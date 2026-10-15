@@ -312,6 +312,7 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import { ref, computed, onMounted } from "vue";
 import axios from 'axios'; // Asegúrate de tener axios importado si no lo usas global
 import PaginaPaso from "@/components/PaginaPaso.vue";
@@ -385,7 +386,6 @@ const listaRespuestas = ref([]);
 const respuestasGuardadas = ref({ r1: "", r2: "", r3: "", r4: "", r5: "", r6: "" });
 
 // URL API
-const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
 onMounted(() => {
   verificarEstado();

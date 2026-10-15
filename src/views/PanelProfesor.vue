@@ -875,12 +875,12 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import EncabezadoPortal from "@/components/EncabezadoPortal.vue";
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 // URL del Backend (Asegúrate de que sea 127.0.0.1:8000 para local)
-const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
 const router = useRouter();
 const estudiantes = ref([]);

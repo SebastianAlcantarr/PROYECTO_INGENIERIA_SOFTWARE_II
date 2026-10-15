@@ -157,6 +157,7 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import { ref, computed, onMounted } from "vue";
 import PaginaPaso from "@/components/PaginaPaso.vue";
 import Seccion from "@/components/Seccion.vue";
@@ -280,7 +281,7 @@ async function verificarEstado() {
   }
 
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_examen2/${email}`);
+    const res = await fetch(`${API_URL}/verificar_examen2/${email}`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
@@ -302,7 +303,7 @@ async function verificarEstado() {
 
 async function cargarRespuestas() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_examen2");
+    const res = await fetch(`${API_URL}/respuestas_examen2`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
@@ -414,7 +415,7 @@ async function enviarExamen() {
       ...respuestasGuardadas.value,
     };
 
-    const response = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_examen2`, {
+    const response = await fetch(`${API_URL}/guardar_examen2`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)

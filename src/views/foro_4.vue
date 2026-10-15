@@ -167,6 +167,7 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import { ref, onMounted } from "vue";
 import PaginaPaso from "@/components/PaginaPaso.vue";
 import Seccion from "@/components/Seccion.vue";
@@ -199,7 +200,7 @@ onMounted(async () => {
 
 async function verificarEstado(email) {
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/verificar_foro4/${email}`);
+    const res = await fetch(`${API_URL}/verificar_foro4/${email}`);
     const datos = await res.json();
     if (datos.participo) {
       usuarioYaParticipo.value = true;
@@ -230,7 +231,7 @@ async function enviarRespuestas() {
   mensaje.value = "Guardando...";
 
   try {
-    const respuesta = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro4", {
+    const respuesta = await fetch(`${API_URL}/guardar_foro4`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -263,7 +264,7 @@ async function enviarRespuestas() {
 
 async function cargarForoCompleto() {
   try {
-    const res = await fetch("https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro4");
+    const res = await fetch(`${API_URL}/respuestas_foro4`);
     listaRespuestas.value = await res.json();
   } catch (error) {
     console.error("Error cargando foro", error);

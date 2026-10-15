@@ -163,12 +163,12 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import { ref, reactive, onMounted, nextTick } from "vue";
 import PaginaPaso from "@/components/PaginaPaso.vue";
 import Seccion from "@/components/Seccion.vue";
 import Pregunta from "@/components/Pregunta.vue";
 
-const API_URL = "https://proyecto-ingenieria-software-6ccv.onrender.com";
 
 const form = reactive({
   r1: "",
@@ -267,7 +267,7 @@ async function enviar() {
 
   try {
     const res = await fetch(
-      `https://proyecto-ingenieria-software-6ccv.onrender.com/guardar_foro6`,
+      `${API_URL}/guardar_foro6`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -293,7 +293,7 @@ async function enviar() {
 async function cargarForo() {
   try {
     const res = await fetch(
-      `https://proyecto-ingenieria-software-6ccv.onrender.com/respuestas_foro6`
+      `${API_URL}/respuestas_foro6`
     );
     listaRespuestas.value = await res.json();
     await nextTick();

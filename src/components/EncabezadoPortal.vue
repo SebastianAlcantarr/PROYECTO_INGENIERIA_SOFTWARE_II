@@ -145,6 +145,7 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRoute, useRouter, RouterLink } from "vue-router";
 import LogoUniversidad from "@/components/LogoUniversidad.vue";
@@ -186,7 +187,7 @@ async function cargarUsuario() {
   const email = localStorage.getItem("email");
   if (!email || props.modo === "profesor") return;
   try {
-    const res = await fetch(`https://proyecto-ingenieria-software-6ccv.onrender.com/conseguir_usuario/${email}`);
+    const res = await fetch(`${API_URL}/conseguir_usuario/${email}`);
     usuario.value = await res.json();
   } catch (error) {
     console.error("Error cargando usuario:", error);

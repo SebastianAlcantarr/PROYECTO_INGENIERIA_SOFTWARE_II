@@ -117,6 +117,7 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/api.js";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LogoUniversidad from "@/components/LogoUniversidad.vue";
@@ -178,7 +179,7 @@ async function procesarFormulario() {
   mensaje.value = "Procesando...";
   tipoMensaje.value = "info";
 
-  const urlBase = "https://proyecto-ingenieria-software-6ccv.onrender.com";
+  const urlBase = `${API_URL}`;
   const endpoint = esRegistro.value ? "/registrar" : "/login";
 
   try {
